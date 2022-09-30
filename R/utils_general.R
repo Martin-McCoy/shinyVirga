@@ -77,12 +77,13 @@ browser_server <- function(e = rlang::caller_env()) {
 #' @family general
 #' @return \code{(shiny.tag.list)} with the browser button and the script that hides it.
 #' @export
-browser_ui <- function(ns = ns_find()) {
-  force(ns)
-  UU::gmsg("Use $('#{ns('browser')}').show() in JS console for browser button")
+browser_ui <- function(.ns = ns_find()) {
+  force(.ns)
+  id <- .ns('browser')
+  UU::gmsg("Use $('#{id}').show() in JS console for browser button")
   tagList(
-    bs4Dash::actionButton(ns("browser"), "browser"),
-    tags$script(type = "text/javascript", shiny::HTML(glue::glue("$('#{ns('browser')}').hide();"))),
+    bs4Dash::actionButton(.ns("browser"), "browser"),
+    tags$script(type = "text/javascript", shiny::HTML(glue::glue("$('#{id}').hide();"))),
   )
 }
 
