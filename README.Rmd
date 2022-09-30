@@ -53,12 +53,13 @@ The utility functions are divided into five categories (some functions overlap c
   "Reactives",
   "golem")), ~{
   rlang::exec(htmltools::tags$ul,
+              style = "list-style-type:none;",
     !!!functionMap::map_r_script(UU::dirs$R(glue::glue("utils_{tolower(.x)}"), ext = "R")) |> functionMap::functions() |> purrr::map(~{
       htmltools::tags$li(htmltools::tags$code(.x),": ", get_rd_section(fs::path("man", .x, ext = "Rd")) %|try|% NULL)
       })
   )
     
-  }) |> named_to_li() |> htmltools::doRenderTags()
+  }) |> named_to_li(style = "list-style-type:none;") |> htmltools::doRenderTags()
 
 ```
   

@@ -93,7 +93,7 @@ list_to_p <- function(list, class = NULL){
 
 #' @rdname list_to_li
 #' @importFrom shiny tags tagAppendAttributes tagList
-named_to_li <- function(list, class = NULL){
+named_to_li <- function(list, class = NULL, style = NULL){
   if(is.null(class)){
     res <- mapply(
       function(x, y){
@@ -126,7 +126,8 @@ named_to_li <- function(list, class = NULL){
       function(x) {
         tagAppendAttributes(
           x,
-          class = class
+          class = class,
+          style = style
         )
       }
     )

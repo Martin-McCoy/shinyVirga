@@ -25,7 +25,7 @@ virgaUtils::install_virga("shinyVirga")
 The utility functions are divided into five categories (some functions
 overlap categories):
 
-<li><b>General:</b> <ul>
+<li><b>General:</b> <ul style="list-style-type:none;">
   <li>
     <code>browser_server</code>
     : 
@@ -69,7 +69,7 @@ overlap categories):
 
   </li>
 </ul></li>
-<li><b>UI:</b> <ul>
+<li><b>UI:</b> <ul style="list-style-type:none;">
   <li>
     <code>acc_list</code>
     : 
@@ -125,7 +125,7 @@ overlap categories):
 
   </li>
 </ul></li>
-<li><b>CSS:</b> <ul>
+<li><b>CSS:</b> <ul style="list-style-type:none;">
   <li>
     <code>add_sass</code>
     : 
@@ -139,7 +139,7 @@ overlap categories):
 
   </li>
 </ul></li>
-<li><b>JS:</b> <ul>
+<li><b>JS:</b> <ul style="list-style-type:none;">
   <li>
     <code>js_after</code>
     : 
@@ -165,7 +165,7 @@ overlap categories):
 
   </li>
 </ul></li>
-<li><b>Reactives:</b> <ul>
+<li><b>Reactives:</b> <ul style="list-style-type:none;">
   <li>
     <code>rv</code>
     : 
@@ -185,7 +185,7 @@ overlap categories):
 
   </li>
 </ul></li>
-<li><b>golem:</b> <ul>
+<li><b>golem:</b> <ul style="list-style-type:none;">
   <li>
     <code>display</code>
     : 
