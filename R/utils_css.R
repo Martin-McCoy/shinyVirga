@@ -9,7 +9,7 @@
 #' @examples
 #' css_props(display = "none", declarations = list(margin = "0px"))
 
-css_props <- function(..., declarations) {
+css_props <- function(..., declarations = NULL) {
   .dots <- rlang::dots_list(..., .named = TRUE)
   declarations <- rlang::list2(!!!.dots, !!!declarations)
   glue::glue_collapse(purrr::imap_chr(declarations, ~glue::glue("{.y}: {.x};")), sep = "\n")

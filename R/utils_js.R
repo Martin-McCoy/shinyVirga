@@ -26,7 +26,7 @@ js_after <- function(id,
     class = if (!is.null(status))
       paste0("text-", status),
     class = 'js-after',
-    style = css_props(properties),
+    style = css_props(declarations = properties),
     content
   )
   html <- htmltools::doRenderTags(to_append)
