@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils_golem.R
 \name{jq_hide}
 \alias{jq_hide}
-\title{Hide an elements by calling jquery hide on it}
+\title{Hide an element by calling jquery hide on it}
 \usage{
 jq_hide(id)
 }
@@ -10,7 +10,7 @@ jq_hide(id)
 \item{id}{the id of the element to hide}
 }
 \description{
-Hide an elements by calling jquery hide on it
+Hide an element by calling jquery hide on it
 }
 \seealso{
 Other golem: 
@@ -29,6 +29,18 @@ Other ui:
 \code{\link{add_sass}()},
 \code{\link{box_list}()},
 \code{\link{bs4Alert}()},
+\code{\link{col_10}()},
+\code{\link{col_11}()},
+\code{\link{col_12}()},
+\code{\link{col_1}()},
+\code{\link{col_2}()},
+\code{\link{col_3}()},
+\code{\link{col_4}()},
+\code{\link{col_5}()},
+\code{\link{col_6}()},
+\code{\link{col_7}()},
+\code{\link{col_8}()},
+\code{\link{col_9}()},
 \code{\link{col_auto}()},
 \code{\link{css_props}()},
 \code{\link{dynamic_row}()},

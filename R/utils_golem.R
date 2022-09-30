@@ -201,7 +201,7 @@ display <- function(tag) {
   tag
 }
 
-#' Hide an elements by calling jquery hide on it
+#' Hide an element by calling jquery hide on it
 #'
 #' @param id the id of the element to hide
 #' @family golem
@@ -279,7 +279,8 @@ enurl <- function(url, text){
 
 #' Make the current tag behave like an action button
 #'
-#' Only works with compatible tags like button or links
+#' Make current tag behave like an action button.
+#' @details Only works with compatible tags like button or links
 #'
 #' @param tag Any compatible tag.
 #' @param inputId Unique id. This will host the input value to be used

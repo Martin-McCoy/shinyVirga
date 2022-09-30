@@ -30,10 +30,21 @@ You can install the development version of shinyVirga like so:
 ``` r
 virgaUtils::install_virga("shinyVirga")
 ```
+```{r, echo = FALSE}
+
+get_rd_section <- function (rd_path) 
+{
+    rd <- rvest::read_html(glue::glue_collapse(capture.output(tools::Rd2HTML(rd_path))))
+    out <- rvest::html_elements(rd, xpath = UU::xpath_sibling_between("h3[contains(text(), 'Description')]", following_sibling = "h3[contains(text(), 'Usage')]", preceding_sibling = "p")) |> 
+      as.character()
+    shiny::HTML(out)
+}
+
+```
 
 The utility functions are divided into five categories (some functions overlap categories):
 
-```{r, echo = FALSE, results='asis'}
+```{r, echo = FALSE, results='asis', warning=FALSE}
 
   purrr::map(rlang::set_names(c("General",
   "UI",
@@ -43,11 +54,11 @@ The utility functions are divided into five categories (some functions overlap c
   "golem")), ~{
   rlang::exec(htmltools::tags$ul,
     !!!functionMap::map_r_script(UU::dirs$R(glue::glue("utils_{tolower(.x)}"), ext = "R")) |> functionMap::functions() |> purrr::map(~{
-      htmltools::tags$li(htmltools::tags$code(.x),htmltools::tags$span(paste0(": ", get_rd_section(fs::path("man", .x, ext = "Rd")) %|try|% NULL)))
+      htmltools::tags$li(htmltools::tags$code(.x),": ", get_rd_section(fs::path("man", .x, ext = "Rd")) %|try|% NULL)
       })
   )
     
-  }) |> named_to_li()
+  }) |> named_to_li() |> htmltools::doRenderTags()
 
 ```
   

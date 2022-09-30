@@ -16,6 +16,9 @@ on the server side.}
 The modified tag with an extra id and the action button class.
 }
 \description{
+Make current tag behave like an action button.
+}
+\details{
 Only works with compatible tags like button or links
 }
 \examples{
@@ -55,6 +58,18 @@ Other ui:
 \code{\link{add_sass}()},
 \code{\link{box_list}()},
 \code{\link{bs4Alert}()},
+\code{\link{col_10}()},
+\code{\link{col_11}()},
+\code{\link{col_12}()},
+\code{\link{col_1}()},
+\code{\link{col_2}()},
+\code{\link{col_3}()},
+\code{\link{col_4}()},
+\code{\link{col_5}()},
+\code{\link{col_6}()},
+\code{\link{col_7}()},
+\code{\link{col_8}()},
+\code{\link{col_9}()},
 \code{\link{col_auto}()},
 \code{\link{css_props}()},
 \code{\link{dynamic_row}()},

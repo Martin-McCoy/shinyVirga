@@ -244,15 +244,28 @@ ui_tabs <- function(tabs) {
 #' `column(12, ...)`, `column(6, ...)`, `column(4, ...)`...
 #' named `col_1`, `col_2` etc.
 #' @aliases col_1 col_2 col_3 col_4 col_5 col_6 col_7 col_8 col_9 col_10 col_11 col_12
-#' @export
+
 write_col_fns <- function(file = "R/utils_col_fns.R") {
   UU::mkpath(file, mkfile = TRUE)
-  purrr::walk(1:12, ~{
-    .nm <- glue::glue("col_{.x}")
-    assign(.nm,
-           rlang::new_function(args = rlang::pairlist2(... = ), body = rlang::expr(shiny::column(!!.x, ...))))
-    dump(.nm, file = file, append = TRUE)
-  })
+  purrr::imap_chr(rlang::set_names(glue::glue("col_{1:12}")), ~{
+    width <- as.numeric(stringr::str_extract(.x, "\\d+$"))
+    paste(
+      glue::glue("#' @title Create a column of width {width}"),
+      "#' @inherit shiny::column params return",
+      "#' @family ui",
+      "#' @export",
+      glue::glue_collapse(c(.y, " <- ", capture.output(
+        dput(
+          rlang::new_function(
+            args = rlang::pairlist2(... =),
+            body = rlang::expr(shiny::column(!!width, ...))
+          )
+        )
+      ))),
+      sep = "\n"
+    )
+   }) |>
+    write(file)
 }
 
 
