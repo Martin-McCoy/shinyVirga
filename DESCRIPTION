@@ -1,0 +1,34 @@
+Package: shinyVirga
+Title: A Collection of R shiny utilities by Virga Labs
+Version: 0.0.0.9000
+Authors@R: 
+    person("Stephen", "Holsenbeck", , "stephen@virgalabs.io", role = c("aut", "cre"))
+Description: A collection of useful utility functions for working with
+    shiny and shiny frameworks
+License: LGPL (>= 2.1)
+Imports: 
+    bs4Dash (>= 2.1.0),
+    dplyr,
+    fs,
+    glue,
+    golem,
+    htmltools,
+    lifecycle,
+    purrr,
+    rlang,
+    sass,
+    shiny,
+    shinyjs,
+    stringr,
+    UU (>= 0.30.0)
+Suggests:
+    virgaUtils,
+    functionMap
+Remotes:  
+    yogat3ch/UU,
+    Martin-McCoy/virgaUtils,
+    MangoTheCat/functionMap,
+    yogat3ch/bs4Dash
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.1

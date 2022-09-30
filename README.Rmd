@@ -1,0 +1,53 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+devtools::load_all()
+```
+
+# shinyVirga
+
+<!-- badges: start -->
+`r lifecycle::badge('experimental')`
+<!-- badges: end -->
+
+The goal of `shinyVirga` is to consolidate generalized utility functions useful in development of shiny apps that are currently used in the various Virga Labs repositories in one convenient location. `shinyVirga` is intended to supply Virga Labs developers with a toolkit of well-maintained functions and modules adaptable to various use cases encountered likely to be encountered during shiny development with Virga Labs. 
+
+
+## Installation
+
+You can install the development version of shinyVirga like so:
+
+``` r
+virgaUtils::install_virga("shinyVirga")
+```
+
+The utility functions are divided into five categories (some functions overlap categories):
+
+```{r, echo = FALSE, results='asis'}
+
+  purrr::map(rlang::set_names(c("General",
+  "UI",
+  "CSS",
+  "JS",
+  "Reactives",
+  "golem")), ~{
+  rlang::exec(htmltools::tags$ul,
+    !!!functionMap::map_r_script(UU::dirs$R(glue::glue("utils_{tolower(.x)}"), ext = "R")) |> functionMap::functions() |> purrr::map(~{
+      htmltools::tags$li(htmltools::tags$code(.x),htmltools::tags$span(paste0(": ", get_rd_section(fs::path("man", .x, ext = "Rd")) %|try|% NULL)))
+      })
+  )
+    
+  }) |> named_to_li()
+
+```
+  
