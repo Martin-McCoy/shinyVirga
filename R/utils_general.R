@@ -46,14 +46,14 @@ ns_find <- function(e = rlang::caller_env()) {
 
 #' Extract the tabname to which this module instance corresponds from the ns
 #' @family general
-#' @param ns \code{fun} `ns` found within the module
+#' @param ns_fun \code{fun} `ns` found within the module
 #'
 #' @return \code{chr} the namespace as string
 #' @export
 #'
 
-tab_ns_extract <- function(ns = ns_find(e), extract, e = rlang::caller_env(), which = c("first", "last", "all")[1]) {
-  out <- stringr::str_extract_all(ns(""), UU::regex_or(extract, prefix = "(?<=-)", suffix = "(?=-?)"))[[1]]
+tab_ns_extract <- function(extract, which = c("first", "last", "all")[1], ns_fun = ns_find()) {
+  out <- stringr::str_extract_all(ns_fun(""), UU::regex_or(extract, prefix = "(?<=-)", suffix = "(?=-?)"))[[1]]
   switch(which,
          first = dplyr::first(out),
          last = dplyr::last(out),
