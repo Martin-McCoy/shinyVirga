@@ -196,7 +196,7 @@ acc_list <-
            collapse_all = FALSE,
            ...) {
     .dots <- rlang::dots_list(...)
-    rlang::call2(
+    rlang::exec(
       bs4Dash::accordion,
       id = id,
       width = width,
