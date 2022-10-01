@@ -280,7 +280,7 @@ enurl <- function(url, text){
 
 #' Make the current tag behave like an action button
 #'
-#' Make current tag behave like an action button.
+#' @description  Make current tag behave like an action button. `r lifecycle::badge("experimental")`
 #' @details Only works with compatible tags like button or links
 #'
 #' @param tag Any compatible tag.

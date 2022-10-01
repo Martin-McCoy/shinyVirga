@@ -4,7 +4,7 @@
 \alias{css_props}
 \title{R List to CSS declarations as a string}
 \usage{
-css_props(..., declarations)
+css_props(..., declarations = NULL)
 }
 \arguments{
 \item{...}{\code{chr} Named css properties, IE characters in the from \code{property = value}}

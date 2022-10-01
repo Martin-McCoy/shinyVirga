@@ -7,7 +7,7 @@
 \usage{
 list_to_li(list, class = NULL)
 
-named_to_li(list, class = NULL)
+named_to_li(list, class = NULL, style = NULL)
 }
 \arguments{
 \item{list}{An R list}

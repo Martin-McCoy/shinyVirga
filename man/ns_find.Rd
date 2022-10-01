@@ -13,7 +13,7 @@ ns_find(e = rlang::caller_env())
 \code{fun}
 }
 \description{
-Retrieve the \code{ns} function
+Designed to find the \code{ns} function from any level of nesting within a UI or Server module. \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 }
 \seealso{
 Other general: 

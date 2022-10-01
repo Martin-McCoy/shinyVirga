@@ -4,7 +4,7 @@
 \alias{browser_ui}
 \title{Add the invisible browser button ui component}
 \usage{
-browser_ui(ns = ns_find())
+browser_ui(.ns = ns_find())
 }
 \arguments{
 \item{ns}{\code{(function)} the \code{ns} function. Typically called from the parent environment, but in some cases where this function is heavily nested it may need to be provided directly.}

@@ -16,7 +16,7 @@ on the server side.}
 The modified tag with an extra id and the action button class.
 }
 \description{
-Make current tag behave like an action button.
+Make current tag behave like an action button. \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 }
 \details{
 Only works with compatible tags like button or links

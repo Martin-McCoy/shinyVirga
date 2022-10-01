@@ -2,8 +2,7 @@
 % Please edit documentation in R/utils_ui.R
 \name{make_columns}
 \alias{make_columns}
-\title{Make columns from assorted shiny.tag elements
-Sorts shiny.tags into columns based on the maximum number of columns (\code{max_cols}) per row}
+\title{Make columns from assorted shiny.tag elements}
 \usage{
 make_columns(x, max_cols = TRUE, fn = list(bs4Dash::box, bs4Dash::column)[[1]])
 }
@@ -18,8 +17,7 @@ make_columns(x, max_cols = TRUE, fn = list(bs4Dash::box, bs4Dash::column)[[1]])
 \code{(list(s))}
 }
 \description{
-Make columns from assorted shiny.tag elements
-Sorts shiny.tags into columns based on the maximum number of columns (\code{max_cols}) per row
+Sorts shiny.tags into columns based on the maximum number of columns (\code{max_cols}) per row. \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 }
 \seealso{
 Other ui: 

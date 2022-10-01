@@ -1,8 +1,10 @@
 
 #' Retrieve the `ns` function
+#' @description Designed to find the `ns` function from any level of nesting within a UI or Server module. `r lifecycle::badge("experimental")`
 #' @family general
 #' @param e \code{env}
 #' @return \code{fun}
+#' @export
 
 
 ns_find <- function(e = rlang::caller_env()) {

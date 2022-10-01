@@ -115,7 +115,7 @@ bs4Alert <- function(..., status = "primary", style = NULL, id = NULL, width = 6
 }
 
 #' @title Make columns from assorted shiny.tag elements
-#' Sorts shiny.tags into columns based on the maximum number of columns (`max_cols`) per row
+#' @description Sorts shiny.tags into columns based on the maximum number of columns (`max_cols`) per row. `r lifecycle::badge("experimental")`
 #' @param x \code{(shiny.tags)}
 #' @param max_cols \code{(logical/integer)} Either `TRUE` **Default** for a default of 4 columns per row, `FALSE` for no columns, or an integer indicating the max number of columns.
 #' @param fn \code{fun} with which to wrap each column's content. Typically \link[bs4Dash]{box} or \link[bs4Dash]{column}
