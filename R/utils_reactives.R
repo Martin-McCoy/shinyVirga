@@ -33,4 +33,8 @@ rv_to_list <- function(x, all.names = FALSE) {
 }
 
 #' @rdname rv_to_list
+#' @export
 rv2l <- rv_to_list
+#' @export
+#' @rdname rv_to_list
+rvtl <- rv_to_list
