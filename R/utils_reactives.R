@@ -1,6 +1,7 @@
 #' @inherit shiny::reactiveValues
 #' @family reactives
 #' @importFrom shiny reactiveValues
+#' @export
 rv <- function(...) {
   shiny::reactiveValues(...)
 }

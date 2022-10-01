@@ -5,14 +5,13 @@
 \title{Extract the tabname to which this module instance corresponds from the ns}
 \usage{
 tab_ns_extract(
-  ns = ns_find(e),
   extract,
-  e = rlang::caller_env(),
-  which = c("first", "last", "all")[1]
+  which = c("first", "last", "all")[1],
+  ns_fun = ns_find()
 )
 }
 \arguments{
-\item{ns}{\code{fun} \code{ns} found within the module}
+\item{ns_fun}{\code{fun} \code{ns} found within the module}
 }
 \value{
 \code{chr} the namespace as string
