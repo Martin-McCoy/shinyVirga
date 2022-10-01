@@ -52,7 +52,7 @@ ns_find <- function(e = rlang::caller_env()) {
 #' @export
 #'
 
-tab_ns_extract <- function(extract, which = c("first", "last", "all")[1], ns_fun = ns_find()) {
+tab_ns_extract <- function(extract, which = c("first", "last", "all")[1], ns_fun = ns_find(e), e = rlang::caller_env()) {
   out <- stringr::str_extract_all(ns_fun(""), UU::regex_or(extract, prefix = "(?<=-)", suffix = "(?=-?)"))[[1]]
   switch(which,
          first = dplyr::first(out),
