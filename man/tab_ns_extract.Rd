@@ -7,7 +7,8 @@
 tab_ns_extract(
   extract,
   which = c("first", "last", "all")[1],
-  ns_fun = ns_find()
+  ns_fun = ns_find(e),
+  e = rlang::caller_env()
 )
 }
 \arguments{

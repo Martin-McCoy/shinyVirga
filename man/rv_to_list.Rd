@@ -3,11 +3,14 @@
 \name{rv_to_list}
 \alias{rv_to_list}
 \alias{rv2l}
+\alias{rvtl}
 \title{Convert a reactiveValues object to a list}
 \usage{
 rv_to_list(x, all.names = FALSE)
 
 rv2l(x, all.names = FALSE)
+
+rvtl(x, all.names = FALSE)
 }
 \arguments{
 \item{x}{A \code{reactivevalues} object.}
