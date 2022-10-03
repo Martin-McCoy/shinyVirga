@@ -123,6 +123,7 @@ path_strip_to <- function(path, resourcepath = "www", leading_slash = FALSE) {
   out <- stringr::str_replace(path, paste0(".*(?=\\",paste0(.Platform$file.sep, resourcepath),")"), "")
   if (!leading_slash)
     out <- stringr::str_sub(out, start = 2)
+  return(out)
 }
 
 
