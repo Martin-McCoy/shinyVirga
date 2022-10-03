@@ -36,3 +36,6 @@ vignettes/*.pdf
 *.knit.md
 .Rproj.user
 .pre-commit-config.yaml
+inst/vault
+.Renviron
+.DS_Store
