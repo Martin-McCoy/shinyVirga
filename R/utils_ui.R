@@ -289,7 +289,7 @@ col_auto <- function(..., .noWS = NULL, .renderHook = NULL) {
 #' @inheritParams base::dump
 #'
 #' @return \code{chr} file path invisibly
-#' @export
+
 
 glossary_update <-
   function(ss = "163ArY3cL67Vp-gzqjKSw_4r2kl-pCqMRsKDrK_zgbM0",
