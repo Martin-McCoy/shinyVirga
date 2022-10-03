@@ -136,11 +136,10 @@ path_strip_to <- function(path, resourcepath = "www", leading_slash = FALSE) {
 
 path_strip_shiny <- function(path, resourcepath = "www", leading_slash = FALSE) {
   if (stringr::str_detect(path, resourcepath) && (golem::is_running() || shiny::isRunning()))
-    path_strip_to(path, resourcepath)
+    path_strip_to(path, resourcepath, leading_slash = leading_slash)
   else
     path
-  if (!leading_slash)
-    out <- stringr::str_sub(out, start = 2)
+
 }
 
 

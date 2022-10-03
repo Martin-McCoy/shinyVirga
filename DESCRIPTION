@@ -25,7 +25,7 @@ Imports:
 Suggests:
     virgaUtils,
     functionMap
-Remotes: 
+Remotes:  
     yogat3ch/UU,
     Martin-McCoy/virgaUtils,
     MangoTheCat/functionMap,
