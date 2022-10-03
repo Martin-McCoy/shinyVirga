@@ -209,6 +209,30 @@ acc_list <-
 
   }
 
+#' Wrapper for \link[shiny]{icon} that supports svg images
+#'
+#' @param name \code{chr} FontAwesome name or image path
+#' @inherit shiny::icon params return examples
+#'
+#' @export
+
+icon_sb <- function(name, class = NULL, lib = "font-awesome", ...) {
+  if (!missing(name) && UU::`%|try|%`(file.exists(name), FALSE)) {
+    shiny::img(src = path_strip_to(name, "www"),
+               class = class,
+               ...)
+  } else if (missing(name)) {
+    shiny::img(class = class, ...)
+  } else
+    shiny::icon(
+      name = name,
+      class = class,
+      lib = lib,
+      ...,
+      verify_fa = FALSE
+    )
+}
+
 #' Create a \code{shiny.tag.list} of \link[bs4Dash]{bs4SidebarMenuItem}s with an input \link[tibble]{tibble}
 #'
 #' @param tabs \code{tbl} similar to the following:
@@ -232,7 +256,42 @@ acc_list <-
 ui_tabs <- function(tabs) {
   purrr::pmap(tabs, ~{
     x <- list(...)
-    rlang::exec(bs4Dash::bs4SidebarMenuItem, !!!purrr::list_modify(x[c("text", "icon", "dots", "tabName")], dots = NULL, icon = NULL), icon = shiny::icon(x$icon), !!!x$dots)
+    rlang::exec(
+      bs4Dash::bs4SidebarMenuItem,
+      !!!purrr::list_modify(x[c("text", "icon", "dots", "tabName")], dots = NULL, icon = NULL),
+      icon =  purrr::when(
+        .x$icon,
+        inherits(., c("shiny.tag", "shiny.tag.list")) ~ .x$icon,
+        is.character(.) ~ icon_sb(.x$icon),
+        ~ NULL
+      ),
+      !!!x$dots
+    )
+  })
+}
+
+#' Create a \code{shiny.tag.list} of \link[bs4Dash]{bs4SidebarMenuItem}s with an input \link[tibble]{tibble}
+#'
+#' @param tabs \code{tbl} similar to the following:
+#' \preformatted{
+#' tabs <- tibble::tribble(
+#'   ~ text, ~ icon, ~ dots,
+#'   "Welcome", "home", list(),
+#'   "Education", "chalkboard", list(),
+#'   "Performance", "flag-checkered", list(),
+#'   "Robustness", "circle", list(),
+#'   "Vulnerabilty", "bomb", list()
+#'   ) |>
+#'     dplyr::mutate(tabName = snakecase::to_snake_case(text))
+#' }
+#' where `dots` is a list of additional arguments to \link[bs4Dash]{bs4SidebarMenuItem}
+#' @return \code{shiny.tag.list}
+#' @export
+ui_tabs <- function(tabs) {
+  purrr::pmap(tabs, ~{
+    .x <- rlang::dots_list(...)
+
+    rlang::exec(bs4Dash::bs4SidebarMenuItem, !!!x, icon = purrr::when(.x$icon, inherits(., c("shiny.tag", "shiny.tag.list")) ~ .x$icon, is.character(.) ~ icon_sb(.x$icon), ~ NULL) , !!!.x$dots)
   })
 }
 
