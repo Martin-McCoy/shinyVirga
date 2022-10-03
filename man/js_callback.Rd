@@ -4,7 +4,7 @@
 \alias{js_callback}
 \title{Create an anonymous JS function to monitor an event and bind it to a shiny input}
 \usage{
-js_callback(id, js = NULL, value, ..., asis = FALSE, .ns = ns_find())
+js_callback(id, js = "", value, ..., asis = FALSE, .ns = ns_find())
 }
 \arguments{
 \item{id}{\code{(chr)} Automatically namespaced with \code{ns} if inside a module}

@@ -4,7 +4,7 @@
 \alias{path_strip_to}
 \title{Strip a file path to everything after resourcepath}
 \usage{
-path_strip_to(path, resourcepath = "www")
+path_strip_to(path, resourcepath = "www", leading_slash = FALSE)
 }
 \arguments{
 \item{path}{\code{chr}}

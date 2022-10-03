@@ -4,7 +4,7 @@
 \alias{path_strip_shiny}
 \title{Strip a file path to everything after resourcepath if shiny is running}
 \usage{
-path_strip_shiny(path, resourcepath = "www")
+path_strip_shiny(path, resourcepath = "www", leading_slash = FALSE)
 }
 \arguments{
 \item{path}{\code{chr}}
