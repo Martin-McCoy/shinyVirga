@@ -59,7 +59,7 @@ js_after <- function(id,
 #' @family JS
 #' @examples js_callback("widget", "var myValue = e.someProperty;", "myValue")
 js_callback <- function(id,
-                        js = NULL,
+                        js = "",
                         value,
                         ...,
                         asis = FALSE,
