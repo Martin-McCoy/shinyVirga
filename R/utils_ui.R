@@ -255,15 +255,19 @@ icon_sb <- function(name, class = NULL, lib = "font-awesome", ...) {
 
 ui_tabs <- function(tabs) {
   purrr::pmap(tabs, ~{
-    x <- list(...)
+    .x <- list(...)
+    # Exclude all values but those intended for sideBarMenuITem
+    x <- purrr::compact(.x[stringr::str_subset(rlang::fn_fmls_names(bs4Dash::bs4SidebarMenuItem), "icon", negate = TRUE)])
     rlang::exec(
       bs4Dash::bs4SidebarMenuItem,
-      !!!purrr::list_modify(x[c("text", "icon", "dots", "tabName")], dots = NULL, icon = NULL),
-      icon =  purrr::when(
-        .x$icon,
-        inherits(., c("shiny.tag", "shiny.tag.list")) ~ .x$icon,
-        is.character(.) ~ icon_sb(.x$icon),
-        ~ NULL
+      !!!purrr::list_modify(
+        x,
+        icon = purrr::when(
+          .x$icon,
+          inherits(., c("shiny.tag", "shiny.tag.list")) ~ .x$icon,
+          is.character(.) ~ icon_sb(.x$icon),
+          ~ NULL
+        )
       ),
       !!!x$dots
     )
