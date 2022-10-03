@@ -282,3 +282,52 @@ col_auto <- function(..., .noWS = NULL, .renderHook = NULL) {
   shiny::div(class = "column", ...)
 }
 
+
+#' Update the Virga Labs glossary
+#'
+#' @inheritParams googlesheets4::read_sheet
+#' @inheritParams base::dump
+#'
+#' @return \code{chr} file path invisibly
+#' @export
+
+glossary_update <-
+  function(ss = "163ArY3cL67Vp-gzqjKSw_4r2kl-pCqMRsKDrK_zgbM0",
+           sheet = "Main",
+           file = "R/glossary.R")  {
+    virgaUtils::google_auth()
+    glossary <- googlesheets4::read_sheet(ss, sheet = sheet)
+    dump("glossary", file)
+    invisible(file)
+  }
+#' Add definitions to acronyms
+#' @description Uses the [glossary](https://docs.google.com/spreadsheets/d/163ArY3cL67Vp-gzqjKSw_4r2kl-pCqMRsKDrK_zgbM0/edit#gid=0) to make tooltip definitions
+#' @param x \code{(chr)} to add tooltips too
+#' @param as_text \code{(lgl)} if x is for a tooltip or otherwise needs to be plain text - a definition will be inserted as follows: `ACRONYM (DEFINITION)` since nested tooltips do not render
+#'
+#' @return \code{(list)} with shiny.tags that will render the acronyms with definitions
+#' @export
+#'
+#' @examples
+#' glossarize("A DMDU Example")
+glossarize <- function(x, as_text = FALSE) {
+  acronyms <- stringr::str_extract_all(as.character(x), UU::regex_or(glossary$Acronym, pre = "\\s", suf = "\\s"))
+  acr_idx <- which(!purrr::map_lgl(acronyms, rlang::is_empty))
+  acronyms <- purrr::keep(acronyms, ~!rlang::is_empty(.x))
+  need_definitions <- purrr::keep(stringr::str_split(x[acr_idx], UU::regex_or(do.call(c, acronyms))), ~length(.x) > 1)
+  x[acr_idx] <- purrr::map2(need_definitions, acronyms, ~{
+    out <- .x
+    # Create the defined glossary terms
+    insertions <- purrr::map(.y, ~{
+      if (as_text)
+        glue::glue("{.x} ({glossary$Definition[glossary$Acronym == trimws(.x)]})")
+      else
+        tippy::tippy(tags$span(style = "color: #007bff",.x), tooltip = glossary$Definition[glossary$Acronym == trimws(.x)], allowHTML = TRUE)
+    })
+    # Tracks the index of the tip to insert
+    out <- purrr::flatten(sapply(seq_along(insertions), function(i) append(out[i], insertions[i], i), simplify = FALSE))
+
+    htmltools::doRenderTags(rlang::exec(tags$p, !!!out))
+  })
+  x
+}
