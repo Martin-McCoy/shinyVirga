@@ -274,30 +274,6 @@ ui_tabs <- function(tabs) {
   })
 }
 
-#' Create a \code{shiny.tag.list} of \link[bs4Dash]{bs4SidebarMenuItem}s with an input \link[tibble]{tibble}
-#'
-#' @param tabs \code{tbl} similar to the following:
-#' \preformatted{
-#' tabs <- tibble::tribble(
-#'   ~ text, ~ icon, ~ dots,
-#'   "Welcome", "home", list(),
-#'   "Education", "chalkboard", list(),
-#'   "Performance", "flag-checkered", list(),
-#'   "Robustness", "circle", list(),
-#'   "Vulnerabilty", "bomb", list()
-#'   ) |>
-#'     dplyr::mutate(tabName = snakecase::to_snake_case(text))
-#' }
-#' where `dots` is a list of additional arguments to \link[bs4Dash]{bs4SidebarMenuItem}
-#' @return \code{shiny.tag.list}
-#' @export
-ui_tabs <- function(tabs) {
-  purrr::pmap(tabs, ~{
-    .x <- rlang::dots_list(...)
-
-    rlang::exec(bs4Dash::bs4SidebarMenuItem, !!!x, icon = purrr::when(.x$icon, inherits(., c("shiny.tag", "shiny.tag.list")) ~ .x$icon, is.character(.) ~ icon_sb(.x$icon), ~ NULL) , !!!.x$dots)
-  })
-}
 
 
 

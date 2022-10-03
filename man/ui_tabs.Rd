@@ -5,15 +5,13 @@
 \title{Create a \code{shiny.tag.list} of \link[bs4Dash]{bs4SidebarMenuItem}s with an input \link[tibble]{tibble}}
 \usage{
 ui_tabs(tabs)
-
-ui_tabs(tabs)
 }
 \arguments{
 \item{tabs}{\code{tbl} similar to the following:
 \preformatted{
 tabs <- tibble::tribble(
   ~ text, ~ icon, ~ dots,
-  "Welcome", "home", list(),
+  "Welcome", "house", list(),
   "Education", "chalkboard", list(),
   "Performance", "flag-checkered", list(),
   "Robustness", "circle", list(),
@@ -25,12 +23,8 @@ where \code{dots} is a list of additional arguments to \link[bs4Dash]{bs4Sidebar
 }
 \value{
 \code{shiny.tag.list}
-
-\code{shiny.tag.list}
 }
 \description{
-Create a \code{shiny.tag.list} of \link[bs4Dash]{bs4SidebarMenuItem}s with an input \link[tibble]{tibble}
-
 Create a \code{shiny.tag.list} of \link[bs4Dash]{bs4SidebarMenuItem}s with an input \link[tibble]{tibble}
 }
 \seealso{
