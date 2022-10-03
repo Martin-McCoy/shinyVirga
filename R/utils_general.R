@@ -119,8 +119,10 @@ warn_id <- function(warn_html, id, ..., ms = 10000) {
 #' @family general
 #' @examples
 #' path_strip_to("inst/app/www/img/myimage.svg", "www")
-path_strip_to <- function(path, resourcepath = "www") {
+path_strip_to <- function(path, resourcepath = "www", leading_slash = FALSE) {
   stringr::str_sub(stringr::str_replace(path, paste0(".*(?=\\",paste0(.Platform$file.sep, resourcepath),")"), ""), start = 2)
+  if (!leading_slash)
+    out <- stringr::str_sub(out, start = 2)
 }
 
 
@@ -132,11 +134,13 @@ path_strip_to <- function(path, resourcepath = "www") {
 #' @examples
 #' path_strip_shiny("inst/app/www/img/image.jpg")
 
-path_strip_shiny <- function(path, resourcepath = "www") {
+path_strip_shiny <- function(path, resourcepath = "www", leading_slash = FALSE) {
   if (stringr::str_detect(path, resourcepath) && (golem::is_running() || shiny::isRunning()))
     path_strip_to(path, resourcepath)
   else
     path
+  if (!leading_slash)
+    out <- stringr::str_sub(out, start = 2)
 }
 
 
