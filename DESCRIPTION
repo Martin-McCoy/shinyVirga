@@ -20,7 +20,8 @@ Imports:
     shiny,
     shinyjs,
     stringr,
-    UU (>= 0.33.0)
+    tippy (>= 0.1.0),
+    UU (>= 0.34.1)
 Suggests:
     virgaUtils,
     functionMap
