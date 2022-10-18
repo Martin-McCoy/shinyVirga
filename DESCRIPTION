@@ -1,6 +1,6 @@
 Package: shinyVirga
 Title: A Collection of R shiny utilities by Virga Labs
-Version: 0.0.0.9002
+Version: 0.0.1
 Authors@R: 
     person("Stephen", "Holsenbeck", , "stephen@virgalabs.io", role = c("aut", "cre"))
 Description: A collection of useful utility functions for working with
@@ -25,7 +25,7 @@ Imports:
 Suggests:
     virgaUtils,
     functionMap
-Remotes:  
+Remotes: 
     yogat3ch/UU,
     Martin-McCoy/virgaUtils,
     MangoTheCat/functionMap,
