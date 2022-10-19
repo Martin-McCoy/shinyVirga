@@ -364,20 +364,19 @@ glossarize <- function(x, as_text = FALSE) {
     need_definitions <- purrr::keep(stringr::str_split(x[acr_idx], UU::regex_or(do.call(c, acronyms))), ~length(x) > 1)
     acronyms <- purrr::map(acronyms, trimws)
     x[acr_idx] <- purrr::map2(need_definitions, acronyms, ~{
-      out <- x
+      out <- .x
       # Create the defined glossary terms
       insertions <- purrr::map(.y, ~{
         if (as_text)
           glue::glue("{.x} ({glossary$Definition[glossary$Acronym == trimws(.x)]})")
         else
-          tippy::tippy(tags$span(style = "color: #007bff",x), tooltip = glossary$Definition[glossary$Acronym == .x], allowHTML = TRUE)
+          tippy::tippy(tags$a(.x), tooltip = glossary$Definition[glossary$Acronym == .x], allowHTML = TRUE)
       })
       # Tracks the index of the tip to insert
-      out <- purrr::flatten(sapply(seq_along(insertions), function(i) append(out[i], insertions[i], i), simplify = FALSE))
+      out <- append(purrr::flatten(sapply(seq_along(insertions), function(i) append(out[i], insertions[i], i), simplify = FALSE)), dplyr::last(.x))
 
-      htmltools::doRenderTags(rlang::exec(tags$p, !!!out))
+      glue::glue_collapse(purrr::map(out, ~htmltools::doRenderTags(purrr::when(inherits(.x, "htmlwidget"), isTRUE(.) ~ htmltools::tags$span(.x), ~shiny::HTML(.x)))))
     })
   }
-
   x
 }
