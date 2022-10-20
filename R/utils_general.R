@@ -53,10 +53,13 @@ ns_find <- function(e = rlang::caller_env()) {
 #'
 
 tab_ns_extract <- function(extract, which = c("first", "last", "all")[1], ns_fun = ns_find(e), e = rlang::caller_env()) {
-  if (!missing(extract))
+  if (!missing(extract)) {
     out <- stringr::str_extract_all(ns_fun(""), UU::regex_or(extract, prefix = "(?<=-)", suffix = "(?=-?)"))[[1]]
-  else
-    out <- stringr::str_split(ns_fun(), "\\-")
+  } else {
+     out <- stringr::str_split(ns_fun(""), "\\-")[[1]]
+     out <- out[nzchar(out)]
+  }
+
   switch(which,
          first = dplyr::first(out),
          last = dplyr::last(out),
