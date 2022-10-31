@@ -16,7 +16,7 @@ rv <- function(...) {
 #' @export
 
 rv_index <- function(x, indices) {
-  if (is.character(indices) && is.null(names(x)))
+  if (is.character(indices) && is.null(names(indices)))
     indices <- rlang::set_names(indices)
   purrr::map(indices, ~x[[.x]])
 }
