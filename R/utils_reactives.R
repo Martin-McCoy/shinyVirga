@@ -29,7 +29,10 @@ rv_index <- function(x, indices) {
 #' @family reactives
 
 rv_to_list <- function(x, all.names = FALSE) {
-  shiny::reactiveValuesToList(x, all.names = all.names)
+  if (!is.null(x))
+    shiny::reactiveValuesToList(x, all.names = all.names)
+  else
+    x
 }
 
 #' @rdname rv_to_list
