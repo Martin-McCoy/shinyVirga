@@ -95,28 +95,38 @@ js_callback <- function(id,
 #' @export
 #' @family JS
 js_set_input_val <- function(id,
-                             js = NULL,
                              value,
+                             js = NULL,
                              ...,
                              asis = FALSE,
                              add_tag = TRUE,
+                             on = NULL,
                              .ns = ns_find()) {
   if (!asis)
     id <- .ns(id)
   rlang::env_bind(environment(), ...)
 
-  if (!is.null(js) && stringr::str_detect(js, ";$", negate = TRUE))
-    js <- paste0(js, ";")
-  else
-    js <- js %||% ""
+  to_glue <- c("Shiny.setInputValue('*{id}*', *{value}*, {priority: 'event'});")
+
+  if (length(value) > 1)
+    value <- jsonlite::toJSON(value)
+
+  if (!is.null(js)) {
+    if (stringr::str_detect(js, ";$", negate = TRUE))
+      js <- paste0(js, ";")
+    to_glue <- c(js, to_glue)
+  }
+
+
+
+  if (!is.null(on))
+    to_glue <-
+    c("$(document).on('shiny:connected', (e) => {",
+      to_glue,
+      "})")
+
   out <- UU::glue_js(
-    "
-      $(document).on('shiny:connected', (e) => {
-        console.log('*{id}* event');
-        *{js}*
-        Shiny.setInputValue('*{id}*', *{value}*, {priority: 'event'});
-      })
-    "
+    to_glue
   )
   if (add_tag)
     shiny::tags$script(type = "text/javascript", out)
