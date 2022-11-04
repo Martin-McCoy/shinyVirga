@@ -95,7 +95,7 @@ js_callback <- function(id,
 #' @export
 #' @family JS
 js_set_input_val <- function(id,
-                             js,
+                             js = NULL,
                              value,
                              ...,
                              asis = FALSE,
@@ -104,8 +104,11 @@ js_set_input_val <- function(id,
   if (!asis)
     id <- .ns(id)
   rlang::env_bind(environment(), ...)
-  if (stringr::str_detect(js, ";$", negate = TRUE))
+
+  if (!is.null(js) && stringr::str_detect(js, ";$", negate = TRUE))
     js <- paste0(js, ";")
+  else
+    js <- js %||% ""
   out <- UU::glue_js(
     "
       $(document).on('shiny:connected', (e) => {
