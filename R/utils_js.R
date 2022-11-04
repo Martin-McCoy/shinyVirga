@@ -101,7 +101,7 @@ js_set_input_val <- function(id,
                              asis = FALSE,
                              as_callback = FALSE,
                              on = NULL,
-                             add_tag = FALSE,
+                             as_tag = FALSE,
                              .ns = ns_find()) {
   if (!asis)
     id <- .ns(id)
@@ -134,8 +134,8 @@ js_set_input_val <- function(id,
   out <- UU::glue_js(
     to_glue
   )
-  if (add_tag)
-    shiny::tags$script(type = "text/javascript", out)
+  if (as_tag)
+    out <- shiny::tags$script(type = "text/javascript", out)
   return(out)
 }
 #' Make a shiny input with named ID with a logical TRUE value when the element is moused over.
