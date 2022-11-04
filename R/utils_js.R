@@ -120,7 +120,7 @@ js_set_input_val <- function(id,
 
 
   if (as_callback) {
-    c("(e) => {",
+    to_glue <- c("(e) => {",
       to_glue,
       "}")
   }
