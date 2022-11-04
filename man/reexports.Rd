@@ -27,6 +27,6 @@ below to see their documentation.
 
   \item{shiny}{\code{\link[shiny]{isolate}}, \code{\link[shiny]{reactiveValues}}, \code{\link[shiny]{reactiveValuesToList}}}
 
-  \item{UU}{\code{\link[UU:tick-grapes-or-o-or-grapes-tick]{\%|0|\%}}, \code{\link[UU:tick-grapes-or-legit-or-grapes-tick]{\%|legit|\%}}, \code{\link[UU:tick-grapes-or-try-or-grapes-tick]{\%|try|\%}}, \code{\link[UU:grapes-or-zchar-or-grapes]{\%|zchar|\%}}, \code{\link[UU]{write_dir_fn}}}
+  \item{UU}{\code{\link[UU:grapes-or-0-or-grapes]{\%|0|\%}}, \code{\link[UU:grapes-or-legit-or-grapes]{\%|legit|\%}}, \code{\link[UU:tick-grapes-or-try-or-grapes-tick]{\%|try|\%}}, \code{\link[UU:grapes-or-zchar-or-grapes]{\%|zchar|\%}}, \code{\link[UU]{write_dir_fn}}}
 }}
 

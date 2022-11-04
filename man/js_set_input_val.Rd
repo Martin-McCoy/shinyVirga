@@ -6,16 +6,20 @@
 \usage{
 js_set_input_val(
   id,
-  js,
   value,
+  js = NULL,
   ...,
   asis = FALSE,
-  add_tag = TRUE,
+  as_callback = FALSE,
+  on = NULL,
+  add_tag = FALSE,
   .ns = ns_find()
 )
 }
 \arguments{
 \item{id}{\code{(chr)} Automatically namespaced with \code{ns} if inside a module}
+
+\item{value}{\code{(js)} arbitrary js code that defines the value to bind. Can also be a variable name if declared in the \code{js} argument}
 
 \item{js}{\code{(chr)} path to js file with just the anonymous function, or js code to interpolate into a generalized anonymous javascript function that uses glue insertions demarcated by \code{{{}}}:
 \preformatted{
@@ -24,8 +28,6 @@ js_set_input_val(
          {{js}}
 Shiny.setInputValue('{{input}}', {{value}}, {priority: 'event'});
 };}}
-
-\item{value}{\code{(js)} arbitrary js code that defines the value to bind. Can also be a variable name if declared in the \code{js} argument}
 
 \item{...}{\code{(additional named arguments)} corresponding to any arguments that need be interpolated with \link[glue]{glue}}
 
