@@ -99,8 +99,9 @@ js_set_input_val <- function(id,
                              js = NULL,
                              ...,
                              asis = FALSE,
-                             add_tag = TRUE,
+                             as_callback = FALSE,
                              on = NULL,
+                             add_tag = FALSE,
                              .ns = ns_find()) {
   if (!asis)
     id <- .ns(id)
@@ -118,10 +119,15 @@ js_set_input_val <- function(id,
   }
 
 
+  if (as_callback) {
+    c("(e) => {",
+      to_glue,
+      "}")
+  }
 
   if (!is.null(on))
     to_glue <-
-    c("$(document).on('shiny:connected', (e) => {",
+    c("$(document).on('*{on}*', (e) => {",
       to_glue,
       "})")
 
