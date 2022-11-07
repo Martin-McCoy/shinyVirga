@@ -12,7 +12,7 @@ js_set_input_val(
   asis = FALSE,
   as_callback = FALSE,
   on = NULL,
-  add_tag = FALSE,
+  as_tag = FALSE,
   .ns = ns_find()
 )
 }
@@ -34,9 +34,9 @@ Shiny.setInputValue('{{input}}', {{value}}, {priority: 'event'});
 \item{asis}{If \code{TRUE}, use the ID as-is even when inside a module
 (instead of adding the namespace prefix to the ID).}
 
-\item{add_tag}{\code{lgl} whether to enclose in a script tag}
-
 \item{.ns}{\code{fun} ns function. Typically found automatically}
+
+\item{add_tag}{\code{lgl} whether to enclose in a script tag}
 }
 \value{
 \code{shiny.tag} script tag with javascript

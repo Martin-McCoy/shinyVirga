@@ -44,6 +44,29 @@ ns_find <- function(e = rlang::caller_env()) {
   return(out)
 }
 
+#' Create a custom namespace string.
+#' @description Useful for referencing objects nested in adjacent modules
+#' @details No `-` can be used in user supplied namespace names as this is the separator shiny uses to separate namespace sections and is how this function splits apart sections.
+#' @param levels \code{num} indicating what segments of the namespace to keep.
+#' @param add \code{chr} segments to append to the result
+#' @param .ns \code{fun} `ns` function
+#'
+#' @return \code{chr} The custom namespace string
+#' @export
+#'
+#' @examples
+#' .ns <- function(x) paste0("body-vulnerability-vuln_num_summary-vuln_summary_nums", "-", x)
+#' ns_custom(-2, add = "blah", .ns = .ns)
+ns_custom <- function(levels, add = NULL, .ns = ns_find()) {
+  segs <- stringr::str_split(.ns(""), "\\-")[[1]]
+  retain <- if (sign(levels) == -1) {
+    1:(length(segs) + levels)
+  } else {
+    1:levels
+  }
+  glue::glue_collapse(c(segs[retain], add), sep = "-")
+}
+
 #' Extract the tabname to which this module instance corresponds from the ns
 #' @family general
 #' @param ns_fun \code{fun} `ns` found within the module
