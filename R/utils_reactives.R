@@ -11,14 +11,19 @@ rv <- function(...) {
 #'
 #' @param x \code{reactiveValues}
 #' @param indices \code{chr/num} valid indexing object
+#' @param assign \code{lgl} whether to assign the values in `indices`to their respective names in `x`
 #' @family reactives
-#' @return \code{list}
+#' @return \code{reactiveValues/list} depending on the value of `assign`
 #' @export
 
-rv_index <- function(x, indices) {
+rv_index <- function(x, indices, assign = FALSE) {
   if (is.character(indices) && is.null(names(indices)))
     indices <- rlang::set_names(indices)
-  purrr::map(indices, ~x[[.x]])
+  if (assign)
+    out <- purrr::iwalk(indices, ~`<<-`(x[[.y]], .x))
+  else
+    out <- purrr::map(indices, ~x[[.x]])
+  return(out)
 }
 
 #' Convert a reactiveValues object to a list

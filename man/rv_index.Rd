@@ -4,15 +4,17 @@
 \alias{rv_index}
 \title{Index into a reactiveValues object and return a list}
 \usage{
-rv_index(x, indices)
+rv_index(x, indices, assign = FALSE)
 }
 \arguments{
 \item{x}{\code{reactiveValues}}
 
 \item{indices}{\code{chr/num} valid indexing object}
+
+\item{assign}{\code{lgl} whether to assign the values in \code{indices}to their respective names in \code{x}}
 }
 \value{
-\code{list}
+\code{reactiveValues/list} depending on the value of \code{assign}
 }
 \description{
 Index into a reactiveValues object and return a list
