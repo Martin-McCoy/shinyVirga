@@ -349,28 +349,33 @@ glossary_update <-
 #' @description Uses the [glossary](https://docs.google.com/spreadsheets/d/163ArY3cL67Vp-gzqjKSw_4r2kl-pCqMRsKDrK_zgbM0/edit#gid=0) to make tooltip definitions
 #' @param x \code{(chr)} to add tooltips too
 #' @param as_text \code{(lgl)} if x is for a tooltip or otherwise needs to be plain text - a definition will be inserted as follows: `ACRONYM (DEFINITION)` since nested tooltips do not render
-#'
+#' @param .glossary \code{tbl} of glossary items with the following structure
+#' \itemize{
+#'   \item{\code{Acronym}}{ Column with acronym abbreviations}
+#'   \item{\code{Definition}}{ Column with acronym definitions}
+#' }
 #' @return \code{(list)} with shiny.tags that will render the acronyms with definitions
 #' @export
 #'
 #' @examples
 #' glossarize("A DMDU Example")
-glossarize <- function(x, as_text = FALSE) {
-  acronyms <- stringr::str_extract_all(as.character(x), UU::regex_or(glossary$Acronym, pre = "\\s", suf = "\\s"))
+glossarize <- function(x, as_text = FALSE, .glossary = glossary) {
+  acronyms <- stringr::str_extract_all(as.character(x), UU::regex_or(.glossary$Acronym, pre = "\\s", suf = "\\s"))
   acr_empty <- purrr::map_lgl(acronyms, rlang::is_empty)
   acr_idx <- which(!acr_empty)
   acronyms <- acronyms[acr_idx]
   if (UU::is_legit(acronyms)) {
-    need_definitions <- purrr::keep(stringr::str_split(x[acr_idx], UU::regex_or(do.call(c, acronyms))), ~length(x) > 1)
+    need_definitions <- purrr::keep(stringr::str_split(x[acr_idx], UU::regex_or(do.call(c, acronyms))), ~length(.x) > 1)
     acronyms <- purrr::map(acronyms, trimws)
+    browser()
     x[acr_idx] <- purrr::map2(need_definitions, acronyms, ~{
       out <- .x
       # Create the defined glossary terms
       insertions <- purrr::map(.y, ~{
         if (as_text)
-          glue::glue("{.x} ({glossary$Definition[glossary$Acronym == trimws(.x)]})")
+          glue::glue("{.x} ({.glossary$Definition[.glossary$Acronym == trimws(.x)]})")
         else
-          tippy::tippy(tags$a(.x), tooltip = glossary$Definition[glossary$Acronym == .x], allowHTML = TRUE)
+          tippy::tippy(tags$a(.x), tooltip = .glossary$Definition[.glossary$Acronym == .x], allowHTML = TRUE)
       })
       # Tracks the index of the tip to insert
       out <- append(purrr::flatten(sapply(seq_along(insertions), function(i) append(out[i], insertions[i], i), simplify = FALSE)), dplyr::last(.x))

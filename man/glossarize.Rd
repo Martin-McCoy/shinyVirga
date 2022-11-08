@@ -4,12 +4,18 @@
 \alias{glossarize}
 \title{Add definitions to acronyms}
 \usage{
-glossarize(x, as_text = FALSE)
+glossarize(x, as_text = FALSE, .glossary = glossary)
 }
 \arguments{
 \item{x}{\code{(chr)} to add tooltips too}
 
 \item{as_text}{\code{(lgl)} if x is for a tooltip or otherwise needs to be plain text - a definition will be inserted as follows: \code{ACRONYM (DEFINITION)} since nested tooltips do not render}
+
+\item{.glossary}{\code{tbl} of glossary items with the following structure
+\itemize{
+\item{\code{Acronym}}{ Column with acronym abbreviations}
+\item{\code{Definition}}{ Column with acronym definitions}
+}}
 }
 \value{
 \code{(list)} with shiny.tags that will render the acronyms with definitions
