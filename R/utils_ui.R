@@ -336,7 +336,7 @@ col_auto <- function(..., .noWS = NULL, .renderHook = NULL) {
 #' @return \code{chr} file path invisibly
 
 
-glossary_update <-
+glossary_sync <-
   function(ss = "163ArY3cL67Vp-gzqjKSw_4r2kl-pCqMRsKDrK_zgbM0",
            sheet = "Main",
            file = "R/glossary.R")  {
