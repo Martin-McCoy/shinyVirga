@@ -1,6 +1,7 @@
-^virgaShiny\.Rproj$
-^\.Rproj\.user$
 ^LICENSE\.md$
 ^README\.Rmd$
-inst/vault
 ^\.Renviron$
+^\.Rproj\.user$
+^\.pre-commit-config\.yaml$
+^virgaShiny\.Rproj$
+inst/vault

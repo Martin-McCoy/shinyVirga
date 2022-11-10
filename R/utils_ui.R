@@ -374,7 +374,7 @@ glossarize <- function(x, as_text = FALSE, .glossary = glossary) {
         if (as_text)
           glue::glue("{.x} ({.glossary$Definition[.glossary$Acronym == trimws(.x)]})")
         else
-          tippy::tippy(tags$a(.x), tooltip = .glossary$Definition[.glossary$Acronym == .x], allowHTML = TRUE)
+          tippy::tippy(tags$a(.x), content = .glossary$Definition[.glossary$Acronym == .x], allowHTML = TRUE)
       })
       # Tracks the index of the tip to insert
       out <- append(purrr::flatten(sapply(seq_along(insertions), function(i) append(out[i], insertions[i], i), simplify = FALSE)), dplyr::last(.x))
