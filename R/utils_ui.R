@@ -384,13 +384,21 @@ glossarize <- function(x, as_text = FALSE, .glossary = glossary) {
         .acronym <- c(.acronym, toupper(.acronym), tolower(.acronym))
         def_row <- .glossary[.glossary$Acronym %in% .acronym, ]
         if (as_text)
-          glue::glue("{.x} ({.glossary$Definition[.glossary$Acronym == trimws(.x)]})")
-        else
-          tippy::tippy(tags$a(.x), content = .glossary$Definition[.glossary$Acronym == .x], allowHTML = TRUE)
+          glue::glue("{.x} ({def_row$Definition})")
+        else {
+          tooltip <- tagList(def_row$Definition)
+          if (UU::is_legit(def_row$Link)) {
+            tooltip <- rlang::exec(htmltools::tagAppendChildren, tooltip, !!!purrr::map(stringr::str_split(def_row$Link, "\\s")[[1]], ~htmltools::tags$a(href = .x, "[Link]", target = "_blank")))
+            .interactive <- TRUE
+          } else
+            .interactive <- FALSE
+
+          # Use the acronym as it's formatted in the document
+          tippy::tippy(tags$a(.x, class = "tippy"), content = htmltools::doRenderTags(tooltip), allowHTML = TRUE, interactive = .interactive)
+        }
       })
       # Tracks the index of the tip to insert
       out <- append(purrr::flatten(sapply(seq_along(insertions), function(i) append(out[i], insertions[i], i), simplify = FALSE)), dplyr::last(.x))
-
       glue::glue_collapse(purrr::map(out, ~htmltools::doRenderTags(purrr::when(inherits(.x, c("htmlwidget", "shiny.tag.list")), isTRUE(.) ~ htmltools::tags$span(.x), ~shiny::HTML(.x)))))
     })
   }
