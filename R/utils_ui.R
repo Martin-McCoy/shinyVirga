@@ -367,7 +367,6 @@ glossarize <- function(x, as_text = FALSE, .glossary = glossary) {
   if (UU::is_legit(acronyms)) {
     need_definitions <- purrr::keep(stringr::str_split(x[acr_idx], UU::regex_or(do.call(c, acronyms))), ~length(.x) > 1)
     acronyms <- purrr::map(acronyms, trimws)
-    browser()
     x[acr_idx] <- purrr::map2(need_definitions, acronyms, ~{
       out <- .x
       # Create the defined glossary terms
