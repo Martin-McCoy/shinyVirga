@@ -378,6 +378,11 @@ glossarize <- function(x, as_text = FALSE, .glossary = glossary) {
       out <- .x
       # Create the defined glossary terms
       insertions <- purrr::map(.y, ~{
+        # Format the acronym for lookup in the glossary here
+        .acronym <- trimws(.x)
+        # Consider all case combinations
+        .acronym <- c(.acronym, toupper(.acronym), tolower(.acronym))
+        def_row <- .glossary[.glossary$Acronym %in% .acronym, ]
         if (as_text)
           glue::glue("{.x} ({.glossary$Definition[.glossary$Acronym == trimws(.x)]})")
         else
