@@ -341,7 +341,14 @@ glossary_sync <-
            sheet = "Main",
            file = "R/glossary.R")  {
     virgaUtils::google_auth()
-    glossary <- googlesheets4::read_sheet(ss, sheet = sheet)
+    .glossary <- googlesheets4::read_sheet(ss, sheet = sheet)
+
+    # Force remove duplicates
+    glossary <- dplyr::distinct(.glossary, tolower(Acronym), .keep_all = TRUE)
+    dif <- abs(nrow(.glossary) - nrow(glossary))
+    if (dif)
+      UU::gwarn("The glossary has {dif} duplicates. Please remove any duplicate entries for acronyms.")
+
     dump("glossary", file)
     invisible(file)
   }
