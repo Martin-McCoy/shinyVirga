@@ -379,7 +379,7 @@ glossarize <- function(x, as_text = FALSE, .glossary = glossary) {
       # Tracks the index of the tip to insert
       out <- append(purrr::flatten(sapply(seq_along(insertions), function(i) append(out[i], insertions[i], i), simplify = FALSE)), dplyr::last(.x))
 
-      glue::glue_collapse(purrr::map(out, ~htmltools::doRenderTags(purrr::when(inherits(.x, "htmlwidget"), isTRUE(.) ~ htmltools::tags$span(.x), ~shiny::HTML(.x)))))
+      glue::glue_collapse(purrr::map(out, ~htmltools::doRenderTags(purrr::when(inherits(.x, c("htmlwidget", "shiny.tag.list")), isTRUE(.) ~ htmltools::tags$span(.x), ~shiny::HTML(.x)))))
     })
   }
   x
