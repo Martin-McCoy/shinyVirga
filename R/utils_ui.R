@@ -401,6 +401,11 @@ glossarize <- function(x, as_text = FALSE, .glossary = glossary) {
       out <- append(purrr::flatten(sapply(seq_along(insertions), function(i) append(out[i], insertions[i], i), simplify = FALSE)), dplyr::last(.x))
       glue::glue_collapse(purrr::map(out, ~htmltools::doRenderTags(purrr::when(inherits(.x, c("htmlwidget", "shiny.tag.list")), isTRUE(.) ~ htmltools::tags$span(.x), ~shiny::HTML(.x)))))
     })
+
+    x[acr_idx] <- replacements
   }
-  x
+  if (length(x) == 1)
+    x[[1]]
+  else
+    x
 }
