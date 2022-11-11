@@ -347,7 +347,7 @@ glossary_sync <-
     glossary <- dplyr::distinct(.glossary, tolower(Acronym), .keep_all = TRUE)
     dif <- setdiff(.glossary$Acronym, glossary$Acronym)
     if (!rlang::is_empty(dif))
-      UU::gwarn("The glossary has {dif} duplicates. Please remove these duplicate entries: {dif}")
+      UU::gwarn("The glossary has duplicates. Please remove these duplicate entries: {dif}")
 
     dump("glossary", file)
     invisible(file)
