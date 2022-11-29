@@ -5,6 +5,7 @@ bs_statuses <- c("Primary",
                  "Success",
                  "Danger",
                  "Warning",
+                 "Question",
                  "Info",
                  "Light",
                  "Dark")
@@ -18,5 +19,5 @@ bs_statuses <- c("Primary",
 #'
 
 bs_extract_status <- function(x) {
-  stringr::str_extract(x$attribs$class, UU::regex_or(prefix = "(?=\\-)", tolower(bs_statuses)))
+  stringr::str_extract(x$attribs$class, paste0("(?<=\\-)",UU::regex_or(tolower(bs_statuses))))[1]
 }
