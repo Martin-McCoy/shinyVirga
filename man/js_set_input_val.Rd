@@ -9,6 +9,7 @@ js_set_input_val(
   value,
   js = NULL,
   ...,
+  value_to = c("code", "chr", "json"),
   asis = FALSE,
   as_callback = FALSE,
   on = NULL,
@@ -31,15 +32,28 @@ Shiny.setInputValue('{{input}}', {{value}}, {priority: 'event'});
 
 \item{...}{\code{(additional named arguments)} corresponding to any arguments that need be interpolated with \link[glue]{glue}}
 
+\item{value_to}{\code{chr} One of:
+\itemize{
+\item{\code{code}}{ The object will be treated as raw javascript code \strong{Default}}
+\item{\code{chr}}{ The object will be treated as as JS character string}
+\item{\code{json}}{ The object will be coerced with \code{\link[jsonlite]{toJSON}}}
+}}
+
 \item{asis}{If \code{TRUE}, use the ID as-is even when inside a module
 (instead of adding the namespace prefix to the ID).}
+
+\item{as_callback}{\code{lgl} Should the resulting code be wrapped in a callback function?}
+
+\item{on}{\code{chr} A javascript event name, must be specified with a selector to argument \code{on_dom} that indicates the jQuery selector for a DOM element to which the event will pertain.}
+
+\item{as_tag}{\code{lgl} Whether the output should be a script tag.}
 
 \item{.ns}{\code{fun} ns function. Typically found automatically}
 
 \item{add_tag}{\code{lgl} whether to enclose in a script tag}
 }
 \value{
-\code{shiny.tag} script tag with javascript
+\code{chr/shiny.tag} script tag with javascript
 }
 \description{
 Create a javascript callback that runs when shiny connects.

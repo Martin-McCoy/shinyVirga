@@ -5,7 +5,7 @@
 \alias{bs_statuses}
 \title{Valid Bootstrap Statuses}
 \format{
-An object of class \code{character} of length 8.
+An object of class \code{character} of length 9.
 }
 \usage{
 bs_statuses
