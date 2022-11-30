@@ -91,13 +91,23 @@ js_callback <- function(id,
 #'
 #' @inheritParams js_callback
 #' @param add_tag \code{lgl} whether to enclose in a script tag
-#' @return \code{shiny.tag} script tag with javascript
+#' @param value_to \code{chr} One of:
+#' \itemize{
+#'   \item{\code{code}}{ The object will be treated as raw javascript code **Default**}
+#'   \item{\code{chr}}{ The object will be treated as as JS character string}
+#'   \item{\code{json}}{ The object will be coerced with \code{\link[jsonlite]{toJSON}}}
+#' }
+#' @param as_callback \code{lgl} Should the resulting code be wrapped in a callback function?
+#' @param on \code{chr} A javascript event name, must be specified with a selector to argument `on_dom` that indicates the jQuery selector for a DOM element to which the event will pertain.
+#' @param as_tag \code{lgl} Whether the output should be a script tag.
+#' @return \code{chr/shiny.tag} script tag with javascript
 #' @export
 #' @family JS
 js_set_input_val <- function(id,
                              value,
                              js = NULL,
                              ...,
+                             value_to = c("code", "chr", "json"),
                              asis = FALSE,
                              as_callback = FALSE,
                              on = NULL,
@@ -109,8 +119,13 @@ js_set_input_val <- function(id,
 
   to_glue <- c("Shiny.setInputValue('*{id}*', *{value}*, {priority: 'event'});")
 
-  if (length(value) > 1)
-    value <- jsonlite::toJSON(value)
+  value <- switch(
+    value_to,
+    code = value,
+    chr = paste0("'",value,"'"),
+    json = jsonlite::toJSON(value)
+  )
+
 
   if (!is.null(js)) {
     if (stringr::str_detect(js, ";$", negate = TRUE))
@@ -127,7 +142,7 @@ js_set_input_val <- function(id,
 
   if (!is.null(on))
     to_glue <-
-    c("$(document).on('*{on}*', (e) => {",
+    c("$(*{on_dom}*).on('*{on}*', (e) => {",
       to_glue,
       "})")
 
