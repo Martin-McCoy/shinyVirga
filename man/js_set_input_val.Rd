@@ -9,7 +9,7 @@ js_set_input_val(
   value,
   js = NULL,
   ...,
-  value_to = c("code", "chr", "json"),
+  value_to = c("code", "chr", "json")[1],
   asis = FALSE,
   as_callback = FALSE,
   on = NULL,
