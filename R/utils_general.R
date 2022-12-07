@@ -173,3 +173,42 @@ path_strip_shiny <- function(path, resourcepath = "www", leading_slash = FALSE) 
 }
 
 
+
+#' @title Display the name of the parent module
+#' @description Stack traces often aren't available in Shiny. Use this function inside of modules to know where errors occur
+#' @return Message with the name of the running module and it's environment
+#' @export
+
+msg_mod_fun <- function(.call = rlang::trace_back(bottom = 5), e = rlang::caller_env()) {
+  if (opts$use_debug()) {
+    cli::cli_text(cli::col_br_cyan("NS: ", e$ns("|")),cli::col_br_blue("call: {.code {rlang::expr_deparse(.call$call[[length(.call$call)]])}}|"),cli::col_br_black("env:{.code {rlang::env_label(e)}}"))
+  }
+
+}
+
+#' Insert module debugging statements throughout module files.
+#' @param pattern \code{chr} The pattern to search for in files that will be modified.
+#' @return Modifies all files beginning with `pattern` insert \link[shinyVirga]{msg_mod_fun}
+#' @export
+#'
+
+use_msg_mod_fun <- function(pattern = "^mod") {
+  list.files("R", pattern = pattern, full.names = TRUE) |>
+    purrr::walk(~{
+      file <- readLines(.x)
+      s_line <- stringr::str_which(file, "ns \\<\\- session\\$ns")
+      lines_to_check <- file[s_line:(s_line+3)]
+      if (!any(stringr::str_detect(lines_to_check, "shinyVirga\\:\\:msg\\_mod\\_fun"))) {
+        blanks <- UU::zchar(trimws(lines_to_check))
+        if(any(blanks)) {
+          file[s_line + which(blanks)[1] - 1] <- "   shinyVirga::msg_mod_fun()"
+        } else {
+          file <- append(file, "    shinyVirga::msg_mod_fun()", after = s_line)
+        }
+
+        write(file, .x)
+      }
+
+    })
+
+}

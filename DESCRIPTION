@@ -7,6 +7,7 @@ License: LGPL (>= 2.1)
 Imports: 
     bs4Dash (>= 2.1.0),
     checkmate (>= 2.1.0),
+    cli (>= 3.4.1),
     dplyr,
     fs,
     glue,
