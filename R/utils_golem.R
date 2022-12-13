@@ -33,12 +33,10 @@ list_to_li <- function(list, list_type = "ul", class = NULL){
   else
     tags$li
   if (is.null(class)){
-    res <- tagList(
-      lapply(
+    res <- lapply(
         list,
         fn
       )
-    )
   } else {
     res <- lapply(
       list,
@@ -55,8 +53,8 @@ list_to_li <- function(list, list_type = "ul", class = NULL){
     )
   }
 
-  if (nested_is_list && !is.null(names(res[[1]]))) {
-    res[[1]] <- purrr::imap(res[[1]], ~tagList(tags$li(.y), .x))
+  if (nested_is_list && !is.null(names(res))) {
+    res <- purrr::imap(res, ~tagList(tags$li(.y), .x))
   }
 
   if (!is.null(list_type))
