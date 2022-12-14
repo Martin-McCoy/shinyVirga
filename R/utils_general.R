@@ -180,7 +180,7 @@ path_strip_shiny <- function(path, resourcepath = "www", leading_slash = FALSE) 
 #' @export
 
 msg_mod_fun <- function(.call = rlang::trace_back(bottom = 5), e = rlang::caller_env()) {
-  if (opts$use_debug()) {
+  if (getOption("use_debug", FALSE)) {
     cli::cli_text(cli::col_br_cyan("NS: ", e$ns("|")),cli::col_br_blue("call: {.code {rlang::expr_deparse(.call$call[[length(.call$call)]])}}|"),cli::col_br_black("env:{.code {rlang::env_label(e)}}"))
   }
 
