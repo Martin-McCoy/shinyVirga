@@ -9,6 +9,7 @@ Imports:
     checkmate (>= 2.1.0),
     cli (>= 3.4.1),
     devtools (>= 2.4.5),
+    dockerfiler (>= 0.2.0),
     dplyr,
     fs,
     glue,
