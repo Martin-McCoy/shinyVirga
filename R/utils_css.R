@@ -47,3 +47,28 @@ add_sass <- function(sass,
                )
              )))
 }
+
+#' Conver a list or vector to Sass variables
+#'
+#' @param x \code{list/chr}
+#' @param pre \code{chr} prefix to prepend
+#' @param suf \code{chr} suffix to append
+#'
+#' @return \code{chr}
+#' @export
+#'
+#' @examples
+#' list2sass(pre = "dark-", list(
+#'   lightblue = "rgba(18,180,211,1)",
+#'   darkblue = "rgba(2,120,170,1)",
+#'   navyblue = "rgba(0,57,73,1)",
+#'   brown = "rgba(72,36,18,1)",
+#'   lightbrown = "rgb(132,96,78)",
+#'   purple = "rgba(111,96,140,1)",
+#'   lightpurple = "rgba(165,150,194,1)",
+#'   darkcyan = "rgba(0,166,212,1)",
+#'   darkturquoise = "rgba(9,119,168,1)"
+#' )) |> cat(sep = '\n')
+list2sass <- function(x, pre = "", suf = "") {
+  paste0("$", pre, names(x), suf, ": ", x,";")
+}
