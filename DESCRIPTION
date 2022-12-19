@@ -5,12 +5,10 @@ Authors@R: person("Stephen", "Holsenbeck", , "stephen@virgalabs.io", role = c("a
 Description: A collection of useful utility functions for working with shiny and shiny frameworks
 License: LGPL (>= 2.1)
 Imports: 
-    attachment (>= 0.3.0),
     bs4Dash (>= 2.1.0),
     checkmate (>= 2.1.0),
     cli (>= 3.4.1),
     devtools (>= 2.4.5),
-    dockerfiler (>= 0.2.0),
     dplyr,
     fs,
     glue,
@@ -30,9 +28,12 @@ Imports:
     stringr,
     tippy (>= 1.0.0),
     UU (>= 1.3.0)
-Suggests: functionMap,
-	googlesheets4,
-	virgaUtils
+Suggests: 
+    attachment (>= 0.3.0),
+    dockerfiler (>= 0.2.0),
+    functionMap,
+	  googlesheets4,
+	  virgaUtils
 Remotes: 
     MangoTheCat/functionMap,
     Martin-McCoy/virgaUtils,
