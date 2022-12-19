@@ -1,6 +1,6 @@
 Package: shinyVirga
 Title: A Collection of R shiny utilities by Virga Labs
-Version: 0.7.0
+Version: 0.8.0
 Authors@R: person("Stephen", "Holsenbeck", , "stephen@virgalabs.io", role = c("aut", "cre"))
 Description: A collection of useful utility functions for working with shiny and shiny frameworks
 License: LGPL (>= 2.1)
@@ -8,6 +8,7 @@ Imports:
     bs4Dash (>= 2.1.0),
     checkmate (>= 2.1.0),
     cli (>= 3.4.1),
+    devtools (>= 2.4.5),
     dplyr,
     fs,
     glue,
@@ -15,8 +16,12 @@ Imports:
     htmltools,
     jsonlite (>= 1.8.3),
     lifecycle,
+    lubridate (>= 1.9.0),
+    pkgload (>= 1.3.0),
     purrr,
+    remotes (>= 2.4.2),
     rlang,
+    rstudioapi (>= 0.14),
     sass,
     shiny,
     shinyjs,
