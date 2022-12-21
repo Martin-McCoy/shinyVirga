@@ -381,7 +381,7 @@ glossarize <- function(x, as_text = FALSE, .glossary = glossary) {
         # Format the acronym for lookup in the glossary here
         .acronym <- trimws(.x)
         # Consider all case combinations
-        .acronym <- c(.acronym, toupper(.acronym), tolower(.acronym))
+        .acronym <- c(.acronym, toupper(.acronym), tolower(.acronym), snakecase::to_sentence_case(.acronym))
         def_row <- .glossary[.glossary$Acronym %in% .acronym, ]
         if (as_text)
           glue::glue("{.x} ({def_row$Definition})")
