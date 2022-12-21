@@ -368,8 +368,8 @@ glossary_sync <-
 #' glossarize("A DMDU Example")
 glossarize <- function(x, as_text = FALSE, .glossary = glossary) {
   acronyms <- stringr::str_extract_all(as.character(x), stringr::regex(UU::regex_or(.glossary$Acronym, pre = "(?<=\\b|\\>)", suf = "(?=\\b|\\<)"), ignore_case = TRUE))
-  acr_empty <- purrr::map_lgl(acronyms, rlang::is_empty)
-  acr_idx <- which(!acr_empty)
+  acr_legit <- purrr::map_lgl(acronyms, UU::is_legit)
+  acr_idx <- which(acr_legit)
   acronyms <- acronyms[acr_idx]
   if (UU::is_legit(acronyms)) {
     need_definitions <- purrr::keep(stringr::str_split(x[acr_idx], UU::regex_or(do.call(c, acronyms))), ~length(.x) > 1)
