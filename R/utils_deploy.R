@@ -106,7 +106,7 @@ deploy_stage <- function(deploy_path = "deploy",
       if (!!use_renv) {
         golem::add_dockerfile_with_renv(output_dir = ".", lockfile = !!lockfile_path)
       } else {
-        golem::add_dockerfile(output = file.path(deploy_path, "Dockerfile"))
+        golem::add_dockerfile()
       }
 
       # Need to build dmdu_base first if you just created it with the
