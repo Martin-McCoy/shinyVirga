@@ -6,6 +6,7 @@
 \usage{
 deploy_tar(
   deploy_path = "deploy",
+  use_renv = TRUE,
   copy_r_environ = TRUE,
   copy_r_profile = TRUE,
   copy_renv_lock = TRUE,
@@ -15,6 +16,8 @@ deploy_tar(
 }
 \arguments{
 \item{deploy_path}{\code{chr} directory in which to stage deployment files}
+
+\item{use_renv}{\code{lgl} whether to use the renv.lock & \code{golem::add_dockerfile_with_renv} (\code{TRUE}) or the DESCRIPTION \code{golem::add_dockerfile}}
 
 \item{copy_r_environ}{\code{lgl} Whether to include the \emph{.Renviron} file}
 

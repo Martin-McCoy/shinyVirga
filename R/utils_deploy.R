@@ -2,6 +2,7 @@
 #' Create a staging directory for deployment files
 #'
 #' @param deploy_path \code{chr} directory in which to stage deployment files
+#' @param use_renv \code{lgl} whether to use the renv.lock & `golem::add_dockerfile_with_renv` (`TRUE`) or the DESCRIPTION `golem::add_dockerfile`
 #' @param copy_r_environ \code{lgl} Whether to include the _.Renviron_ file
 #' @param copy_r_profile \code{lgl} Whether to include the _.Rprofile_ file
 #' @param copy_renv_lock \code{lgl} Whether to include the _renv.lock_ file
@@ -9,6 +10,7 @@
 #' @return \code{dir} a directory with the tar.gz package executable, and requisite files for docker image building.
 #' @export
 deploy_tar <- function(deploy_path = "deploy",
+                       use_renv = TRUE,
                        copy_r_environ = TRUE,
                        copy_r_profile = TRUE,
                        copy_renv_lock = TRUE,
@@ -23,8 +25,14 @@ deploy_tar <- function(deploy_path = "deploy",
   # If there isn't a Dockerfile in deploy dir and you don't want to include the
   # root dir Dockerfile, then make the split-dockerfiles with the golem func
 
-  if (made_dockerfile)
-    golem::add_dockerfile_with_renv(output_dir = deploy_path, lockfile = lockfile_path)
+  if (made_dockerfile) {
+    if (use_renv) {
+      golem::add_dockerfile_with_renv(output_dir = deploy_path, lockfile = lockfile_path)
+    } else {
+      golem::add_dockerfile()
+    }
+  }
+
 
   copy_files <- c(
     # c auto removes nulls
@@ -55,6 +63,7 @@ deploy_tar <- function(deploy_path = "deploy",
 #' @return \code{job} Background job that deploys the dmdu app (not working locally)
 #' @export
 deploy_stage <- function(deploy_path = "deploy",
+                         use_renv = TRUE,
                          copy_r_environ = TRUE,
                          copy_r_profile = TRUE,
                          copy_renv_lock = TRUE,
@@ -94,7 +103,12 @@ deploy_stage <- function(deploy_path = "deploy",
 
     if (made_dockerfile) {
       # this needed to be negated to match logic above
-      golem::add_dockerfile_with_renv(output_dir = ".", lockfile = !!lockfile_path)
+      if (use_renv) {
+        golem::add_dockerfile_with_renv(output_dir = ".", lockfile = !!lockfile_path)
+      } else {
+        golem::add_dockerfile(output = file.path(deploy_path, "Dockerfile"))
+      }
+
       # Need to build dmdu_base first if you just created it with the
       # split-dockerfile methodology employed by add_dockerfile_with_renv above
 
