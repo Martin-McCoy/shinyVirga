@@ -104,7 +104,7 @@ deploy_stage <- function(deploy_path = "deploy",
     if (made_dockerfile) {
       # this needed to be negated to match logic above
       if (!!use_renv) {
-        golem::add_dockerfile_with_renv(output_dir = ".", lockfile = !!lockfile_path)
+        golem::add_dockerfile_with_renv(source_folder = "../", output_dir = ".", lockfile = !!lockfile_path)
       } else {
         golem::add_dockerfile()
       }
