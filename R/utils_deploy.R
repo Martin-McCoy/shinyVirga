@@ -70,7 +70,7 @@ deploy_stage <- function(deploy_path = "deploy",
                          lockfile_path = "renv.lock",
                          copy_dockerfile = TRUE,
                          GITHUB_PAT = remotes:::github_pat(),
-                         docker_image_tag = paste0(pkgload::pkg_name(), ":latest")) {
+                         docker_image_tag = tolower(paste0(pkgload::pkg_name(), ":latest"))) {
 
   UU::mkpath(deploy_path)
   lockfile_path <- fs::path_abs(lockfile_path)
@@ -125,7 +125,7 @@ deploy_stage <- function(deploy_path = "deploy",
       system("sed -i '' 's/RUN R -e/RUN GITHUB_PAT=$GITHUB_PAT R -e/g' Dockerfile_base") # adds in necessary GITHUB_PAT args to each R RUn commands
       system("sed -i '' 's/RUN R -e/RUN GITHUB_PAT=$GITHUB_PAT R -e/g' Dockerfile")
       system("sed -i '' 's/renv.lock.prod/renv.lock/g' Dockerfile") # gets rid of pesky renv.lock.prod
-      system(glue::glue("docker build --build-arg GITHUB_PAT={GITHUB_PAT} -f Dockerfile_base --progress=plain -t dmdu_base .")) # build
+      system(glue::glue("docker build --build-arg GITHUB_PAT={GITHUB_PAT} -f Dockerfile_base --progress=plain -t {docker_image_tag} .")) # build
 
     }
 
@@ -142,6 +142,6 @@ deploy_stage <- function(deploy_path = "deploy",
   })
   job_path <- fs::path(deploy_path, "job.R")
   write(deparse(job), job_path)
-  rstudioapi::jobRunScript(job_path, name = "Deploy dmdu")
+  rstudioapi::jobRunScript(job_path, name = glue::glue("Deploy {docker_image_tag}"))
   UU::ignore_files("deploy/")
 }
