@@ -147,6 +147,6 @@ deploy_stage <- function(deploy_path = "deploy",
   })
   job_path <- fs::path(deploy_path, "job.R")
   write(deparse(job), job_path)
-  rstudioapi::jobRunScript(job_path, name = glue::glue("Deploy {docker_image_tag}"))
+  rstudioapi::jobRunScript(job_path, name = glue::glue("Build {docker_image_tag} Docker images"))
   UU::ignore_files("deploy/")
 }
