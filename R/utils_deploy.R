@@ -112,6 +112,8 @@ deploy_stage <- function(deploy_path = "deploy",
         golem::add_dockerfile()
       }
 
+      write(glue::glue("GITHUB_PAT = {GITHUB_PAT}"), ".Renviron", append = !!copy_r_environ)
+
       # Need to build dmdu_base first if you just created it with the
       # split-dockerfile methodology employed by add_dockerfile_with_renv above
 
@@ -119,15 +121,15 @@ deploy_stage <- function(deploy_path = "deploy",
       # All of these unix sed commands modify the dockerfiles built by add_dockerfile_with_renv
       # above to match our methodology used to pull github pats into dockerfiles
       # to download the needed private repositories
-      system("sed -i '' -e '1s/^//p; 1s/^.*/RUN GITHUB_PAT=$GITHUB_PAT/' Dockerfile_base") # puts RUN GITHUB_PAT command in line 2
-      system("sed -i '' -e '1s/^//p; 1s/^.*/RUN GITHUB_PAT=$GITHUB_PAT/' Dockerfile")
-      system("sed -i '' -e '1s/^//p; 1s/^.*/ARG GITHUB_PAT/' Dockerfile_base") # puts ARG GITHUB_PAT in line 2
-      system("sed -i '' -e '1s/^//p; 1s/^.*/ARG GITHUB_PAT/' Dockerfile")
-      system("sed -i '' -e '4s/^//p; 4s/^.*/COPY .Rprofile .Rprofile/' Dockerfile") # Adds line for copying .Rprofile and .Renviron
-      system("sed -i '' -e '4s/^//p; 4s/^.*/COPY .Renviron .Renviron/' Dockerfile")
-      system("sed -i '' 's/RUN R -e/RUN GITHUB_PAT=$GITHUB_PAT R -e/g' Dockerfile_base") # adds in necessary GITHUB_PAT args to each R RUn commands
-      system("sed -i '' 's/RUN R -e/RUN GITHUB_PAT=$GITHUB_PAT R -e/g' Dockerfile")
-      system("sed -i '' 's/renv.lock.prod/renv.lock/g' Dockerfile") # gets rid of pesky renv.lock.prod
+      system("sed -i '' -e '1s/^//p; 1s/^.*/COPY .Renviron .Renviron/' Dockerfile_base")
+      system("sed -i '' -e '1s/^//p; 1s/^.*/COPY .Renviron .Renviron/' Dockerfile")
+      system("sed -i '' -e '4s/^//p; 4s/^.*/COPY .Rprofile .Rprofile/' Dockerfile")
+      # system("sed -i '' 's/renv.lock.prod/renv.lock/g' Dockerfile") # gets rid of pesky renv.lock.prod
+      if (!(!!copy_r_environ)) {
+        # If the user did not opt to copy the .Renviron file, delete it
+        write("RUN rm .Renviron", file = "Dockerfile")
+        file.remove(".Renviron")
+      }
       system(glue::glue("docker build --build-arg GITHUB_PAT={GITHUB_PAT} -f Dockerfile_base --progress=plain -t {docker_image_tags['base']} .")) # build dockerfile_base
 
     }
