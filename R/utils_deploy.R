@@ -70,14 +70,17 @@ deploy_stage <- function(deploy_path = "deploy",
                          lockfile_path = "renv.lock",
                          copy_dockerfile = TRUE,
                          GITHUB_PAT = remotes:::github_pat(),
-                         docker_image_tag = tolower(paste0(pkgload::pkg_name(), ":latest"))) {
+                         docker_image_tag = tolower(golem::get_golem_name())) {
 
   UU::mkpath(deploy_path)
   lockfile_path <- fs::path_abs(lockfile_path)
 
+  images <- rlang::parse_expr(capture.output(dput(rlang::set_names(sprintf("%s%s:%s", docker_image_tag, c("", "_base"),":latest"), c("main", "base")))))
+
   job <- rlang::expr({
 
-    docker_image_tag <- !!docker_image_tag
+    docker_image_tags <- !!images
+
     GITHUB_PAT <- !!GITHUB_PAT
 
     copy_files <- c(
@@ -125,7 +128,7 @@ deploy_stage <- function(deploy_path = "deploy",
       system("sed -i '' 's/RUN R -e/RUN GITHUB_PAT=$GITHUB_PAT R -e/g' Dockerfile_base") # adds in necessary GITHUB_PAT args to each R RUn commands
       system("sed -i '' 's/RUN R -e/RUN GITHUB_PAT=$GITHUB_PAT R -e/g' Dockerfile")
       system("sed -i '' 's/renv.lock.prod/renv.lock/g' Dockerfile") # gets rid of pesky renv.lock.prod
-      system(glue::glue("docker build --build-arg GITHUB_PAT={GITHUB_PAT} -f Dockerfile_base --progress=plain -t {docker_image_tag} .")) # build
+      system(glue::glue("docker build --build-arg GITHUB_PAT={GITHUB_PAT} -f Dockerfile_base --progress=plain -t {docker_image_tags['base']} .")) # build dockerfile_base
 
     }
 
@@ -138,7 +141,7 @@ deploy_stage <- function(deploy_path = "deploy",
 
 
     # build latest dockerfile (either from base above or from a single Dockerfile)
-    system(glue::glue("docker build --build-arg GITHUB_PAT={GITHUB_PAT} -f Dockerfile --progress=plain -t {docker_image_tag} ."))
+    system(glue::glue("docker build --build-arg GITHUB_PAT={GITHUB_PAT} -f Dockerfile --progress=plain -t {docker_image_tags['main']} ."))
   })
   job_path <- fs::path(deploy_path, "job.R")
   write(deparse(job), job_path)
