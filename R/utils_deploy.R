@@ -130,7 +130,7 @@ deploy_stage <- function(deploy_path = "deploy",
         write("RUN rm .Renviron", file = "Dockerfile")
         file.remove(".Renviron")
       }
-      system(glue::glue("docker build --build-arg GITHUB_PAT={GITHUB_PAT} -f Dockerfile_base --progress=plain -t {docker_image_tags['base']} .")) # build dockerfile_base
+
 
     }
 
@@ -140,7 +140,15 @@ deploy_stage <- function(deploy_path = "deploy",
       devtools::build(path = ".")
     }
 
+    # Combine dockerfiles since the two-step method doesn't work
+    dockerfiles <- purrr::map(rlang::set_names(paste0("Dockerfile", c("", "_base"))), readLines)
 
+    dockerfile <- c(
+      dockerfiles$Dockerfile_base,
+      # Everything after the renv::restore, since the last call in Dockerfile_base is renv::restore
+      dockerfiles$Dockerfile[(stringr::str_which(dockerfiles$Dockerfile, "RUN R -e 'renv::restore\\(\\)'") + 1):length(dockerfiles$Dockerfile)]
+    )
+    write(dockerfile, "Dockerfile")
 
     # build latest dockerfile (either from base above or from a single Dockerfile)
     system(glue::glue("docker build --build-arg GITHUB_PAT={GITHUB_PAT} -f Dockerfile --progress=plain -t {docker_image_tags['main']} ."))
