@@ -13,7 +13,7 @@ deploy_stage(
   lockfile_path = "renv.lock",
   copy_dockerfile = TRUE,
   GITHUB_PAT = remotes:::github_pat(),
-  docker_image_tag = paste0(pkgload::pkg_name(), ":latest")
+  docker_image_tag = tolower(golem::get_golem_name())
 )
 }
 \arguments{

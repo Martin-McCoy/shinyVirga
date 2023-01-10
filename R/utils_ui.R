@@ -209,29 +209,7 @@ acc_list <-
 
   }
 
-#' Wrapper for \link[shiny]{icon} that supports svg images
-#'
-#' @param name \code{chr} FontAwesome name or image path
-#' @inherit shiny::icon params return examples
-#'
-#' @export
 
-icon_sb <- function(name, class = NULL, lib = "font-awesome", ...) {
-  if (!missing(name) && UU::`%|try|%`(file.exists(name), FALSE)) {
-    shiny::img(src = path_strip_to(name, "www"),
-               class = class,
-               ...)
-  } else if (missing(name)) {
-    shiny::img(class = class, ...)
-  } else
-    shiny::icon(
-      name = name,
-      class = class,
-      lib = lib,
-      ...,
-      verify_fa = FALSE
-    )
-}
 
 #' Create a \code{shiny.tag.list} of \link[bs4Dash]{bs4SidebarMenuItem}s with an input \link[tibble]{tibble}
 #'
