@@ -5,11 +5,22 @@
 \title{FontAwesome Arrow Icons}
 \usage{
 fa_arrow_icon(
-  direction = c("up", "down", "left-right", "up-down", "up-down-left-right")
+  direction = c("up", "down", "left-right", "up-down", "up-down-left-right"),
+  class = NULL,
+  lib = "font-awesome",
+  ...
 )
 }
 \arguments{
 \item{direction}{\code{chr} One of \code{up, down, left-right, up-down, up-down-left-right}}
+
+\item{class}{Additional classes to customize the style of an icon (see the
+\href{https://fontawesome.com/how-to-use}{usage examples} for details on
+supported styles).}
+
+\item{lib}{The icon library to use. Either \code{"font-awesome"} or \code{"glyphicon"}.}
+
+\item{...}{Arguments passed to the \verb{<i>} tag of \link[htmltools:builder]{htmltools::tags}.}
 }
 \value{
 \code{shiny.tag}

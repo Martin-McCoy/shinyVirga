@@ -25,18 +25,18 @@ icon_sb <- function(name, class = NULL, lib = "font-awesome", ...) {
 #' FontAwesome Arrow Icons
 #'
 #' @param direction \code{chr} One of \code{`r glue::glue_collapse(eval(rlang::fn_fmls(fa_arrow_icon)$direction), ", ")`}
-#'
+#' @inheritParams shiny::icon
 #' @return \code{shiny.tag}
 #' @export
 #'
 #' @examples
 #' fa_arrow_icon("up-down")
-fa_arrow_icon <- function(direction = c("up", "down", "left-right", "up-down", "up-down-left-right")) {
+fa_arrow_icon <- function(direction = c("up", "down", "left-right", "up-down", "up-down-left-right"), class = NULL, lib = 'font-awesome', ...) {
   direction <- direction[1]
   dashes <- stringr::str_count(direction, "-")
   arrow <- if (dashes > 0)
     "arrows"
   else
     "arrow"
-  shiny::icon(glue::glue_collapse(c(arrow, direction), sep = "-"))
+  shiny::icon(glue::glue_collapse(c(arrow, direction), sep = "-"), class = class, lib = lib, ...)
 }
