@@ -52,6 +52,7 @@ ui_row <- function(...,
                    id = NULL,
                    box = TRUE,
                    row = TRUE,
+                   class = NULL,
                    add_attribs = NULL
 ) {
   .dots <- rlang::dots_list(...)
@@ -86,7 +87,7 @@ ui_row <- function(...,
   } else
     out <- NULL
   if (row)
-    out <- shiny::fluidRow(class = "ui_row",
+    out <- shiny::fluidRow(class = trimws(paste("ui_row", class)),
                            id = purrr::when(box, isTRUE(.) ~ NULL,  ~ .args$id),
                            out)
 
