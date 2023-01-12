@@ -19,6 +19,54 @@ dynamic_row <- function(...) {
 
 }
 
+
+
+#' A small info icon with a tooltip
+#' @description Requires \link[tippy]{use_tippy} to be placed in the `head` of the app. See the [tippy docs]{https://github.com/JohnCoene/tippy} for details
+#' @param ... \code{shiny.tag.list/shiny.tag}s to be rendered as the tooltip
+#' @inheritParams shiny::icon
+#'
+#' @return \code{shiny.tag} tippy enabled info icon
+#' @export
+#'
+#' @examples
+#' infoIcon(tags$p("Help text here"))
+infoIcon <- function(..., name = "info-circle", class = NULL, lib = "font-awesome") {
+  .dots <- rlang::dots_list(...)
+  tippy::tippy(shiny::icon(name, class = class, lib = lib, verify_fa = FALSE), htmltools::doRenderTags(
+    rlang::exec(
+      tagList,
+      !!!.dots
+    )
+  ), interactive = TRUE, allowHTML = TRUE)
+}
+#' Construct a simple Bootstrap card
+#'
+#' @param ... \code{shiny.tag}s
+#' @param width \code{num} Width of the encapsulating column
+#' @param class \code{chr} any additional classes added to the div.card
+#' @param id \code{chr} added to the div.card
+#'
+#' @return \code{shiny.tag}
+#' @export
+#'
+simpleCard <- function(...,
+                       width = 12,
+                       class = NULL,
+                       id = NULL) {
+  shiny::column(
+    width = width,
+    tags$div(
+      class = trimws(paste("card", class)),
+      id = id,
+      tags$div(
+        class = "card-body",
+        ...
+      )
+    )
+  )
+}
+
 #' @title A default full width row box.
 #' @inheritParams bs4Dash::box
 #' @param box \code{lgl} Whether to box the contents or just put them in row. **Default TRUE**
@@ -57,6 +105,7 @@ ui_row <- function(...,
                    add_attribs = NULL
 ) {
   .dots <- rlang::dots_list(...)
+
   .args <- list(title = title,
                 footer = footer,
                 status = status,
@@ -104,17 +153,19 @@ ui_row <- function(...,
   has_class <- !is.null(class)
   has_attr <- !is.null(add_attribs)
   if (has_class || has_attr) {
-    o <- htmltools::tagQuery(out)
+
     if (has_class) {
-      do.call(o$find(".card")$addAttrs, list(class = class))
-      out <- o$allTags()
+      out <- tagAppendAttributes(out, class = class, .cssSelector = ".card")
     }
 
-    if (has_attr)
+    if (has_attr) {
+      o <- htmltools::tagQuery(out)
       for (selector in names(add_attribs)) {
         do.call(o$find(selector)$addAttrs, add_attribs[[selector]])
         out <- o$allTags()
       }
+    }
+
   }
   out
 }
