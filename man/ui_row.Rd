@@ -28,6 +28,7 @@ ui_row(
   id = NULL,
   box = TRUE,
   row = TRUE,
+  class = NULL,
   add_attribs = NULL
 )
 }
@@ -132,6 +133,8 @@ TRUE by default}
 \item{box}{\code{lgl} Whether to box the contents or just put them in row. \strong{Default TRUE}}
 
 \item{row}{\code{lgl} Whether to wrap the output in a row. \strong{Default TRUE}}
+
+\item{class}{\code{chr} A class to add to the top level div.row}
 
 \item{add_attribs}{\code{list} of attributes to append to arbitrary tags in the format \verb{list([jQuery selector] = list([attribute] = [value]))}}
 }

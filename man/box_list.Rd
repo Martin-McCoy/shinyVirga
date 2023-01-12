@@ -14,6 +14,7 @@ box_list(x, ...)
   \describe{
     \item{\code{box}}{\code{lgl} Whether to box the contents or just put them in row. \strong{Default TRUE}}
     \item{\code{row}}{\code{lgl} Whether to wrap the output in a row. \strong{Default TRUE}}
+    \item{\code{class}}{\code{chr} A class to add to the top level div.row}
     \item{\code{add_attribs}}{\code{list} of attributes to append to arbitrary tags in the format \verb{list([jQuery selector] = list([attribute] = [value]))}}
     \item{\code{title}}{Optional title.}
     \item{\code{footer}}{Optional footer text.}

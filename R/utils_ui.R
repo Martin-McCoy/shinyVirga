@@ -23,6 +23,7 @@ dynamic_row <- function(...) {
 #' @inheritParams bs4Dash::box
 #' @param box \code{lgl} Whether to box the contents or just put them in row. **Default TRUE**
 #' @param row \code{lgl} Whether to wrap the output in a row. **Default TRUE**
+#' @param class \code{chr} A class to add to the top level div.row
 #' @param add_attribs \code{list} of attributes to append to arbitrary tags in the format `list([jQuery selector] = list([attribute] = [value]))`
 #' @return A full-width \link[bs4Dash]{box} nested in a row
 #' @export
