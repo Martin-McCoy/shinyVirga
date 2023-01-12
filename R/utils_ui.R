@@ -78,26 +78,43 @@ ui_row <- function(...,
                 sidebar = sidebar,
                 id = id)
 
-  if (UU::is_legit(.dots)) {
+  if (box || UU::is_legit(.dots)) {
     out <- eval(
       rlang::call2(
-        purrr::when(box, . ~ bs4Dash::box, ~ shiny::tagList),
-        !!!purrr::when(box,. && UU::is_legit(.dots) ~ append(.args, .dots), . ~ .args,  ~ .dots)
+        if (box)
+          bs4Dash::box
+        else
+          shiny::tagList,
+        !!!if (UU::is_legit(.dots)) {
+          append(.args, .dots)
+        } else if (box) {
+          .args
+        } else {
+          .dots
+        }
+        )
       )
-    )
+
   } else
     out <- NULL
-  if (row)
-    out <- shiny::fluidRow(class = trimws(paste("ui_row", class)),
-                           id = purrr::when(box, isTRUE(.) ~ NULL,  ~ .args$id),
-                           out)
 
-  if (box && !is.null(add_attribs)) {
+  if (row)
+    out <- shiny::fluidRow(class = trimws(paste("ui_row", class)), id = id, out)
+
+  has_class <- !is.null(class)
+  has_attr <- !is.null(add_attribs)
+  if (has_class || has_attr) {
     o <- htmltools::tagQuery(out)
-    for (selector in names(add_attribs)) {
-      do.call(o$find(selector)$addAttrs, add_attribs[[selector]])
+    if (has_class) {
+      do.call(o$find(".card")$addAttrs, list(class = class))
       out <- o$allTags()
     }
+
+    if (has_attr)
+      for (selector in names(add_attribs)) {
+        do.call(o$find(selector)$addAttrs, add_attribs[[selector]])
+        out <- o$allTags()
+      }
   }
   out
 }
