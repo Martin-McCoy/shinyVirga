@@ -45,6 +45,7 @@ infoIcon <- function(..., name = "info-circle", class = NULL, lib = "font-awesom
 #' @param ... \code{shiny.tag}s
 #' @param width \code{num} Width of the encapsulating column
 #' @param class \code{chr} any additional classes added to the div.card
+#' @param style \code{chr} of the div.card element
 #' @param id \code{chr} added to the div.card
 #'
 #' @return \code{shiny.tag}
@@ -53,10 +54,12 @@ infoIcon <- function(..., name = "info-circle", class = NULL, lib = "font-awesom
 simpleCard <- function(...,
                        width = 12,
                        class = NULL,
-                       id = NULL) {
+                       id = NULL,
+                       style = NULL) {
   shiny::column(
     width = width,
     tags$div(
+      style = style,
       class = trimws(paste("card", class)),
       id = id,
       tags$div(

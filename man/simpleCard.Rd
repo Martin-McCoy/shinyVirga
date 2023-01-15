@@ -4,7 +4,7 @@
 \alias{simpleCard}
 \title{Construct a simple Bootstrap card}
 \usage{
-simpleCard(..., width = 12, class = NULL, id = NULL)
+simpleCard(..., width = 12, class = NULL, id = NULL, style = NULL)
 }
 \arguments{
 \item{...}{\code{shiny.tag}s}
@@ -14,6 +14,8 @@ simpleCard(..., width = 12, class = NULL, id = NULL)
 \item{class}{\code{chr} any additional classes added to the div.card}
 
 \item{id}{\code{chr} added to the div.card}
+
+\item{style}{\code{chr} of the div.card element}
 }
 \value{
 \code{shiny.tag}
