@@ -418,12 +418,14 @@ glossary_sync <-
 #' @examples
 #' glossarize("A DMDU Example")
 glossarize <- function(x, as_text = FALSE, .glossary = glossary) {
-  acronyms <- stringr::str_extract_all(as.character(x), stringr::regex(UU::regex_or(.glossary$Acronym, pre = "(?<![A-Za-z\\-\\'0-9])", suf = "(?![A-Za-z\\-\\'0-9])"), ignore_case = TRUE))
+  e <- rlang::env(matches = "A-Za-z\\-\\'\\/0-9\\.")
+  reg <- purrr::map_vec(.ptype = character(), c(pre = "(?<![{matches}])", suf = "(?![{matches}])"), glue::glue, .envir = e)
+  acronyms <- stringr::str_extract_all(as.character(x), stringr::regex(UU::regex_or(.glossary$Acronym, pre = reg["pre"], suf = reg["suf"]), ignore_case = TRUE))
   acr_legit <- purrr::map_lgl(acronyms, UU::is_legit)
   acr_idx <- which(acr_legit)
   acronyms <- acronyms[acr_idx]
   if (UU::is_legit(acronyms)) {
-    need_definitions <- purrr::keep(stringr::str_split(x[acr_idx], UU::regex_or(do.call(c, acronyms), pre = "(?<![A-Za-z\\-\\'0-9])", suf = "(?![A-Za-z\\-\\'0-9])")), ~length(.x) > 1)
+    need_definitions <- purrr::keep(stringr::str_split(x[acr_idx], UU::regex_or(do.call(c, acronyms), pre = reg["pre"], suf = reg["suf"])), ~length(.x) > 1)
 
     replacements <- purrr::map2(need_definitions, acronyms, ~{
       out <- .x
