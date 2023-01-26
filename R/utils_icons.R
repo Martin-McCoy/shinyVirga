@@ -1,7 +1,7 @@
 #' Wrapper for \link[shiny]{icon} that supports svg images
 #'
 #' @param name \code{chr} FontAwesome name or image path
-#' @inherit shiny::icon params return examples
+#' @inherit shiny::icon params return
 #'
 #' @export
 

@@ -23,13 +23,3 @@ An \verb{<i>} (icon) HTML tag.
 \description{
 Wrapper for \link[shiny]{icon} that supports svg images
 }
-\examples{
-# add an icon to a submit button
-submitButton("Update View", icon = icon("redo"))
-
-navbarPage("App Title",
-  tabPanel("Plot", icon = icon("bar-chart-o")),
-  tabPanel("Summary", icon = icon("list-alt")),
-  tabPanel("Table", icon = icon("table"))
-)
-}
