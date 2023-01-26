@@ -19,16 +19,16 @@ dynamic_row <- function(...) {
 
 }
 
-#' Creates an always up to date italicized Virga copyright element.
+#' Creates an always up to date italicized copyright element.
 #'
 #' @return \code{shiny.tag}
 #' @export
 #'
 
-virga_copyright <- function() {
+copyright <- function(copyright_holder = a("Virga Labs ", href = "https://www.virgalabs.io/", target = "_blank")) {
   htmltools::withTags(
     div(
-      em(class = "inline-block", "All content Ⓒ ", a("Virga Labs ", href = "https://www.virgalabs.io/", target = "_blank")," ", span(id = "c_year")),
+      em(class = "inline-block", "All content Ⓒ ",copyright_holder, span(id = "c_year")),
       script(type = "text/javascript", "
            document.getElementById('c_year').innerHTML = `${new Date().getFullYear()}`;
            ")
