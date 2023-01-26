@@ -19,7 +19,22 @@ dynamic_row <- function(...) {
 
 }
 
+#' Creates an always up to date italicized Virga copyright element.
+#'
+#' @return \code{shiny.tag}
+#' @export
+#'
 
+virga_copyright <- function() {
+  htmltools::withTags(
+    div(
+      em(class = "inline-block", "All content Ⓒ ", a("Virga Labs ", href = "https://www.virgalabs.io/", target = "_blank")," ", span(id = "c_year")),
+      script(type = "text/javascript", "
+           document.getElementById('c_year').innerHTML = `${new Date().getFullYear()}`;
+           ")
+    )
+  )
+}
 
 #' A small info icon with a tooltip
 #' @description Requires \link[tippy]{use_tippy} to be placed in the `head` of the app. See the [tippy docs]{https://github.com/JohnCoene/tippy} for details
