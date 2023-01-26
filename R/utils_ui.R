@@ -196,10 +196,15 @@ ui_row <- function(...,
 #' @export
 
 bs4Alert <- function(..., status = "primary", style = NULL, id = NULL, width = 6) {
-  bs4Dash:::validateStatus(status)
-  status <- UU::match_letters(status, n = 2, bs4Dash:::validStatuses)
+  if (!is.null(status)) {
+    status <- UU::match_letters(status, n = 2, bs4Dash:::validStatuses)
+    bs4Dash:::validateStatus(status)
+    status <- paste0("alert-",status)
+  } else {
+    status <- ""
+  }
 
-  shiny::tags$div(class = paste0("alert alert-",status), role = "alert", ..., style = paste0("margin: 6px 5px 6px 15px;", ifelse(grepl(";$", style), style, paste0(style, ";"))), id = id)
+  shiny::tags$div(class = paste0("alert ",status), role = "alert", ..., style = paste0("margin: 6px 5px 6px 15px;", ifelse(grepl(";$", style), style, paste0(style, ";"))), id = id)
 }
 
 #' @title Make columns from assorted shiny.tag elements
