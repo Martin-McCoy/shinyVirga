@@ -109,6 +109,7 @@ ui_row <- function(...,
                    closable = FALSE,
                    maximizable = FALSE,
                    icon = NULL,
+                   tip_icon = NULL,
                    gradient = FALSE,
                    boxToolSize = "sm",
                    elevation = NULL,
@@ -122,6 +123,7 @@ ui_row <- function(...,
                    class = NULL,
                    add_attribs = NULL
 ) {
+
   .dots <- rlang::dots_list(...)
 
   .args <- list(title = title,
@@ -136,6 +138,7 @@ ui_row <- function(...,
                 closable = closable,
                 maximizable = maximizable,
                 icon = icon,
+                tip_icon = tip_icon,
                 gradient = gradient,
                 boxToolSize = "sm",
                 elevation = elevation,
@@ -152,7 +155,7 @@ ui_row <- function(...,
           bs4Dash::box
         else
           shiny::tagList,
-        !!!if (UU::is_legit(.dots)) {
+        !!!if (UU::is_legit(.dots) && box) {
           append(.args, .dots)
         } else if (box) {
           .args
