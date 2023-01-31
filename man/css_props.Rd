@@ -26,6 +26,8 @@ Other ui:
 \code{\link{add_sass}()},
 \code{\link{box_list}()},
 \code{\link{bs4Alert}()},
+\code{\link{bs_extract_status}()},
+\code{\link{bs_statuses}},
 \code{\link{col_10}()},
 \code{\link{col_11}()},
 \code{\link{col_12}()},
@@ -39,8 +41,12 @@ Other ui:
 \code{\link{col_8}()},
 \code{\link{col_9}()},
 \code{\link{col_auto}()},
+\code{\link{copyright}()},
 \code{\link{dynamic_row}()},
 \code{\link{enurl}()},
+\code{\link{fa_arrow_icon}()},
+\code{\link{icon_sb}()},
+\code{\link{infoIcon}()},
 \code{\link{jq_hide}()},
 \code{\link{list_to_li}()},
 \code{\link{list_to_p}()},
@@ -54,7 +60,8 @@ Other ui:
 \code{\link{with_red_star}()}
 
 Other css: 
-\code{\link{add_sass}()}
+\code{\link{add_sass}()},
+\code{\link{list2sass}()}
 }
 \concept{css}
 \concept{ui}

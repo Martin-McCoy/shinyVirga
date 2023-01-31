@@ -25,6 +25,7 @@ Other general:
 \code{\link{browser_server}()},
 \code{\link{browser_ui}()},
 \code{\link{is_shiny.tag}()},
+\code{\link{ns_custom}()},
 \code{\link{ns_find}()},
 \code{\link{path_strip_shiny}()},
 \code{\link{path_strip_to}()},

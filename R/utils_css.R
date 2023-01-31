@@ -53,7 +53,7 @@ add_sass <- function(sass,
 #' @param x \code{list/chr}
 #' @param pre \code{chr} prefix to prepend
 #' @param suf \code{chr} suffix to append
-#'
+#' @family css
 #' @return \code{chr}
 #' @export
 #'

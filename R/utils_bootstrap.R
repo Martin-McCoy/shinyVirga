@@ -1,4 +1,5 @@
 #' Valid Bootstrap Statuses
+#' @family ui
 #' @export
 bs_statuses <- c("Primary",
                  "Secondary",
@@ -10,10 +11,10 @@ bs_statuses <- c("Primary",
                  "Light",
                  "Dark")
 
-#' Extract the bootstrap status of a Bootstrap tag that uses status
+#' Extract the bootstrap status of a Bootstrap tag that uses the status in the class
 #'
 #' @param x \code{shiny.tag}
-#'
+#' @family ui
 #' @return \code{chr}
 #' @export
 #'

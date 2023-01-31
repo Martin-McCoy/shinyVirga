@@ -50,7 +50,7 @@ ns_find <- function(e = rlang::caller_env()) {
 #' @param levels \code{num} indicating what segments of the namespace to keep.
 #' @param add \code{chr} segments to append to the result
 #' @param .ns \code{fun} `ns` function
-#'
+#' @family general
 #' @return \code{chr} The custom namespace string
 #' @export
 #'
@@ -93,6 +93,7 @@ tab_ns_extract <- function(extract, which = c("first", "last", "all")[1], ns_fun
 #' Add the \link[shiny]{observeEvent} call for a hidden ui browser button.
 #' @seealso browser_ui, golem::browser_button
 #' @family general
+#' @family debugging
 #' @param e The environment from which this function is called. **Default** \link[rlang]{caller_env} which typically works as is.
 #' @export
 
@@ -106,6 +107,7 @@ browser_server <- function(e = rlang::caller_env()) {
 #'
 #' @param ns \code{(function)} the `ns` function. Typically called from the parent environment, but in some cases where this function is heavily nested it may need to be provided directly.
 #' @family general
+#' @family debugging
 #' @return \code{(shiny.tag.list)} with the browser button and the script that hides it.
 #' @export
 browser_ui <- function(.ns = ns_find()) {
@@ -176,6 +178,7 @@ path_strip_shiny <- function(path, resourcepath = "www", leading_slash = FALSE) 
 
 #' @title Display the name of the parent module
 #' @description Stack traces often aren't available in Shiny. Use this function inside of modules to know where errors occur
+#' @family debugging
 #' @return Message with the name of the running module and it's environment
 #' @export
 
@@ -189,6 +192,7 @@ msg_mod_fun <- function(.call = rlang::trace_back(bottom = 5), e = rlang::caller
 #' Insert module debugging statements throughout module files.
 #' @param pattern \code{chr} The pattern to search for in files that will be modified.
 #' @return Modifies all files beginning with `pattern` insert \link[shinyVirga]{msg_mod_fun}
+#' @family debugging
 #' @export
 #'
 

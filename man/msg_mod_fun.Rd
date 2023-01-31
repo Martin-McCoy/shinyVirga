@@ -12,3 +12,10 @@ Message with the name of the running module and it's environment
 \description{
 Stack traces often aren't available in Shiny. Use this function inside of modules to know where errors occur
 }
+\seealso{
+Other debugging: 
+\code{\link{browser_server}()},
+\code{\link{browser_ui}()},
+\code{\link{use_msg_mod_fun}()}
+}
+\concept{debugging}

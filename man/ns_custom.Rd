@@ -26,3 +26,15 @@ No \code{-} can be used in user supplied namespace names as this is the separato
 .ns <- function(x) paste0("body-vulnerability-vuln_num_summary-vuln_summary_nums", "-", x)
 ns_custom(-2, add = "blah", .ns = .ns)
 }
+\seealso{
+Other general: 
+\code{\link{browser_server}()},
+\code{\link{browser_ui}()},
+\code{\link{is_shiny.tag}()},
+\code{\link{ns_find}()},
+\code{\link{path_strip_shiny}()},
+\code{\link{path_strip_to}()},
+\code{\link{tab_ns_extract}()},
+\code{\link{warn_id}()}
+}
+\concept{general}

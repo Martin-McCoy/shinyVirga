@@ -15,3 +15,10 @@ Modifies all files beginning with \code{pattern} insert \link[shinyVirga]{msg_mo
 \description{
 Insert module debugging statements throughout module files.
 }
+\seealso{
+Other debugging: 
+\code{\link{browser_server}()},
+\code{\link{browser_ui}()},
+\code{\link{msg_mod_fun}()}
+}
+\concept{debugging}

@@ -19,10 +19,17 @@ Add the invisible browser button ui component
 Other general: 
 \code{\link{browser_server}()},
 \code{\link{is_shiny.tag}()},
+\code{\link{ns_custom}()},
 \code{\link{ns_find}()},
 \code{\link{path_strip_shiny}()},
 \code{\link{path_strip_to}()},
 \code{\link{tab_ns_extract}()},
 \code{\link{warn_id}()}
+
+Other debugging: 
+\code{\link{browser_server}()},
+\code{\link{msg_mod_fun}()},
+\code{\link{use_msg_mod_fun}()}
 }
+\concept{debugging}
 \concept{general}

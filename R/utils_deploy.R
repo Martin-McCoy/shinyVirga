@@ -1,6 +1,6 @@
 
 #' Create a staging directory for deployment files
-#'
+#' @family deploy
 #' @param deploy_path \code{chr} directory in which to stage deployment files
 #' @param use_renv \code{lgl} whether to use the renv.lock & `golem::add_dockerfile_with_renv` (`TRUE`) or the DESCRIPTION `golem::add_dockerfile`
 #' @param copy_r_environ \code{lgl} Whether to include the _.Renviron_ file
@@ -58,8 +58,9 @@ deploy_tar <- function(deploy_path = "deploy",
     devtools::build(path = deploy_path)
   }
 }
-#' Run DMDU Deployment as a background task
+#' Run Deployment as a background task
 #' @inheritParams deploy_tar
+#' @family deploy
 #' @return \code{job} Background job that deploys the dmdu app (not working locally)
 #' @export
 deploy_stage <- function(deploy_path = "deploy",

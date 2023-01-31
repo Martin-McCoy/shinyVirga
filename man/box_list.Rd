@@ -82,6 +82,7 @@ the user to collapse the box.}
     \item{\code{closable}}{If TRUE, display a button in the upper right that allows the user to close the box.}
     \item{\code{maximizable}}{If TRUE, the card can be displayed in full screen mode.}
     \item{\code{icon}}{Header icon. Displayed before title. Expect \code{\link[shiny]{icon}}.}
+    \item{\code{tip_icon}}{Tip icon. Tooltip Icon displayed after title. Expect \code{\link[tippy]{tippy}}.}
     \item{\code{gradient}}{Whether to allow gradient effect for the background color. Default to FALSE.}
     \item{\code{boxToolSize}}{Size of the toolbox: choose among "xs", "sm", "md", "lg".}
     \item{\code{elevation}}{Card elevation.}
@@ -107,6 +108,8 @@ Other ui:
 \code{\link{acc_list}()},
 \code{\link{add_sass}()},
 \code{\link{bs4Alert}()},
+\code{\link{bs_extract_status}()},
+\code{\link{bs_statuses}},
 \code{\link{col_10}()},
 \code{\link{col_11}()},
 \code{\link{col_12}()},
@@ -120,9 +123,13 @@ Other ui:
 \code{\link{col_8}()},
 \code{\link{col_9}()},
 \code{\link{col_auto}()},
+\code{\link{copyright}()},
 \code{\link{css_props}()},
 \code{\link{dynamic_row}()},
 \code{\link{enurl}()},
+\code{\link{fa_arrow_icon}()},
+\code{\link{icon_sb}()},
+\code{\link{infoIcon}()},
 \code{\link{jq_hide}()},
 \code{\link{list_to_li}()},
 \code{\link{list_to_p}()},

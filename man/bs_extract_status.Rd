@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils_bootstrap.R
 \name{bs_extract_status}
 \alias{bs_extract_status}
-\title{Extract the bootstrap status of a Bootstrap tag that uses status}
+\title{Extract the bootstrap status of a Bootstrap tag that uses the status in the class}
 \usage{
 bs_extract_status(x)
 }
@@ -13,5 +13,45 @@ bs_extract_status(x)
 \code{chr}
 }
 \description{
-Extract the bootstrap status of a Bootstrap tag that uses status
+Extract the bootstrap status of a Bootstrap tag that uses the status in the class
 }
+\seealso{
+Other ui: 
+\code{\link{acc_list}()},
+\code{\link{add_sass}()},
+\code{\link{box_list}()},
+\code{\link{bs4Alert}()},
+\code{\link{bs_statuses}},
+\code{\link{col_10}()},
+\code{\link{col_11}()},
+\code{\link{col_12}()},
+\code{\link{col_1}()},
+\code{\link{col_2}()},
+\code{\link{col_3}()},
+\code{\link{col_4}()},
+\code{\link{col_5}()},
+\code{\link{col_6}()},
+\code{\link{col_7}()},
+\code{\link{col_8}()},
+\code{\link{col_9}()},
+\code{\link{col_auto}()},
+\code{\link{copyright}()},
+\code{\link{css_props}()},
+\code{\link{dynamic_row}()},
+\code{\link{enurl}()},
+\code{\link{fa_arrow_icon}()},
+\code{\link{icon_sb}()},
+\code{\link{infoIcon}()},
+\code{\link{jq_hide}()},
+\code{\link{list_to_li}()},
+\code{\link{list_to_p}()},
+\code{\link{make_action_button}()},
+\code{\link{make_columns}()},
+\code{\link{rep_br}()},
+\code{\link{tagRemoveAttributes}()},
+\code{\link{ui_row}()},
+\code{\link{ui_tabs}()},
+\code{\link{undisplay}()},
+\code{\link{with_red_star}()}
+}
+\concept{ui}

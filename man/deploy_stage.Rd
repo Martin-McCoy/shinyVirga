@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils_deploy.R
 \name{deploy_stage}
 \alias{deploy_stage}
-\title{Run DMDU Deployment as a background task}
+\title{Run Deployment as a background task}
 \usage{
 deploy_stage(
   deploy_path = "deploy",
@@ -33,5 +33,10 @@ deploy_stage(
 \code{job} Background job that deploys the dmdu app (not working locally)
 }
 \description{
-Run DMDU Deployment as a background task
+Run Deployment as a background task
 }
+\seealso{
+Other deploy: 
+\code{\link{deploy_tar}()}
+}
+\concept{deploy}

@@ -20,7 +20,7 @@ dynamic_row <- function(...) {
 }
 
 #' Creates an always up to date italicized copyright element.
-#'
+#' @family ui
 #' @return \code{shiny.tag}
 #' @export
 #'
@@ -36,25 +36,6 @@ copyright <- function(copyright_holder = a("Virga Labs ", href = "https://www.vi
   )
 }
 
-#' A small info icon with a tooltip
-#' @description Requires \link[tippy]{use_tippy} to be placed in the `head` of the app. See the [tippy docs]{https://github.com/JohnCoene/tippy} for details
-#' @param ... \code{shiny.tag.list/shiny.tag}s to be rendered as the tooltip
-#' @inheritParams shiny::icon
-#'
-#' @return \code{shiny.tag} tippy enabled info icon
-#' @export
-#'
-#' @examples
-#' infoIcon(tags$p("Help text here"))
-infoIcon <- function(..., name = "info-circle", class = NULL, lib = "font-awesome") {
-  .dots <- rlang::dots_list(...)
-  tippy::tippy(shiny::icon(name, class = class, lib = lib, verify_fa = FALSE), htmltools::doRenderTags(
-    rlang::exec(
-      tagList,
-      !!!.dots
-    )
-  ), interactive = TRUE, allowHTML = TRUE)
-}
 #' Construct a simple Bootstrap card
 #'
 #' @param ... \code{shiny.tag}s

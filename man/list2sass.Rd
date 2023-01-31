@@ -32,3 +32,9 @@ list2sass(pre = "dark-", list(
   darkturquoise = "rgba(9,119,168,1)"
 )) |> cat(sep = '\n')
 }
+\seealso{
+Other css: 
+\code{\link{add_sass}()},
+\code{\link{css_props}()}
+}
+\concept{css}

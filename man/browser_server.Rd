@@ -18,10 +18,17 @@ browser_ui, golem::browser_button
 Other general: 
 \code{\link{browser_ui}()},
 \code{\link{is_shiny.tag}()},
+\code{\link{ns_custom}()},
 \code{\link{ns_find}()},
 \code{\link{path_strip_shiny}()},
 \code{\link{path_strip_to}()},
 \code{\link{tab_ns_extract}()},
 \code{\link{warn_id}()}
+
+Other debugging: 
+\code{\link{browser_ui}()},
+\code{\link{msg_mod_fun}()},
+\code{\link{use_msg_mod_fun}()}
 }
+\concept{debugging}
 \concept{general}

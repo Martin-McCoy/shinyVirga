@@ -33,3 +33,8 @@ deploy_tar(
 \description{
 Create a staging directory for deployment files
 }
+\seealso{
+Other deploy: 
+\code{\link{deploy_stage}()}
+}
+\concept{deploy}

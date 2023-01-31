@@ -18,6 +18,7 @@ ui_row(
   closable = FALSE,
   maximizable = FALSE,
   icon = NULL,
+  tip_icon = NULL,
   gradient = FALSE,
   boxToolSize = "sm",
   elevation = NULL,
@@ -113,6 +114,8 @@ the user to collapse the box.}
 
 \item{icon}{Header icon. Displayed before title. Expect \code{\link[shiny]{icon}}.}
 
+\item{tip_icon}{Tip icon. Tooltip Icon displayed after title. Expect \code{\link[tippy]{tippy}}.}
+
 \item{gradient}{Whether to allow gradient effect for the background color. Default to FALSE.}
 
 \item{boxToolSize}{Size of the toolbox: choose among "xs", "sm", "md", "lg".}
@@ -153,6 +156,8 @@ Other ui:
 \code{\link{add_sass}()},
 \code{\link{box_list}()},
 \code{\link{bs4Alert}()},
+\code{\link{bs_extract_status}()},
+\code{\link{bs_statuses}},
 \code{\link{col_10}()},
 \code{\link{col_11}()},
 \code{\link{col_12}()},
@@ -166,9 +171,13 @@ Other ui:
 \code{\link{col_8}()},
 \code{\link{col_9}()},
 \code{\link{col_auto}()},
+\code{\link{copyright}()},
 \code{\link{css_props}()},
 \code{\link{dynamic_row}()},
 \code{\link{enurl}()},
+\code{\link{fa_arrow_icon}()},
+\code{\link{icon_sb}()},
+\code{\link{infoIcon}()},
 \code{\link{jq_hide}()},
 \code{\link{list_to_li}()},
 \code{\link{list_to_p}()},

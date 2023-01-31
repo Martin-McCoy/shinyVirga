@@ -25,233 +25,560 @@ virgaUtils::install_virga("shinyVirga")
 The utility functions are divided into five categories (some functions
 overlap categories):
 
-<li><b>General:</b> <ul style="list-style-type:none;">
-  <li>
-    <code>browser_server</code>
-    : 
-    <p>Add the observeEvent call for a hidden ui browser button.</p>
+    #> Warning in tools::parse_Rd(.x): man/add_sass.Rd:15: unknown macro '\item'
 
-  </li>
-  <li>
-    <code>browser_ui</code>
-    : 
-    <p>Add the invisible browser button ui component</p>
+<table class="table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Concept</th>
+<th>Title</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>glossarize</td>
+<td></td>
+<td>Add definitions to acronyms</td>
+<td>
+Uses the https://docs.google.com/spreadsheets/d/163ArY3cL67Vp-gzqjKSw_4r2kl-pCqMRsKDrK_zgbM0/edit#gid=0glossary to make tooltip definitions
+</td>
+</tr>
+<tr>
+<td>glossary_sync</td>
+<td></td>
+<td>Update the Virga Labs glossary</td>
+<td>
+Update the Virga Labs glossary
+</td>
+</tr>
+<tr>
+<td>Re-imports</td>
+<td></td>
+<td>Re-imports</td>
+<td>
+Useful functions from other packages
+</td>
+</tr>
+<tr>
+<td>reexports</td>
+<td></td>
+<td>Objects exported from other packages</td>
+<td>
+These objects are imported from other packages. Follow the links
+below to see their documentation.
 
-  </li>
-  <li>
-    <code>ns_find</code>
-    : 
-    <p>Retrieve the <code>ns</code> function</p>
 
-  </li>
-  <li>
-    <code>path_strip_shiny</code>
-    : 
-    <p>Useful for linking to internal files, such as with image source attributes <code style="white-space: pre;">⁠&lt;img src="[path]"&gt;⁠</code></p>
+  htmltoolstags
 
-  </li>
-  <li>
-    <code>path_strip_to</code>
-    : 
-    <p>Useful for linking to internal files, such as with image source attributes <code style="white-space: pre;">⁠&lt;img src="[path]"&gt;⁠</code></p>
+  rlang%|%, %||%
 
-  </li>
-  <li>
-    <code>tab_ns_extract</code>
-    : 
-    <p>Extract the tabname to which this module instance corresponds from the ns</p>
+  shinyisolate, reactiveValues, reactiveValuesToList
 
-  </li>
-  <li>
-    <code>warn_id</code>
-    : 
-    <p>Display a warning in a DOM element of choice</p>
-
-  </li>
-</ul></li>
-<li><b>UI:</b> <ul style="list-style-type:none;">
-  <li>
-    <code>acc_list</code>
-    : 
-    <p>Create an accordion from a list of items</p>
-
-  </li>
-  <li>
-    <code>box_list</code>
-    : 
-    <p>Create boxes around a list of shiny.tags</p>
-
-  </li>
-  <li>
-    <code>bs4Alert</code>
-    : 
-    <p>Create a bootstrap 4 Alert box</p>
-
-  </li>
-  <li>
-    <code>col_auto</code>
-    : 
-    <p>Render an auto-sized column</p>
-
-  </li>
-  <li>
-    <code>dynamic_row</code>
-    : 
-    <p>Create a row with columns that dynamically resizeMust use <code>div(class = 'column', ...)</code> or <code>col_auto()</code> for internal columns to function properly.</p>
-
-  </li>
-  <li>
-    <code>make_columns</code>
-    : 
-    <p>Make columns from assorted shiny.tag elementsSorts shiny.tags into columns based on the maximum number of columns (<code>max_cols</code>) per row</p>
-
-  </li>
-  <li>
-    <code>ui_row</code>
-    : 
-    <p>A default full width row box.</p>
-
-  </li>
-  <li>
-    <code>ui_tabs</code>
-    : 
-    <p>Create a <code>shiny.tag.list</code> of bs4SidebarMenuItems with an input tibble</p>
-
-  </li>
-  <li>
-    <code>write_col_fns</code>
-    : 
-    <p>Write wrappers</p>
-
-  </li>
-</ul></li>
-<li><b>CSS:</b> <ul style="list-style-type:none;">
-  <li>
-    <code>add_sass</code>
-    : 
-    <p>Translate inline Sass to CSS style tag</p>
-
-  </li>
-  <li>
-    <code>css_props</code>
-    : 
-    <p>R List to CSS declarations as a string</p>
-
-  </li>
-</ul></li>
-<li><b>JS:</b> <ul style="list-style-type:none;">
-  <li>
-    <code>js_after</code>
-    : 
-    <p>Add a temporary message after an elementMessage is added directly below element and persists for three seconds</p>
-
-  </li>
-  <li>
-    <code>js_callback</code>
-    : 
-    <p>Create an anonymous JS function to monitor an event and bind it to a shiny input</p>
-
-  </li>
-  <li>
-    <code>js_mouseover_once</code>
-    : 
-    <p>Make a shiny input with named ID with a logical TRUE value when the element is moused over.</p>
-
-  </li>
-  <li>
-    <code>js_set_input_val</code>
-    : 
-    <p>Create a javascript callback that runs when shiny connects.</p>
-
-  </li>
-</ul></li>
-<li><b>Reactives:</b> <ul style="list-style-type:none;">
-  <li>
-    <code>rv</code>
-    : 
-    <p>This function returns an object for storing reactive values. It is similar toa list, but with special capabilities for reactive programming. When you reada value from it, the calling reactive expression takes a reactive dependencyon that value, and when you write to it, it notifies any reactive functionsthat depend on that value. Note that values taken from the reactiveValuesobject are reactive, but the reactiveValues object itself is not.</p>
-
-  </li>
-  <li>
-    <code>rv_index</code>
-    : 
-    <p>Index into a reactiveValues object and return a list</p>
-
-  </li>
-  <li>
-    <code>rv_to_list</code>
-    : 
-    <p>Convenience wrapper around reactiveValuesToList</p>
-
-  </li>
-</ul></li>
-<li><b>golem:</b> <ul style="list-style-type:none;">
-  <li>
-    <code>display</code>
-    : 
-  </li>
-  <li>
-    <code>enurl</code>
-    : 
-    <p>Create an url</p>
-
-  </li>
-  <li>
-    <code>is_shiny.tag</code>
-    : 
-    <p>Is object a shiny tag or tagList</p>
-
-  </li>
-  <li>
-    <code>jq_hide</code>
-    : 
-    <p>Hide an element by calling jquery hide on it</p>
-
-  </li>
-  <li>
-    <code>list_to_li</code>
-    : 
-    <p>Turn an R list into an HTML list</p>
-
-  </li>
-  <li>
-    <code>list_to_p</code>
-    : 
-    <p>Turn an R list into corresponding HTML paragraph tags</p>
-
-  </li>
-  <li>
-    <code>make_action_button</code>
-    : 
-    <p>Make current tag behave like an action button.</p>
-
-  </li>
-  <li>
-    <code>named_to_li</code>
-    : 
-  </li>
-  <li>
-    <code>rep_br</code>
-    : 
-    <p>Repeat tags$br</p>
-
-  </li>
-  <li>
-    <code>tagRemoveAttributes</code>
-    : 
-    <p>Remove a tag attribute</p>
-
-  </li>
-  <li>
-    <code>undisplay</code>
-    : 
-    <p>Hide or display a tag</p>
-
-  </li>
-  <li>
-    <code>with_red_star</code>
-    : 
-    <p>Adds a red star at the end of the text(for example for indicating mandatory fields).</p>
-
-  </li>
-</ul></li>
+  UU%|0|%, %|legit|%, %|try|%, %|zchar|%, write_dir_fn
+</td>
+</tr>
+<tr>
+<td>shinyVirga-package</td>
+<td></td>
+<td>shinyVirga: A Collection of R shiny utilities by Virga Labs</td>
+<td>
+A collection of useful utility functions for working with shiny and shiny frameworks
+</td>
+</tr>
+<tr>
+<td>simpleCard</td>
+<td></td>
+<td>Construct a simple Bootstrap card</td>
+<td>
+Construct a simple Bootstrap card
+</td>
+</tr>
+<tr>
+<td>add_sass</td>
+<td>css</td>
+<td>Translate inline Sass to CSS style tag</td>
+<td>
+Translate inline Sass to CSS style tag
+</td>
+</tr>
+<tr>
+<td>css_props</td>
+<td>css</td>
+<td>R List to CSS declarations as a string</td>
+<td>
+R List to CSS declarations as a string
+</td>
+</tr>
+<tr>
+<td>list2sass</td>
+<td>css</td>
+<td>Conver a list or vector to Sass variables</td>
+<td>
+Conver a list or vector to Sass variables
+</td>
+</tr>
+<tr>
+<td>browser_server</td>
+<td>debugging</td>
+<td>Add the observeEvent call for a hidden ui browser button.</td>
+<td>
+Add the observeEvent call for a hidden ui browser button.
+</td>
+</tr>
+<tr>
+<td>browser_ui</td>
+<td>debugging</td>
+<td>Add the invisible browser button ui component</td>
+<td>
+Add the invisible browser button ui component
+</td>
+</tr>
+<tr>
+<td>msg_mod_fun</td>
+<td>debugging</td>
+<td>Display the name of the parent module</td>
+<td>
+Stack traces often aren't available in Shiny. Use this function inside of modules to know where errors occur
+</td>
+</tr>
+<tr>
+<td>use_msg_mod_fun</td>
+<td>debugging</td>
+<td>Insert module debugging statements throughout module files.</td>
+<td>
+Insert module debugging statements throughout module files.
+</td>
+</tr>
+<tr>
+<td>deploy_stage</td>
+<td>deploy</td>
+<td>Run Deployment as a background task</td>
+<td>
+Run Deployment as a background task
+</td>
+</tr>
+<tr>
+<td>deploy_tar</td>
+<td>deploy</td>
+<td>Create a staging directory for deployment files</td>
+<td>
+Create a staging directory for deployment files
+</td>
+</tr>
+<tr>
+<td>is_shiny.tag</td>
+<td>general</td>
+<td>Is object a shiny tag or tagList</td>
+<td>
+Is object a shiny tag or tagList
+</td>
+</tr>
+<tr>
+<td>ns_custom</td>
+<td>general</td>
+<td>Create a custom namespace string.</td>
+<td>
+Useful for referencing objects nested in adjacent modules
+</td>
+</tr>
+<tr>
+<td>ns_find</td>
+<td>general</td>
+<td>Retrieve the ns function</td>
+<td>
+Designed to find the ns function from any level of nesting within a UI or Server module. htmlhttps://lifecycle.r-lib.org/articles/stages.html#experimentallifecycle-experimental.svgoptions: alt='[Experimental]'[Experimental]
+</td>
+</tr>
+<tr>
+<td>path_strip_shiny</td>
+<td>general</td>
+<td>Strip a file path to everything after resourcepath if shiny is running</td>
+<td>
+Useful for linking to internal files, such as with image source attributes &lt;img src="[path]"&gt;
+</td>
+</tr>
+<tr>
+<td>path_strip_to</td>
+<td>general</td>
+<td>Strip a file path to everything after resourcepath</td>
+<td>
+Useful for linking to internal files, such as with image source attributes &lt;img src="[path]"&gt;
+</td>
+</tr>
+<tr>
+<td>tab_ns_extract</td>
+<td>general</td>
+<td>Extract the tabname to which this module instance corresponds from the ns</td>
+<td>
+Extract the tabname to which this module instance corresponds from the ns
+</td>
+</tr>
+<tr>
+<td>warn_id</td>
+<td>general</td>
+<td>Display a warning in a DOM element of choice</td>
+<td>
+Display a warning in a DOM element of choice
+</td>
+</tr>
+<tr>
+<td>enurl</td>
+<td>golem</td>
+<td>Create an url</td>
+<td>
+Create an url
+</td>
+</tr>
+<tr>
+<td>jq_hide</td>
+<td>golem</td>
+<td>Hide an element by calling jquery hide on it</td>
+<td>
+Hide an element by calling jquery hide on it
+</td>
+</tr>
+<tr>
+<td>list_to_li</td>
+<td>golem</td>
+<td>Turn an R list into an HTML list</td>
+<td>
+Turn an R list into an HTML list
+</td>
+</tr>
+<tr>
+<td>list_to_p</td>
+<td>golem</td>
+<td>Turn an R list into corresponding HTML paragraph tags</td>
+<td>
+Turn an R list into corresponding HTML paragraph tags
+</td>
+</tr>
+<tr>
+<td>make_action_button</td>
+<td>golem</td>
+<td>Make the current tag behave like an action button</td>
+<td>
+Make current tag behave like an action button. htmlhttps://lifecycle.r-lib.org/articles/stages.html#experimentallifecycle-experimental.svgoptions: alt='[Experimental]'[Experimental]
+</td>
+</tr>
+<tr>
+<td>rep_br</td>
+<td>golem</td>
+<td>Repeat tags$br</td>
+<td>
+Repeat tags$br
+</td>
+</tr>
+<tr>
+<td>tagRemoveAttributes</td>
+<td>golem</td>
+<td>Remove a tag attribute</td>
+<td>
+Remove a tag attribute
+</td>
+</tr>
+<tr>
+<td>undisplay</td>
+<td>golem</td>
+<td>Hide or display a tag</td>
+<td>
+Hide or display a tag
+</td>
+</tr>
+<tr>
+<td>with_red_star</td>
+<td>golem</td>
+<td>Add a red star at the end of the text</td>
+<td>
+Adds a red star at the end of the text
+(for example for indicating mandatory fields).
+</td>
+</tr>
+<tr>
+<td>js_after</td>
+<td>JS</td>
+<td>Add a temporary message after an element
+Message is added directly below element and persists for three seconds</td>
+<td>
+Add a temporary message after an element
+Message is added directly below element and persists for three seconds
+</td>
+</tr>
+<tr>
+<td>js_callback</td>
+<td>JS</td>
+<td>Create an anonymous JS function to monitor an event and bind it to a shiny input</td>
+<td>
+Create an anonymous JS function to monitor an event and bind it to a shiny input
+</td>
+</tr>
+<tr>
+<td>js_mouseover_once</td>
+<td>JS</td>
+<td>Make a shiny input with named ID with a logical TRUE value when the element is moused over.</td>
+<td>
+Make a shiny input with named ID with a logical TRUE value when the element is moused over.
+</td>
+</tr>
+<tr>
+<td>js_set_input_val</td>
+<td>JS</td>
+<td>Create a javascript callback that runs when shiny connects.</td>
+<td>
+Create a javascript callback that runs when shiny connects.
+</td>
+</tr>
+<tr>
+<td>rv_index</td>
+<td>reactives</td>
+<td>Index into a reactiveValues object and return a list</td>
+<td>
+Index into a reactiveValues object and return a list
+</td>
+</tr>
+<tr>
+<td>rv_to_list</td>
+<td>reactives</td>
+<td>Convert a reactiveValues object to a list</td>
+<td>
+Convenience wrapper around reactiveValuesToList
+</td>
+</tr>
+<tr>
+<td>rv</td>
+<td>reactives</td>
+<td>Create an object for storing reactive values</td>
+<td>
+This function returns an object for storing reactive values. It is similar to
+a list, but with special capabilities for reactive programming. When you read
+a value from it, the calling reactive expression takes a reactive dependency
+on that value, and when you write to it, it notifies any reactive functions
+that depend on that value. Note that values taken from the reactiveValues
+object are reactive, but the reactiveValues object itself is not.
+</td>
+</tr>
+<tr>
+<td>acc_list</td>
+<td>ui</td>
+<td>Create an accordion from a list of items</td>
+<td>
+Create an accordion from a list of items
+</td>
+</tr>
+<tr>
+<td>box_list</td>
+<td>ui</td>
+<td>Create boxes around a list of shiny.tags</td>
+<td>
+Create boxes around a list of shiny.tags
+</td>
+</tr>
+<tr>
+<td>bs_extract_status</td>
+<td>ui</td>
+<td>Extract the bootstrap status of a Bootstrap tag that uses the status in the class</td>
+<td>
+Extract the bootstrap status of a Bootstrap tag that uses the status in the class
+</td>
+</tr>
+<tr>
+<td>bs_statuses</td>
+<td>ui</td>
+<td>Valid Bootstrap Statuses</td>
+<td>
+Valid Bootstrap Statuses
+</td>
+</tr>
+<tr>
+<td>bs4Alert</td>
+<td>ui</td>
+<td>Create a bootstrap 4 Alert box</td>
+<td>
+Create a bootstrap 4 Alert box
+</td>
+</tr>
+<tr>
+<td>col_1</td>
+<td>ui</td>
+<td>Create a column of width 1</td>
+<td>
+Create a column of width 1
+</td>
+</tr>
+<tr>
+<td>col_10</td>
+<td>ui</td>
+<td>Create a column of width 10</td>
+<td>
+Create a column of width 10
+</td>
+</tr>
+<tr>
+<td>col_11</td>
+<td>ui</td>
+<td>Create a column of width 11</td>
+<td>
+Create a column of width 11
+</td>
+</tr>
+<tr>
+<td>col_12</td>
+<td>ui</td>
+<td>Create a column of width 12</td>
+<td>
+Create a column of width 12
+</td>
+</tr>
+<tr>
+<td>col_2</td>
+<td>ui</td>
+<td>Create a column of width 2</td>
+<td>
+Create a column of width 2
+</td>
+</tr>
+<tr>
+<td>col_3</td>
+<td>ui</td>
+<td>Create a column of width 3</td>
+<td>
+Create a column of width 3
+</td>
+</tr>
+<tr>
+<td>col_4</td>
+<td>ui</td>
+<td>Create a column of width 4</td>
+<td>
+Create a column of width 4
+</td>
+</tr>
+<tr>
+<td>col_5</td>
+<td>ui</td>
+<td>Create a column of width 5</td>
+<td>
+Create a column of width 5
+</td>
+</tr>
+<tr>
+<td>col_6</td>
+<td>ui</td>
+<td>Create a column of width 6</td>
+<td>
+Create a column of width 6
+</td>
+</tr>
+<tr>
+<td>col_7</td>
+<td>ui</td>
+<td>Create a column of width 7</td>
+<td>
+Create a column of width 7
+</td>
+</tr>
+<tr>
+<td>col_8</td>
+<td>ui</td>
+<td>Create a column of width 8</td>
+<td>
+Create a column of width 8
+</td>
+</tr>
+<tr>
+<td>col_9</td>
+<td>ui</td>
+<td>Create a column of width 9</td>
+<td>
+Create a column of width 9
+</td>
+</tr>
+<tr>
+<td>col_auto</td>
+<td>ui</td>
+<td>Render an auto-sized column</td>
+<td>
+Render an auto-sized column
+</td>
+</tr>
+<tr>
+<td>copyright</td>
+<td>ui</td>
+<td>Creates an always up to date italicized copyright element.</td>
+<td>
+Creates an always up to date italicized copyright element.
+</td>
+</tr>
+<tr>
+<td>dynamic_row</td>
+<td>ui</td>
+<td>Create a row with columns that dynamically resize
+Must use div(class = 'column', ...) or col_auto() for internal columns to function properly.</td>
+<td>
+Create a row with columns that dynamically resize
+Must use div(class = 'column', ...) or col_auto() for internal columns to function properly.
+</td>
+</tr>
+<tr>
+<td>fa_arrow_icon</td>
+<td>ui</td>
+<td>FontAwesome Arrow Icons</td>
+<td>
+FontAwesome Arrow Icons
+</td>
+</tr>
+<tr>
+<td>icon_sb</td>
+<td>ui</td>
+<td>Wrapper for icon that supports svg images</td>
+<td>
+Wrapper for icon that supports svg images
+</td>
+</tr>
+<tr>
+<td>infoIcon</td>
+<td>ui</td>
+<td>A small info icon with a tooltip</td>
+<td>
+Requires use_tippy to be placed in the head of the app. See the [tippy docs]https://github.com/JohnCoene/tippy for details
+</td>
+</tr>
+<tr>
+<td>make_columns</td>
+<td>ui</td>
+<td>Make columns from assorted shiny.tag elements</td>
+<td>
+Sorts shiny.tags into columns based on the maximum number of columns (max_cols) per row. htmlhttps://lifecycle.r-lib.org/articles/stages.html#experimentallifecycle-experimental.svgoptions: alt='[Experimental]'[Experimental]
+</td>
+</tr>
+<tr>
+<td>ui_row</td>
+<td>ui</td>
+<td>A default full width row box.</td>
+<td>
+A default full width row box.
+</td>
+</tr>
+<tr>
+<td>ui_tabs</td>
+<td>ui</td>
+<td>Create a shiny.tag.list of bs4SidebarMenuItems with an input tibble</td>
+<td>
+Create a shiny.tag.list of bs4SidebarMenuItems with an input tibble
+</td>
+</tr>
+<tr>
+<td>write_col_fns</td>
+<td>ui
+Writes convenient wrappers around
+column(12, ...), column(6, ...), column(4, ...)...
+named col_1, col_2 etc.</td>
+<td>Write wrappers</td>
+<td>
+Write wrappers
+</td>
+</tr>
+</tbody>
+</table>
