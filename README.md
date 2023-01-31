@@ -25,8 +25,6 @@ virgaUtils::install_virga("shinyVirga")
 The utility functions are divided into five categories (some functions
 overlap categories):
 
-    #> Warning in tools::parse_Rd(.x): man/add_sass.Rd:15: unknown macro '\item'
-
 <table class="table">
 <thead>
 <tr>
