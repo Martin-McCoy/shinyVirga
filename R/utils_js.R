@@ -5,7 +5,7 @@
 #' @param properties \code{list} of css rules to apply to the parent element of the content. Defaults to jQuery validation styled messages.
 #' @param delay \code{dbl} duration in ms before removing the content from the element. Set to 0 to allow the element to persist.
 #' @inheritParams shinyjs::html
-#' @param .ns \code{fun} ns function. Typically found automatically
+#' @param .ns \code{fun} ns function. Typically found automatically if inside a `server` module. **It is recommended to supply this argument if using this function in a `ui` module.**
 #' @family JS
 #' @return Content added to element
 #' @export

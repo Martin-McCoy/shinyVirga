@@ -48,7 +48,7 @@ Shiny.setInputValue('{{input}}', {{value}}, {priority: 'event'});
 
 \item{as_tag}{\code{lgl} Whether the output should be a script tag.}
 
-\item{.ns}{\code{fun} ns function. Typically found automatically}
+\item{.ns}{\code{fun} ns function. Typically found automatically if inside a \code{server} module. \strong{It is recommended to supply this argument if using this function in a \code{ui} module.}}
 
 \item{add_tag}{\code{lgl} whether to enclose in a script tag}
 }

@@ -27,7 +27,7 @@ js_after(
 \item{asis}{If \code{TRUE}, use the ID as-is even when inside a module
 (instead of adding the namespace prefix to the ID).}
 
-\item{.ns}{\code{fun} ns function. Typically found automatically}
+\item{.ns}{\code{fun} ns function. Typically found automatically if inside a \code{server} module. \strong{It is recommended to supply this argument if using this function in a \code{ui} module.}}
 }
 \value{
 Content added to element

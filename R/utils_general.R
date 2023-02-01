@@ -8,8 +8,12 @@
 
 
 ns_find <- function(e = rlang::caller_env()) {
+  tb <- rlang::trace_back()
+  calls <- rev(tb$call)
+  is_ui <- purrr::some(calls, \(.x) {stringr::str_detect(rlang::call_name(.x), "^mod.*ui" ) %|0|% FALSE})
   tries <- rlang::exprs(
     get0("ns", inherits = FALSE),
+    shiny::getDefaultReactiveDomain()$ns,
     {
       i <- 1
       need_mod = TRUE
@@ -28,7 +32,6 @@ ns_find <- function(e = rlang::caller_env()) {
       # Get the ns from the first module environment
       get0("ns", envir = rlang::caller_env(i), inherits = FALSE)
     },
-    shiny::getDefaultReactiveDomain()$ns,
     {
       UU::gwarn("Could not find ns function. Using {.code function(x) x}")
       out <- function(x) x
@@ -36,6 +39,10 @@ ns_find <- function(e = rlang::caller_env()) {
   )
   out <- NULL
   i <- 1
+  if (is_ui) {
+    # The call stack search should be in front of the getDefaultReactiveDomain as getDefaultReactiveDomain will typically not return the appropriate ns in the UI
+    tries <- tries[c(1,3,2,4)]
+  }
   while (!rlang::is_function(out)) {
     out <- rlang::eval_bare(tries[[i]], env = e)
     i <- i + 1
