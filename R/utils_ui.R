@@ -583,3 +583,132 @@ row_wrap.list <- function(x, nm, icons) {
   }
   shiny::fluidRow(tl)
 }
+
+#' @title Create a gridded card layout
+#' @description Creates a grid layout informed by the [design spec](https://miro.com/app/board/o9J_l90QVck=/?moveToWidget=3074457361986467451&cot=14)
+#' @param ... Any number of \link[shiny]{tag}s or \link[shiny]{tagList}s or `list`s (each treated as a separate entity to be housed in a row.). `shiny.tag`s and `shiny.tag.list`s, if named, will be inside of a \link[bs4Dash]{bs4Card} with the name as the title on it's own row. A `list` with named objects will be on a row with individual \link[bs4Dash]{bs4Card}s.
+#' @param description A shiny tag or tagList to be added to the description box
+#' @param infoboxes \code{(named list/tagList)} with length divisible by 12. Will be added to the right of the description
+#' \itemize{
+#'   \item{\code{named_list}}{ A named list of values to be put into infoboxes. Infobox will be titled by the name of the list item.}
+#'   \item{\code{tag/tagList}}{ shiny tag or tagList of items to include. These will individually be added to appropriate sized columns.}
+#' }
+#' @param graphs \code{shiny.tag/shiny.tag.list} Graphics to be placed in the further right column of the top summary area
+#' @param top_row \code{shiny.tag/shiny.tag.list} All elements belonging to the top row
+#' @return A `shiny::fluidPage` with the grid layout
+#' @export
+
+card_grid <- function(..., icons = FALSE, top_row = NULL, description, infoboxes, graphs) {
+
+  # Top Row Summary ----
+  # Wed Sep 08 20:04:03 2021
+
+  has <- c(
+    description = !missing(description),
+    infobox = !missing(infoboxes),
+    graphs = !missing(graphs)
+  )
+  if (is.null(top_row) && any(has))
+    top_row <- list()
+  e <- environment()
+  purrr::iwalk(has, \(.x, .y) {
+    if (.x) {
+      top_row[[.y]] <<- get0(.y, envir = e, inherits = FALSE)
+    }
+  })
+
+
+
+  if (UU::is_legit(top_row)) {
+    col_width <- 12 %/% length(top_row)
+    top_row <- shinyVirga::ui_row(
+      rlang::exec(fluidRow, purrr::imap(top_row, \(.x, .y) {
+        shinyVirga::ui_row(
+          row = FALSE,
+          width = col_width,
+          .x,
+          class = "grid-summary",
+          id = paste0("grid-summary-", .y)
+        )
+      })) ,
+      title = "Summary",
+      width = 12,
+      collapsible = TRUE,
+      elevation = 2,
+      id = "summary"
+    )
+  }
+
+
+
+
+  # Row Viz ----
+  # Wed Sep 08 20:03:52 2021
+  viz <- rlang::dots_list(..., .named = TRUE)
+  if (UU::is_legit(viz)) {
+    .viz <- list()
+    for (r in seq_along(viz)) {
+      if (!names(viz[r]) %in% c("list(...)", "fluidRow(...)", "<shiny.tg>") && UU::is_legit(names(viz[r]))) {
+        # Case where a named entity as provided
+        .viz[[r]] <- row_wrap(viz[[r]], names(viz[r]), icons = icons)
+      }  else if (!inherits(viz[[r]], c("shiny.tag", "shiny.tag.list"))) {
+        # Case where a list is provided
+        .viz[[r]] = row_wrap(viz[[r]], icons = icons)
+      } else {
+        # Case where shiny.tag is provided as is
+        .viz[[r]] <- viz[[r]]
+      }
+    }
+    .viz <- do.call(shiny::tagList, .viz)
+  } else {
+    .viz <- viz
+  }
+
+
+
+  shiny::fluidPage(
+    top_row,
+    .viz,
+    tags$script( type = "text/javascript",
+                 UU::as_js("
+     $(document).ready(() => {
+       $(function(){
+          let card = $('.card');
+          let find = ['[data-card-widget=\"maximize\"]','.accordion a.collapsed'];
+          let controls = find.map((e, i) => {
+            return card.find(e);
+          });
+          function doResize(e) {
+            // it may take some time for the resizing of the card to happen
+            setTimeout(function(){
+              let target = $(e.target);
+              let charts = target
+              .closest('.grid_card')
+              .find('.echarts4r')
+              let charts_n = charts.length;
+              charts.each(function(index){
+                let chart = charts[index];
+
+                if(!chart)
+                  return;
+
+                let id = $(chart).attr('id');
+
+                let $parent = $(chart).parent();
+                let w = $parent.width();
+                let h = $parent.height() / charts_n;
+
+                console.log(`Resizing ${id}: w: ${w}px h: ${h}px`)
+                get_e_charts(id).resize({width: w, height: h});
+              })
+            }, 250);
+          }
+          controls.forEach((e, i) => {
+            return e.on('click', doResize);
+          })
+        });
+     })
+     "))
+  )
+
+}
