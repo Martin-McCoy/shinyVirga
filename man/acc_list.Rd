@@ -28,7 +28,7 @@ acc_list(
 \item{...}{
   Arguments passed on to \code{\link[bs4Dash:accordion]{bs4Dash::accordion}}
   \describe{
-    \item{\code{}}{}
+    \item{\code{class}}{Class applied to the accordion div}
   }}
 }
 \value{

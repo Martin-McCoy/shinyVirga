@@ -466,3 +466,120 @@ glossarize <- function(x, as_text = FALSE, .glossary = glossary) {
   else
     x
 }
+
+#' Is a shiny.tag or shiny.tag.list a Bootstrap card?
+#'
+#' @param x \code{shiny.tag/shiny.tag.list}
+#'
+#' @return \code{lgl}
+#' @export
+#'
+#' @examples
+#' is_card(bs4Dash::bs4Card())
+
+is_card <- function(x) {
+  any(purrr::pluck(x, "children",1,"attribs",1) == "card") || any(purrr::pluck(x, "children",1,"children",1,"attribs",1) == "card")
+}
+
+#' Is a shiny.tag or shiny.tag.list have a Bootstrap card in the nesting structure?
+#'
+#' @param x \code{shiny.tag/shiny.tag.list}
+#'
+#' @return \code{lgl}
+#' @export
+#'
+#' @examples
+#' has_card(shiny::tagList(shiny::div(bs4Dash::bs4Card())))
+
+has_card <- function(x) {
+  any(rapply(bs4Dash::bs4Card(), classes = "character", \(.x) {
+    stringr::str_detect(.x, "card")
+  }))
+}
+
+#' Convert a string to a valid HTML ID
+#'
+#' @param x \code{chr}
+#'
+#' @return \code{chr}
+#' @export
+#'
+#' @examples
+#' nm_to_id("A random string")
+nm_to_id <- function(x) {
+  paste0(stringr::str_extract_all(tolower(x), "[[:alnum:]]+")[[1]], collapse = "_")
+}
+
+#' @title Wrap in a \link[bs4Dash]{bs4Card} with default options
+#' @description Wraps in a width 12 card, converts the title to an ID by replacing spaces with \code{_}. Adds a \code{tip_icon} if a tip named with the title exists in \code{tips}.
+#' @inherit bs4Dash::bs4Card params
+#' @inheritDotParams bs4Dash::bs4Card
+#' @export
+
+grid_card <- function(..., title = NULL, id = NULL, class = NULL, tip_icon = NULL, width = 12, maximizable = TRUE, elevation = 2, more_info = NULL, collapsible = FALSE) {
+  if (is.null(id) && !is.null(title))
+    id <- nm_to_id(title)
+
+  if (!is.null(title) && !is.null(tips[[title]]) && is.null(tip_icon))
+    tip_icon <- tippy::tippy(shiny::icon("info-circle", verify_fa = FALSE), htmltools::doRenderTags(tips[[title]]), interactive = TRUE, allowHTML = TRUE)
+
+  if (exists("acc_info") && !is.null(title) && !is.null(acc_info[[title]]) && is.null(more_info))
+    more_info <- bs4Dash::accordion(
+      id = paste0(id, "_info"),
+      class =
+      bs4Dash::accordionItem(
+        tags$p(HTML(acc_info[[title]])),
+        title = tagList("More Info", shiny::icon("chevron-down", class = "float-right"))
+      )
+    )
+
+  .args <- rlang::list2(
+    ...,
+    class = class,
+    footer = more_info,
+    title = title,
+    id = id,
+    width = width,
+    tip_icon = tip_icon,
+    maximizable = maximizable,
+    elevation = elevation,
+    collapsible = collapsible
+  )
+  do.call(bs4Dash::bs4Card, .args) |>
+    tagAppendAttributes(
+      class = "grid_card"
+    )
+}
+
+row_wrap <- function(x, nm, icons) {
+  UseMethod("row_wrap")
+}
+#' @title S3 Method for row_wrap shiny.tag.list
+#' @export
+row_wrap.shiny.tag.list <- function(x, nm, icons) {
+  if (!missing(nm) && !is_card(x)) {
+    tl <- grid_card(x, title = nm)
+  } else {
+    tl <- x
+  }
+  shiny::fluidRow(tl)
+}
+#' @title S3 Method for row_wrap shiny.tag
+#' @export
+row_wrap.shiny.tag <- row_wrap.shiny.tag.list
+
+#' @title S3 Method for row_wrap list
+#' @export
+row_wrap.list <- function(x, nm, icons) {
+  tl <- do.call(shiny::tagList, purrr::imap(x, ~ {
+    grid_card(
+      .x,
+      title = .y,
+      width = 12 %/% length(x),
+    )
+  }))
+  if (!missing(nm) && !is_card(x)) {
+    tl <- grid_card(tl, nm)
+  }
+  shiny::fluidRow(tl)
+}
