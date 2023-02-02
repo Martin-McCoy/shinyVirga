@@ -324,14 +324,16 @@ ui_tabs <- function(tabs) {
       bs4Dash::bs4SidebarMenuItem,
       !!!purrr::list_modify(
         sb_args,
-        icon = purrr::when(
-          x$icon,
-          inherits(., c("shiny.tag", "shiny.tag.list")) ~ x$icon,
-          is.character(.) ~ icon_sb(x$icon),
-          ~ NULL
-        )
+        icon = if (inherits(x$icon, c("shiny.tag", "shiny.tag.list"))) {
+          x$icon
+        } else if (is.character(x$icon)) {
+          icon_sb(x$icon)
+        } else {
+          NULL
+        }
       )
     )
+
   })
 }
 
