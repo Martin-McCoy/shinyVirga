@@ -12,7 +12,7 @@
 css_props <- function(..., declarations = NULL) {
   .dots <- rlang::dots_list(..., .named = TRUE)
   declarations <- rlang::list2(!!!.dots, !!!declarations)
-  glue::glue_collapse(purrr::imap_chr(declarations, ~glue::glue("{.y}: {.x};")), sep = "\n")
+  paste0(purrr::imap_chr(declarations, ~glue::glue("{.y}: {.x};")), collapse = "\n")
 }
 
 
