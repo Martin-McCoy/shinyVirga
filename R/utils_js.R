@@ -40,6 +40,13 @@ js_after <- function(id,
     shinyjs::delay(delay, shinyjs::hide(selector = '.js-after', asis = TRUE))
 
 }
+make_id <- function(x) {
+  if (grepl("^#", x))
+    x
+  else
+    paste0("#", x)
+}
+make_id_ <- Vectorize(make_id)
 
 
 #' Create an anonymous JS function to monitor an event and bind it to a shiny input
