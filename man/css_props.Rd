@@ -4,12 +4,14 @@
 \alias{css_props}
 \title{R List to CSS declarations as a string}
 \usage{
-css_props(..., declarations = NULL)
+css_props(..., declarations = NULL, inline = FALSE)
 }
 \arguments{
 \item{...}{\code{chr} Named css properties, IE characters in the from \code{property = value}}
 
 \item{declarations}{\code{list} CSS Declarations as a named list ie  \code{list(property = value)}}
+
+\item{inline}{\code{lgl} Should CSS Properties be in inline format?}
 }
 \value{
 \code{chr} properties as CSS character with newlines

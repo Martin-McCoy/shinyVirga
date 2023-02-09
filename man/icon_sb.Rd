@@ -4,7 +4,16 @@
 \alias{icon_sb}
 \title{Wrapper for \link[shiny]{icon} that supports svg images}
 \usage{
-icon_sb(name, class = NULL, lib = "font-awesome", ...)
+icon_sb(
+  name,
+  class = NULL,
+  lib = "font-awesome",
+  inactive_path = NULL,
+  active_path = NULL,
+  inactive_props = NULL,
+  active_props = inactive_props,
+  ...
+)
 }
 \arguments{
 \item{name}{\code{chr} FontAwesome name or image path}
@@ -14,6 +23,10 @@ icon_sb(name, class = NULL, lib = "font-awesome", ...)
 supported styles).}
 
 \item{lib}{The icon library to use. Either \code{"font-awesome"} or \code{"glyphicon"}.}
+
+\item{inactive_path}{\code{chr} path to the icon image file in it's inactive (unselected) state, starting with \code{www}.}
+
+\item{active_path}{\code{chr} path to the icon image file in it's active (selected) state, starting with \code{www}.}
 
 \item{...}{Arguments passed to the \verb{<i>} tag of \link[htmltools:builder]{htmltools::tags}.}
 }
