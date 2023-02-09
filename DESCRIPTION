@@ -1,6 +1,6 @@
 Package: shinyVirga
 Title: A Collection of R shiny utilities by Virga Labs
-Version: 0.17.0
+Version: 0.18.0
 Authors@R: person("Stephen", "Holsenbeck", , "stephen@virgalabs.io", role = c("aut", "cre"))
 Description: A collection of useful utility functions for working with shiny and shiny frameworks
 License: LGPL (>= 2.1)
@@ -8,6 +8,7 @@ Imports:
     bs4Dash (>= 2.2.1),
     checkmate (>= 2.1.0),
     cli (>= 3.4.1),
+    colorspace,
     devtools (>= 2.4.5),
     dplyr,
     fs,
@@ -27,6 +28,7 @@ Imports:
     shinyjs,
     snakecase (>= 0.11.0),
     stringr,
+    tibble,
     tippy (>= 1.0.0),
     UU (>= 1.15.0)
 Suggests: 

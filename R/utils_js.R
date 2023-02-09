@@ -113,6 +113,7 @@ js_callout <- function(id,
                        onNext = NULL,
                        onPrevious = NULL,
                        asis = FALSE,
+                       animate_el = TRUE,
                        .ns = ns_find()) {
 
 
@@ -159,11 +160,71 @@ js_callout <- function(id,
         "driver.highlight(*{driver$args}*)")
     )
 
+    if (animate_el) {
 
+
+
+    }
     the_js <- UU::glue_js(to_glue)
     shinyjs::runjs(the_js)
 }
 
+#' Add an animated glow to an element
+#'
+#' @inheritParams js_after
+#' @param color \code{chr} A hexadecimal color to animate with
+#'
+#' @export
+#'
+js_glow <- function(id,
+                    color = "deepskyblue",
+                    asis = FALSE,
+                    delay = NULL) {
+  color_alpha <-
+    colorspace::adjust_transparency(color, c(rep(.8, 4), rep(.5, 3), rep(.3, 3)))
+  text.shadow <- tibble::tibble(a = 0,
+                                b = 0,
+                                width = paste0(seq(10, 200, by = 20), "px"),
+                                color_alpha)
+  box.shadow <- tibble::tibble(a = 0,
+                               b = 0,
+                               width = paste0(seq(5, 50, by = 5), "px"),
+                               color_alpha)
+  text.css <- purrr::pmap_chr(text.shadow, \(...) {
+    .x <- list(...)
+    paste(.x, collapse = " ")
+  }) |> glue::glue_collapse(sep = ",\n")
+  box.css <- purrr::pmap_chr(box.shadow, \(...) {
+    .x <- list(...)
+    paste(.x, collapse = " ")
+  }) |> glue::glue_collapse(sep = ",\n")
+  style <- UU::glue_js(
+    "var style = document.createElement('style');
+      style.innerHTML = '
+      $easeInOutQuad: cubic-bezier(0.455, 0.030, 0.515, 0.955);
+        @keyframes neonGlow {
+          0% {
+            text-shadow: *{text.css}*;
+            box-shadow:  *{box.css}*;
+          }
+          100% {
+            text-shadow: *{text.css}*;
+            box-shadow:  *{box.css}*;
+          }
+        }
+
+        .animated {
+          animation: neonGlow 2s infinite alternate $easeInOutQuad;
+        }
+      ';
+      document.head.appendChild(style);"
+  )
+  shinyjs::runjs(style)
+  shinyjs::addClass(id = id, asis = asis, class = "animated")
+  if (!is.null(delay))
+    shinyjs::delay(5000,
+                   shinyjs::removeClass(id = id, asis = asis, class = "animated"))
+}
 #' Create an anonymous JS function to monitor an event and bind it to a shiny input
 #' @inheritParams js_after
 #' @param js \code{(chr)} path to js file with just the anonymous function, or js code to interpolate into a generalized anonymous javascript function that uses glue insertions demarcated by `{{}}`:

@@ -31,6 +31,7 @@ js_callout(
   onNext = NULL,
   onPrevious = NULL,
   asis = FALSE,
+  animate_el = TRUE,
   .ns = ns_find()
 )
 }
