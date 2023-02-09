@@ -60,6 +60,109 @@ make_id <- function(x) {
 }
 make_id_ <- Vectorize(make_id)
 
+#' Create a driver.js callout
+#' Must include `shinyVirga::use_driver.js()` in the head of the page.
+#' @param className className to wrap driver.js popover
+#' @param animate Whether to animate or not
+#' @param opacity Background opacity (0 means only popovers and without overlay)
+#' @param padding Distance of element from around the edges
+#' @param allowClose Whether the click on overlay should close or not
+#' @param overlayClickNext Whether the click on overlay should move next
+#' @param doneBtnText Text on the final button
+#' @param closeBtnText Text on the close button for this step
+#' @param stageBackground Background color for the staged behind highlighted element
+#' @param nextBtnText Next button text for this step
+#' @param prevBtnText Previous button text for this step
+#' @param showButtons Do not show control buttons in footer
+#' @param keyboardControl Allow controlling through keyboard (escape to close, arrow keys to move)
+#' @param scrollIntoViewOptions We use `scrollIntoView()` when possible, pass here the options for it if you want any
+#' @param onHighlightStarted Called when element is about to be highlighted
+#' @param onHighlighted Called when element is fully highlighted
+#' @param onDeselected Called when element has been deselected
+#' @param onReset Called when overlay is about to be cleared
+#' @param onNext Called when moving to next step on any step
+#' @param onPrevious Called when moving to previous step on any step
+#' @inheritParams js_after
+#' @inheritParams js_callback
+#'
+#' @export
+#'
+
+js_callout <- function(id,
+                       title,
+                       description,
+                       position = "bottom-center",
+                       className = 'scoped-class',
+                       animate = TRUE,
+                       opacity = 0.75,
+                       padding = 10,
+                       allowClose = TRUE,
+                       overlayClickNext = FALSE,
+                       doneBtnText = 'Done',
+                       closeBtnText = 'Close',
+                       stageBackground = '#ffffff',
+                       nextBtnText = 'Next',
+                       prevBtnText = 'Previous',
+                       showButtons = TRUE,
+                       keyboardControl = TRUE,
+                       scrollIntoViewOptions = list(),
+                       onHighlightStarted = NULL,
+                       onHighlighted = NULL,
+                       onDeselected = NULL,
+                       onReset = NULL,
+                       onNext = NULL,
+                       onPrevious = NULL,
+                       asis = FALSE,
+                       .ns = ns_find()) {
+
+
+    if (!asis)
+      id <- .ns(id)
+
+    html <- htmltools::doRenderTags(description)
+    driver <- list(
+      args = list(
+        element = make_id(id),
+        popover = purrr::map(list(
+        title = title,
+        description = description,
+        position = position
+      ), htmltools::doRenderTags)),
+      opts = purrr::compact(list(
+        className = className,
+        animate = animate,
+        opacity = opacity,
+        padding = padding,
+        allowClose = allowClose,
+        overlayClickNext = overlayClickNext,
+        doneBtnText = doneBtnText,
+        closeBtnText = closeBtnText,
+        stageBackground = stageBackground,
+        nextBtnText = nextBtnText,
+        prevBtnText = prevBtnText,
+        showButtons = showButtons,
+        keyboardControl = keyboardControl,
+        scrollIntoViewOptions = scrollIntoViewOptions,
+        onHighlightStarted = onHighlightStarted,
+        onHighlighted = onHighlighted,
+        onDeselected = onDeselected,
+        onReset = onReset,
+        onNext = onNext,
+        onPrevious = onPrevious
+      ))
+    ) |>
+      purrr::map(jsonlite::toJSON, auto_unbox = TRUE, pretty = TRUE) |>
+      purrr::map(stringr::str_replace_all, pattern = '"(\\w+)"\\s*:', replacement = '\\1:')
+
+    to_glue <- c(
+      c("const driver = new Driver(*{driver$opts}*);",
+        "driver.highlight(*{driver$args}*)")
+    )
+
+
+    the_js <- UU::glue_js(to_glue)
+    shinyjs::runjs(the_js)
+}
 
 #' Create an anonymous JS function to monitor an event and bind it to a shiny input
 #' @inheritParams js_after
