@@ -175,7 +175,27 @@ js_callout <- function(id,
 #' @param color \code{chr} A hexadecimal color to animate with
 #'
 #' @export
+#' @examples
 #'
+#' library(shiny)
+#' devtools::load_all(pkgload::pkg_path())
+#' # Define UI for application that draws a histogram
+#' ui <- fluidPage(
+#'   shinyjs::useShinyjs(),
+#'   div(id = "test", "blah", style = "width:50px"),
+#' )
+#'
+#'
+#' # Define server logic required to draw a histogram
+#' server <- function(input, output) {
+#'
+#'   shinyVirga::js_glow(
+#'     id = "test"
+#'   )
+#'
+#' }
+#' shinyApp(ui = ui, server = server)
+
 js_glow <- function(id,
                     color = "deepskyblue",
                     asis = FALSE,
