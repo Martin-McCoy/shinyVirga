@@ -36,6 +36,14 @@ overlap categories):
 </thead>
 <tbody>
 <tr>
+<td>card_grid</td>
+<td></td>
+<td>Create a gridded card layout</td>
+<td>
+Creates a grid layout informed by the https://miro.com/app/board/o9J_l90QVck=/?moveToWidget=3074457361986467451&amp;cot=14design spec
+</td>
+</tr>
+<tr>
 <td>glossarize</td>
 <td></td>
 <td>Add definitions to acronyms</td>
@@ -49,6 +57,38 @@ Uses the https://docs.google.com/spreadsheets/d/163ArY3cL67Vp-gzqjKSw_4r2kl-pCqM
 <td>Update the Virga Labs glossary</td>
 <td>
 Update the Virga Labs glossary
+</td>
+</tr>
+<tr>
+<td>grid_card</td>
+<td></td>
+<td>Wrap in a bs4Card with default options</td>
+<td>
+Wraps in a width 12 card, converts the title to an ID by replacing spaces with _. Adds a tip_icon if a tip named with the title exists in tips.
+</td>
+</tr>
+<tr>
+<td>has_card</td>
+<td></td>
+<td>Is a shiny.tag or shiny.tag.list have a Bootstrap card in the nesting structure?</td>
+<td>
+Is a shiny.tag or shiny.tag.list have a Bootstrap card in the nesting structure?
+</td>
+</tr>
+<tr>
+<td>is_card</td>
+<td></td>
+<td>Is a shiny.tag or shiny.tag.list a Bootstrap card?</td>
+<td>
+Is a shiny.tag or shiny.tag.list a Bootstrap card?
+</td>
+</tr>
+<tr>
+<td>nm_to_id</td>
+<td></td>
+<td>Convert a string to a valid HTML ID</td>
+<td>
+Convert a string to a valid HTML ID
 </td>
 </tr>
 <tr>
@@ -75,6 +115,30 @@ below to see their documentation.
   shinyisolate, reactiveValues, reactiveValuesToList
 
   UU%|0|%, %|legit|%, %|try|%, %|zchar|%, write_dir_fn
+</td>
+</tr>
+<tr>
+<td>row_wrap.list</td>
+<td></td>
+<td>S3 Method for row_wrap list</td>
+<td>
+S3 Method for row_wrap list
+</td>
+</tr>
+<tr>
+<td>row_wrap.shiny.tag.list</td>
+<td></td>
+<td>S3 Method for row_wrap shiny.tag.list</td>
+<td>
+S3 Method for row_wrap shiny.tag.list
+</td>
+</tr>
+<tr>
+<td>row_wrap.shiny.tag</td>
+<td></td>
+<td>S3 Method for row_wrap shiny.tag</td>
+<td>
+S3 Method for row_wrap shiny.tag
 </td>
 </tr>
 <tr>
@@ -313,6 +377,24 @@ Create an anonymous JS function to monitor an event and bind it to a shiny input
 </td>
 </tr>
 <tr>
+<td>js_callout</td>
+<td>JS</td>
+<td>Create a driver.js callout
+Must include shinyVirga::use_driver.js() in the head of the page.</td>
+<td>
+Create a driver.js callout
+Must include shinyVirga::use_driver.js() in the head of the page.
+</td>
+</tr>
+<tr>
+<td>js_glow</td>
+<td>JS</td>
+<td>Add an animated glow to an element</td>
+<td>
+Add an animated glow to an element
+</td>
+</tr>
+<tr>
 <td>js_mouseover_once</td>
 <td>JS</td>
 <td>Make a shiny input with named ID with a logical TRUE value when the element is moused over.</td>
@@ -326,6 +408,14 @@ Make a shiny input with named ID with a logical TRUE value when the element is m
 <td>Create a javascript callback that runs when shiny connects.</td>
 <td>
 Create a javascript callback that runs when shiny connects.
+</td>
+</tr>
+<tr>
+<td>use_driver.js</td>
+<td>JS</td>
+<td>Add driver.js dependency</td>
+<td>
+Add driver.js dependency
 </td>
 </tr>
 <tr>

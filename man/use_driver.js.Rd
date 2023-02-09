@@ -9,3 +9,13 @@ use_driver.js()
 \description{
 Add driver.js dependency
 }
+\seealso{
+Other JS: 
+\code{\link{js_after}()},
+\code{\link{js_callback}()},
+\code{\link{js_callout}()},
+\code{\link{js_glow}()},
+\code{\link{js_mouseover_once}()},
+\code{\link{js_set_input_val}()}
+}
+\concept{JS}

@@ -62,6 +62,9 @@ Create a javascript callback that runs when shiny connects.
 Other JS: 
 \code{\link{js_after}()},
 \code{\link{js_callback}()},
-\code{\link{js_mouseover_once}()}
+\code{\link{js_callout}()},
+\code{\link{js_glow}()},
+\code{\link{js_mouseover_once}()},
+\code{\link{use_driver.js}()}
 }
 \concept{JS}

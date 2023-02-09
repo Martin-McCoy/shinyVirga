@@ -41,6 +41,7 @@ js_after <- function(id,
 
 }
 #' Add driver.js dependency
+#' @family JS
 #' @export
 use_driver.js <- function() {
   htmltools::htmlDependency(
@@ -62,6 +63,7 @@ make_id_ <- Vectorize(make_id)
 
 #' Create a driver.js callout
 #' Must include `shinyVirga::use_driver.js()` in the head of the page.
+#' @family JS
 #' @param className className to wrap driver.js popover
 #' @param animate Whether to animate or not
 #' @param opacity Background opacity (0 means only popovers and without overlay)
@@ -170,7 +172,7 @@ js_callout <- function(id,
 }
 
 #' Add an animated glow to an element
-#'
+#' @family JS
 #' @inheritParams js_after
 #' @param color \code{chr} A hexadecimal color to animate with
 #'

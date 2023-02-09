@@ -38,7 +38,10 @@ js_callback("widget", "var myValue = e.someProperty;", "myValue")
 \seealso{
 Other JS: 
 \code{\link{js_after}()},
+\code{\link{js_callout}()},
+\code{\link{js_glow}()},
 \code{\link{js_mouseover_once}()},
-\code{\link{js_set_input_val}()}
+\code{\link{js_set_input_val}()},
+\code{\link{use_driver.js}()}
 }
 \concept{JS}

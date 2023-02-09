@@ -87,3 +87,13 @@ js_callout(
 Create a driver.js callout
 Must include \code{shinyVirga::use_driver.js()} in the head of the page.
 }
+\seealso{
+Other JS: 
+\code{\link{js_after}()},
+\code{\link{js_callback}()},
+\code{\link{js_glow}()},
+\code{\link{js_mouseover_once}()},
+\code{\link{js_set_input_val}()},
+\code{\link{use_driver.js}()}
+}
+\concept{JS}

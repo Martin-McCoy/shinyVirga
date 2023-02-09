@@ -21,6 +21,9 @@ Make a shiny input with named ID with a logical TRUE value when the element is m
 Other JS: 
 \code{\link{js_after}()},
 \code{\link{js_callback}()},
-\code{\link{js_set_input_val}()}
+\code{\link{js_callout}()},
+\code{\link{js_glow}()},
+\code{\link{js_set_input_val}()},
+\code{\link{use_driver.js}()}
 }
 \concept{JS}
