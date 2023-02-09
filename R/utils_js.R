@@ -40,6 +40,18 @@ js_after <- function(id,
     shinyjs::delay(delay, shinyjs::hide(selector = '.js-after', asis = TRUE))
 
 }
+#' Add driver.js dependency
+#' @export
+use_driver.js <- function() {
+  htmltools::htmlDependency(
+    name = "driver.js",
+    version = "1",
+    src = c(href = "https://unpkg.com/driver.js/dist/"),
+    script = "driver.min.js",
+    stylesheet = "driver.min.css"
+  )
+}
+
 make_id <- function(x) {
   if (grepl("^#", x))
     x
