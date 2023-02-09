@@ -181,42 +181,57 @@ js_glow <- function(id,
                     asis = FALSE,
                     delay = NULL) {
   color_alpha <-
-    colorspace::adjust_transparency(color, c(rep(.8, 4), rep(.5, 3), rep(.3, 3)))
-  text.shadow <- tibble::tibble(a = 0,
-                                b = 0,
-                                width = paste0(seq(10, 200, by = 20), "px"),
-                                color_alpha)
-  box.shadow <- tibble::tibble(a = 0,
-                               b = 0,
-                               width = paste0(seq(5, 50, by = 5), "px"),
-                               color_alpha)
-  text.css <- purrr::pmap_chr(text.shadow, \(...) {
-    .x <- list(...)
-    paste(.x, collapse = " ")
-  }) |> glue::glue_collapse(sep = ",\n")
-  box.css <- purrr::pmap_chr(box.shadow, \(...) {
-    .x <- list(...)
-    paste(.x, collapse = " ")
-  }) |> glue::glue_collapse(sep = ",\n")
+    colorspace::adjust_transparency(color, c(rep(.8, 5), rep(.5, 3), rep(.3, 2)))
+
+
+
+  color_alpha[7:10] <- colorspace::darken(color_alpha[7:10], .3)
+  color_alpha[1:2] <- colorspace::lighten(color_alpha[1:2], .6)
+  color_alpha[3:4] <- colorspace::lighten(color_alpha[3:4], .3)
+  frames <- list(
+    text = list(a = tibble::tibble(a = 0,
+                                   b = 0,
+                                   width = paste0(seq(10, 200, by = 20), "px"),
+                                   color_alpha),
+                z = tibble::tibble(a = 0,
+                                   b = 0,
+                                   width = paste0(seq(2, 80, length.out = 10) |> round(), "px"),
+                                   color_alpha)),
+    box = list(a = tibble::tibble(a = 0,
+                                  b = 0,
+                                  width = paste0(seq(5, 50, by = 5), "px"),
+                                  color_alpha),
+               z = tibble::tibble(a = 0,
+                                  b = 0,
+                                  width = paste0(seq(5, 50, by = 5), "px"),
+                                  color_alpha))
+  ) |>
+    purrr::map_depth(2, \(.x) {
+      purrr::pmap_chr(.x, \(...) {
+        .x <- list(...)
+        paste(.x, collapse = " ")
+      }) |> glue::glue_collapse(sep = ",\n\t\t")
+    })
+
   style <- UU::glue_js(
     "var style = document.createElement('style');
-      style.innerHTML = '
-      $easeInOutQuad: cubic-bezier(0.455, 0.030, 0.515, 0.955);
+      style.innerHTML = `
+
         @keyframes neonGlow {
           0% {
-            text-shadow: *{text.css}*;
-            box-shadow:  *{box.css}*;
+            text-shadow: *{frames$text$a}*;
+            box-shadow:  *{frames$box$a}*;
           }
           100% {
-            text-shadow: *{text.css}*;
-            box-shadow:  *{box.css}*;
+            text-shadow: *{frames$text$z}*;
+            box-shadow:  *{frames$box$z}*;
           }
         }
 
         .animated {
-          animation: neonGlow 2s infinite alternate $easeInOutQuad;
+          animation: neonGlow 1s infinite alternate cubic-bezier(0.455, 0.030, 0.515, 0.955);
         }
-      ';
+    `
       document.head.appendChild(style);"
   )
   shinyjs::runjs(style)
