@@ -31,7 +31,7 @@ js_after <- function(id,
   )
   html <- htmltools::doRenderTags(to_append)
   the_js <- UU::glue_js("
-    $('#*{id}*').after(() => {
+    $('*{make_id(id)}*').after(() => {
       return `*{htmltools::HTML(html)}*`
     })
     ")
