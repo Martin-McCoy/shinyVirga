@@ -201,10 +201,14 @@ js_callout <- function(id,
 js_glow <- function(id,
                     color = "deepskyblue",
                     asis = FALSE,
-                    delay = NULL) {
+                    delay = NULL,
+                    .ns = ns_find()) {
   color_alpha <-
     colorspace::adjust_transparency(color, c(rep(.8, 5), rep(.5, 3), rep(.3, 2)))
 
+
+  if (!asis)
+    id <- .ns(id)
 
 
   color_alpha[7:10] <- colorspace::darken(color_alpha[7:10], .3)
@@ -236,30 +240,34 @@ js_glow <- function(id,
     })
 
   style <- UU::glue_js(
-    "var style = document.createElement('style');
-      style.innerHTML = `
+    "// only append if not already used
+    if ($('#animated-css').length != 1) {
+      var style = document.createElement('style');
+        style.innerHTML = `
 
-        @keyframes neonGlow {
-          0% {
-            text-shadow: *{frames$text$a}*;
-            box-shadow:  *{frames$box$a}*;
+          @keyframes neonGlow {
+            0% {
+              text-shadow: *{frames$text$a}*;
+              box-shadow:  *{frames$box$a}*;
+            }
+            100% {
+              text-shadow: *{frames$text$z}*;
+              box-shadow:  *{frames$box$z}*;
+            }
           }
-          100% {
-            text-shadow: *{frames$text$z}*;
-            box-shadow:  *{frames$box$z}*;
-          }
-        }
 
-        .animated {
-          animation: neonGlow 1s infinite alternate cubic-bezier(0.455, 0.030, 0.515, 0.955);
-        }
-    `
-      document.head.appendChild(style);"
+          .animated {
+            animation: neonGlow 1s infinite alternate cubic-bezier(0.455, 0.030, 0.515, 0.955);
+          }
+      `
+      $(style).attr('id', 'animated-css').appendTo('head');
+    }
+      "
   )
   shinyjs::runjs(style)
   shinyjs::addClass(id = id, asis = asis, class = "animated")
   if (!is.null(delay))
-    shinyjs::delay(5000,
+    shinyjs::delay(delay,
                    shinyjs::removeClass(id = id, asis = asis, class = "animated"))
 }
 #' Create an anonymous JS function to monitor an event and bind it to a shiny input

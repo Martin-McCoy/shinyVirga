@@ -4,7 +4,7 @@
 \alias{js_glow}
 \title{Add an animated glow to an element}
 \usage{
-js_glow(id, color = "deepskyblue", asis = FALSE, delay = NULL)
+js_glow(id, color = "deepskyblue", asis = FALSE, delay = NULL, .ns = ns_find())
 }
 \arguments{
 \item{id}{\code{(chr)} Automatically namespaced with \code{ns} if inside a module}
@@ -15,6 +15,8 @@ js_glow(id, color = "deepskyblue", asis = FALSE, delay = NULL)
 (instead of adding the namespace prefix to the ID).}
 
 \item{delay}{\code{dbl} duration in ms before removing the content from the element. Set to 0 to allow the element to persist.}
+
+\item{.ns}{\code{fun} ns function. Typically found automatically if inside a \code{server} module. \strong{It is recommended to supply this argument if using this function in a \code{ui} module.}}
 }
 \description{
 Add an animated glow to an element
