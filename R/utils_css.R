@@ -1,7 +1,7 @@
 #' R List to CSS declarations as a string
 #' @param ... \code{chr} Named css properties, IE characters in the from `property = value`
 #' @param declarations \code{list} CSS Declarations as a named list ie  `list(property = value)`
-#'
+#'@param inline \code{lgl} Should CSS Properties be in inline format?
 #' @return \code{chr} properties as CSS character with newlines
 #' @export
 #' @family ui
@@ -9,10 +9,10 @@
 #' @examples
 #' css_props(display = "none", declarations = list(margin = "0px"))
 
-css_props <- function(..., declarations = NULL) {
+css_props <- function(..., declarations = NULL, inline = FALSE) {
   .dots <- rlang::dots_list(..., .named = TRUE)
   declarations <- rlang::list2(!!!.dots, !!!declarations)
-  paste0(purrr::imap_chr(declarations, ~glue::glue("{.y}: {.x};")), collapse = "\n")
+  paste0(purrr::imap_chr(declarations, ~glue::glue("{.y}: {.x};")), collapse = ifelse(inline, "","\n"))
 }
 
 
