@@ -223,3 +223,23 @@ use_msg_mod_fun <- function(pattern = "^mod") {
     })
 
 }
+
+
+#' Print a debug message to the R and Javascript Console
+#'
+#' @param x \code{chr} message formatted for \link[cli]{format_inline}
+#' @param e \code{env} Environment
+#'
+#' @return \code{msg}
+#' @export
+#'
+
+dbg_msg <- function(x, e = rlang::caller_env()) {
+  if (getOption("use_debug", FALSE)) {
+    msg <- cli::format_inline(x, .envir = e)
+    cli::cli_text(cli::col_br_magenta(msg))
+    if (shiny::isRunning()) {
+      shinyjs::runjs(UU::glue_js("console.log('Debug: *{msg}*')"))
+    }
+  }
+}
