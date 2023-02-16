@@ -21,18 +21,33 @@ dynamic_row <- function(...) {
 
 #' Creates an always up to date italicized copyright element.
 #' @family ui
+#' @param copyright_holder \code{shiny.tag} to display for the copyright
+#' @param logo \code{shiny.tag} A logo to display after the copyright message. Set to NULL to turn off.
 #' @return \code{shiny.tag}
 #' @export
 #'
 
-copyright <- function(copyright_holder = a("Virga Labs ", href = "https://www.virgalabs.io/", target = "_blank")) {
+copyright <- function(copyright_holder = shiny::a("Virga Labs ", href = "https://www.virgalabs.io/", target = "_blank"), logo = img_base64(css_props = list(`max-width` = "3em", `max-height` = "1em", display = "inline-block;"))) {
+
   htmltools::withTags(
     div(
       em(class = "inline-block", "All content Ⓒ ",copyright_holder, span(id = "c_year")),
       script(type = "text/javascript", "
            document.getElementById('c_year').innerHTML = `${new Date().getFullYear()}`;
-           ")
+           "),
+      if (UU::is_legit(logo))
+        logo
+
     )
+  )
+}
+
+img_base64 <- function(path = system.file("img/virga_logo.png", package = "shinyVirga"), css_props) {
+
+  shiny::img(
+    src = paste0("data:image/png;base64,", base64enc::base64encode(path)),
+    style = if (!missing(css_props))
+      css_props(declarations = css_props)
   )
 }
 
