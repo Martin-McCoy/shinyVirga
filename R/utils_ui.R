@@ -27,11 +27,11 @@ dynamic_row <- function(...) {
 #' @export
 #'
 
-copyright <- function(copyright_holder = shiny::a("Virga Labs ", href = "https://www.virgalabs.io/", target = "_blank"), logo = img_base64(css_props = list(`max-width` = "3em", `max-height` = "1em", display = "inline-block;"))) {
+copyright <- function(copyright_holder = shiny::a("Virga Labs ", href = "https://www.virgalabs.io/", target = "_blank"), class = "", logo = img_base64(css_props = list(`max-width` = "3em", `max-height` = "1em", display = "inline-block;"))) {
 
   htmltools::withTags(
     div(
-      em(class = "inline-block", "All content Ⓒ ",copyright_holder, span(id = "c_year")),
+      em(class = paste("inline-block", class), "All Rights Reserved Ⓒ ", span(id = "c_year"), copyright_holder),
       script(type = "text/javascript", "
            document.getElementById('c_year').innerHTML = `${new Date().getFullYear()}`;
            "),
