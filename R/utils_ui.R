@@ -32,7 +32,7 @@ copyright <- function(copyright_holder = shiny::a("Virga Labs ", href = "https:/
 
   htmltools::withTags(
     div(
-      class = paste("inline-block", class), "All Rights Reserved Ⓒ ", span(id = "c_year"), copyright_holder,
+      class = paste("inline-block", class), "All Rights Reserved | Ⓒ ", span(id = "c_year"), copyright_holder,
       script(type = "text/javascript", "
            document.getElementById('c_year').innerHTML = `${new Date().getFullYear()}`;
            "),
