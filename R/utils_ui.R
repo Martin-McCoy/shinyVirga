@@ -22,6 +22,7 @@ dynamic_row <- function(...) {
 #' Creates an always up to date italicized copyright element.
 #' @family ui
 #' @param copyright_holder \code{shiny.tag} to display for the copyright
+#' @param class \code{chr} additional classes for the parent div
 #' @param logo \code{shiny.tag} A logo to display after the copyright message. Set to NULL to turn off.
 #' @return \code{shiny.tag}
 #' @export
@@ -31,7 +32,7 @@ copyright <- function(copyright_holder = shiny::a("Virga Labs ", href = "https:/
 
   htmltools::withTags(
     div(
-      em(class = paste("inline-block", class), "All Rights Reserved Ⓒ ", span(id = "c_year"), copyright_holder),
+      class = paste("inline-block", class), "All Rights Reserved Ⓒ ", span(id = "c_year"), copyright_holder,
       script(type = "text/javascript", "
            document.getElementById('c_year').innerHTML = `${new Date().getFullYear()}`;
            "),
