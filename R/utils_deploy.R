@@ -152,7 +152,7 @@ deploy_stage <- function(deploy_path = "deploy",
     write(dockerfile, "Dockerfile")
 
     # build latest dockerfile (either from base above or from a single Dockerfile)
-    system(glue::glue("docker build --build-arg GITHUB_PAT={GITHUB_PAT} -f Dockerfile --progress=plain -t {docker_image_tags['main']} ."))
+    system(glue::glue("docker build -f Dockerfile --progress=plain -t {docker_image_tags['main']} ."))
   })
   job_path <- fs::path(deploy_path, "job.R")
   write(deparse(job), job_path)
