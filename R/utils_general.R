@@ -7,8 +7,8 @@
 #' @export
 
 
-ns_find <- function(e = rlang::caller_env()) {
-  tb <- rlang::trace_back()
+ns_find <- function(e = rlang::caller_env(2)) {
+  tb <- rlang::trace_back(bottom = 2)
   calls <- rev(tb$call)
   is_ui <- purrr::some(calls, \(.x) {stringr::str_detect(rlang::call_name(.x), "^mod.*ui" ) %|0|% FALSE})
   tries <- rlang::exprs(
