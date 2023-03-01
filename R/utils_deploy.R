@@ -1,6 +1,7 @@
 
 #' Create a staging directory for deployment files
 #' @family deploy
+#' @description `r lifecycle::badge("experimental")`
 #' @param deploy_path \code{chr} directory in which to stage deployment files
 #' @param use_renv \code{lgl} whether to use the renv.lock & `golem::add_dockerfile_with_renv` (`TRUE`) or the DESCRIPTION `golem::add_dockerfile`
 #' @param copy_r_environ \code{lgl} Whether to include the _.Renviron_ file
@@ -81,6 +82,7 @@ deploy_tar <- function(deploy_path = "deploy",
 #' @inheritParams deploy_tar
 #' @description `r lifecycle::badge("experimental")`
 #' @family deploy
+#' @param GITHUB_PAT \code{chr} Github Personal Access Token. ** Default remotes:::github_pat() **. Includes the Github Personal Access Token in _.Renviron_ copied to Docker image for fetching Github repos during package installation. Set to `NULL` to turn off.
 #' @return \code{job} Background job that deploys the dmdu app (not working locally)
 #' @export
 deploy_stage <- function(deploy_path = "deploy",
@@ -158,13 +160,18 @@ deploy_stage <- function(deploy_path = "deploy",
     }
 
 
-    if (!made_dockerfile) {
-      devtools::document(roclets = c('rd', 'collate', 'namespace'))
-      devtools::build(path = ".")
+    devtools::document(pkgload::pkg_path(), roclets = c('rd', 'collate', 'namespace'))
+    if (remove_previous_builds) {
+      old_builds <- UU::list.files2(pattern = "tar.gz$")
+      if (UU::is_legit(old_builds))
+        purrr::walk(old_builds, file.remove)
     }
+    if (rebuild)
+      copy_files <- c(copy_files, devtools::build())
+
 
     # Combine dockerfiles since the two-step method doesn't work
-    dockerfiles <- purrr::map(rlang::set_names(paste0("Dockerfile", c("", "_base"))), readLines)
+
 
     dockerfile <- c(
       dockerfiles$Dockerfile_base,
