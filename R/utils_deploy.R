@@ -53,11 +53,28 @@ deploy_tar <- function(deploy_path = "deploy",
     purrr::walk(copy_files, ~ file.copy(.x, fs::path(deploy_path, .x), overwrite = TRUE))
   }
 
-  if (!made_dockerfile) {
-    devtools::document(roclets = c('rd', 'collate', 'namespace'))
-    devtools::build(path = deploy_path)
+  devtools::document(roclets = c('rd', 'collate', 'namespace'))
+  if (remove_previous_builds) {
+    old_builds <- UU::list.files2(deploy_path, pattern = "tar.gz$")
+    if (UU::is_legit(old_builds))
+      purrr::walk(old_builds, file.remove)
   }
+  copy_files <- fs::path(deploy_path, copy_files)
+  if (rebuild)
+    copy_files <- c(copy_files, devtools::build(path = deploy_path))
+
+  if (UU::is_legit(copy_files)) {
+    cli::cli_alert_success("The following files were updated:")
+    purrr::iwalk(copy_files, \(.x, .y) {
+      cli::cli_inform(cli::format_inline("{.path {.y}}: {.x}") )
+    })
+  }
+
+
 }
+
+
+
 #' Run Deployment as a background task
 #' @inheritParams deploy_tar
 #' @family deploy
