@@ -114,20 +114,18 @@ deploy_stage <- function(deploy_path = "deploy",
       Rprofile = if (!!copy_r_profile)
         !!fs::path_abs(".Rprofile"),
       renv_lock = if (!!copy_renv_lock)
-        !!lockfile_path,
-      Dockerfile = if (!!copy_dockerfile)
-        !!fs::path_abs("Dockerfile")
+        !!fs::path_abs(lockfile_path)
     )
 
 
     if (UU::is_legit(copy_files)) {
       #only copy if newer than ones in deploy
-      copy_files <- purrr::keep(copy_files, ~rlang::`%|%`(UU::last_updated(.x), Sys.Date()) > rlang::`%|%`(UU::last_updated(basename(.x)), lubridate::make_date()))
-      purrr::walk(copy_files, ~ file.copy(.x, basename(.x), overwrite = TRUE))
+      copy_files <- purrr::keep(copy_files, \(.x) rlang::`%|%`(UU::last_updated(.x), Sys.Date()) > rlang::`%|%`(UU::last_updated(basename(.x)), lubridate::make_date()))
+      purrr::walk(copy_files, \(.x) file.copy(.x, basename(.x), overwrite = TRUE))
     }
 
     made_dockerfile <- !file.exists("Dockerfile")
-
+    dockerfiles <- purrr::map(rlang::set_names(paste0("Dockerfile", c("", "_base"))), readLines)
     if (made_dockerfile) {
       # this needed to be negated to match logic above
       if (!!use_renv) {
@@ -146,6 +144,7 @@ deploy_stage <- function(deploy_path = "deploy",
       # above to match our methodology used to pull github pats into dockerfiles
       # to download the needed private repositories
       system("sed -i '' -e '1s/^//p; 1s/^.*/COPY .Renviron .Renviron/' Dockerfile_base")
+
       system("sed -i '' -e '1s/^//p; 1s/^.*/COPY .Renviron .Renviron/' Dockerfile")
       system("sed -i '' -e '4s/^//p; 4s/^.*/COPY .Rprofile .Rprofile/' Dockerfile")
       # system("sed -i '' 's/renv.lock.prod/renv.lock/g' Dockerfile") # gets rid of pesky renv.lock.prod
