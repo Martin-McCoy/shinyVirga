@@ -175,8 +175,6 @@ deploy_stage <- function(deploy_path = "deploy",
 
 
     # Combine dockerfiles since the two-step method doesn't work
-
-
     dockerfile <- c(
       dockerfiles$Dockerfile_base,
       # Everything after the renv::restore, since the last call in Dockerfile_base is renv::restore
@@ -198,7 +196,11 @@ deploy_stage <- function(deploy_path = "deploy",
       UU::write_lines("Dockerfile", add_lines, after = dockerfile_restore_line_idx - 1)
     }
 
-    write(dockerfile, "Dockerfile")
+    if (!copy_r_environ && file.exists(".Renviron")) {
+      # If the user did not opt to copy the .Renviron file, delete it from the Docker container and the deploy directory after renv::restore is run
+      UU::write_lines("Dockerfile", "RUN rm .Renviron", after = dockerfile_restore_line_idx)
+      file.remove(".Renviron")
+    }
 
     # build latest dockerfile (either from base above or from a single Dockerfile)
     system(glue::glue("docker build -f Dockerfile --progress=plain -t {docker_image_tags['main']} ."))
