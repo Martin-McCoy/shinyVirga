@@ -129,7 +129,7 @@ deploy_stage <- function(deploy_path = "deploy",
       Rprofile = if (copy_r_profile)
         !!fs::path_abs(".Rprofile"),
       renv_lock = if (copy_renv_lock)
-        !!fs::path_abs(lockfile_path)
+        lockfile_path
     )
 
 
@@ -149,33 +149,17 @@ deploy_stage <- function(deploy_path = "deploy",
     made_dockerfile <- !file.exists("Dockerfile")
     dockerfiles <- purrr::map(rlang::set_names(paste0("Dockerfile", c("", "_base"))), readLines)
     if (made_dockerfile) {
-      # this needed to be negated to match logic above
+      # IF use_renv was selected when calling `deploy_stage`
       if (!!use_renv) {
-        golem::add_dockerfile_with_renv(source_folder = "../", output_dir = ".", lockfile = !!lockfile_path)
+        golem::add_dockerfile_with_renv(
+          source_folder = "../",
+          output_dir = ".",
+          lockfile = lockfile_path,
+          from = "rocker/r-ver:4.2.1@sha256:3e3f21d75482c5c66e122188ae88ad5c89ca24f5202dd07f69c623b3c8af7e80"
+        )
       } else {
         golem::add_dockerfile()
       }
-
-      write(glue::glue("GITHUB_PAT = {GITHUB_PAT}"), ".Renviron", append = !!copy_r_environ)
-
-      # Need to build dmdu_base first if you just created it with the
-      # split-dockerfile methodology employed by add_dockerfile_with_renv above
-
-      # same negation logic as earlier
-      # All of these unix sed commands modify the dockerfiles built by add_dockerfile_with_renv
-      # above to match our methodology used to pull github pats into dockerfiles
-      # to download the needed private repositories
-      system("sed -i '' -e '1s/^//p; 1s/^.*/COPY .Renviron .Renviron/' Dockerfile_base")
-
-      system("sed -i '' -e '1s/^//p; 1s/^.*/COPY .Renviron .Renviron/' Dockerfile")
-      system("sed -i '' -e '4s/^//p; 4s/^.*/COPY .Rprofile .Rprofile/' Dockerfile")
-      # system("sed -i '' 's/renv.lock.prod/renv.lock/g' Dockerfile") # gets rid of pesky renv.lock.prod
-      if (!(!!copy_r_environ)) {
-        # If the user did not opt to copy the .Renviron file, delete it
-        write("RUN rm .Renviron", file = "Dockerfile")
-        file.remove(".Renviron")
-      }
-
 
     }
 
