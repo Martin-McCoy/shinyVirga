@@ -89,8 +89,9 @@ deploy_stage <- function(deploy_path = "deploy",
                          copy_r_profile = TRUE,
                          copy_renv_lock = TRUE,
                          copy_files = NULL,
+                         rebuild = TRUE,
+                         remove_previous_builds = TRUE,
                          lockfile_path = "renv.lock",
-                         copy_dockerfile = TRUE,
                          GITHUB_PAT = remotes:::github_pat(),
                          docker_image_tag = tolower(golem::get_golem_name())) {
 
