@@ -182,6 +182,22 @@ deploy_stage <- function(deploy_path = "deploy",
       # Everything after the renv::restore, since the last call in Dockerfile_base is renv::restore
       dockerfiles$Dockerfile[(stringr::str_which(dockerfiles$Dockerfile, "RUN R -e 'renv::restore\\(\\)'") + 1):length(dockerfiles$Dockerfile)]
     )
+    dockerfile_restore_line_idx <- stringr::str_which(dockerfile, "RUN R -e 'renv::restore\\(\\)'")
+    write(dockerfile, "Dockerfile")
+    # IF copy_r_environ OR copy_r_profile was set to true when deploy_stage was run
+    if (copy_r_environ || copy_r_profile) {
+      add_lines <- c(
+        # If copy_r_environ
+        if (copy_r_environ)
+          "COPY .Renviron .Renviron",
+        if (copy_r_profile)
+          "COPY .Rprofile .Rprofile"
+
+      )
+      # Add the .Renviron & .Rprofile right before restoring such that options are available while packages are installing.
+      UU::write_lines("Dockerfile", add_lines, after = dockerfile_restore_line_idx - 1)
+    }
+
     write(dockerfile, "Dockerfile")
 
     # build latest dockerfile (either from base above or from a single Dockerfile)
