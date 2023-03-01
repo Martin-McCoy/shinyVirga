@@ -79,6 +79,7 @@ deploy_tar <- function(deploy_path = "deploy",
 
 #' Run Deployment as a background task
 #' @inheritParams deploy_tar
+#' @description `r lifecycle::badge("experimental")`
 #' @family deploy
 #' @return \code{job} Background job that deploys the dmdu app (not working locally)
 #' @export
