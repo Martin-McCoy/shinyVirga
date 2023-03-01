@@ -4,7 +4,7 @@
 \alias{ns_find}
 \title{Retrieve the \code{ns} function}
 \usage{
-ns_find(e = rlang::caller_env())
+ns_find(e = rlang::caller_env(2))
 }
 \arguments{
 \item{e}{\code{env}}

@@ -1,6 +1,6 @@
 Package: shinyVirga
 Title: A Collection of R shiny utilities by Virga Labs
-Version: 0.19.3
+Version: 0.19.4
 Authors@R: person("Stephen", "Holsenbeck", , "stephen@virgalabs.io", role = c("aut", "cre"))
 Description: A collection of useful utility functions for working with shiny and shiny frameworks
 License: LGPL (>= 2.1)
@@ -31,7 +31,7 @@ Imports:
     stringr,
     tibble,
     tippy (>= 1.0.0),
-    UU (>= 1.15.0)
+    UU (>= 1.18.0)
 Suggests: 
     attachment (>= 0.3.0),
     dockerfiler (>= 0.2.0),

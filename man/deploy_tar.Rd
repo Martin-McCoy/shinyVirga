@@ -10,7 +10,9 @@ deploy_tar(
   copy_r_environ = TRUE,
   copy_r_profile = TRUE,
   copy_renv_lock = TRUE,
-  copy_dockerfile = TRUE,
+  copy_files = NULL,
+  rebuild = TRUE,
+  remove_previous_builds = TRUE,
   lockfile_path = "renv.lock"
 )
 }
@@ -25,13 +27,17 @@ deploy_tar(
 
 \item{copy_renv_lock}{\code{lgl} Whether to include the \emph{renv.lock} file}
 
-\item{copy_dockerfile}{\code{lgl} Whether to include the \emph{Dockerfile}}
+\item{copy_files}{\code{chr} vector of files to copy in addition to default.}
+
+\item{rebuild}{\code{lgl} Whether to rebuild the tar.gz}
+
+\item{remove_previous_builds}{\code{lgl} Whether to remove previous build files from \code{deploy_path} folder}
 }
 \value{
-\code{dir} a directory with the tar.gz package executable, and requisite files for docker image building.
+\code{msg} All files are updated based on other arguments and an informative message indicates files and
 }
 \description{
-Create a staging directory for deployment files
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 }
 \seealso{
 Other deploy: 

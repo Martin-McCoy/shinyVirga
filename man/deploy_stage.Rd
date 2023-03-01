@@ -10,8 +10,11 @@ deploy_stage(
   copy_r_environ = TRUE,
   copy_r_profile = TRUE,
   copy_renv_lock = TRUE,
+  copy_files = NULL,
+  rebuild = TRUE,
+  remove_previous_builds = TRUE,
+  launch_job = TRUE,
   lockfile_path = "renv.lock",
-  copy_dockerfile = TRUE,
   GITHUB_PAT = remotes:::github_pat(),
   docker_image_tag = tolower(golem::get_golem_name())
 )
@@ -27,13 +30,21 @@ deploy_stage(
 
 \item{copy_renv_lock}{\code{lgl} Whether to include the \emph{renv.lock} file}
 
-\item{copy_dockerfile}{\code{lgl} Whether to include the \emph{Dockerfile}}
+\item{copy_files}{\code{chr} vector of files to copy in addition to default.}
+
+\item{rebuild}{\code{lgl} Whether to rebuild the tar.gz}
+
+\item{remove_previous_builds}{\code{lgl} Whether to remove previous build files from \code{deploy_path} folder}
+
+\item{launch_job}{\code{lgl} whether to launch the deployment script \emph{jobs.R} in the \code{deploy_path} directory after writing it.}
+
+\item{GITHUB_PAT}{\code{chr} Github Personal Access Token. ** Default remotes:::github_pat() **. Includes the Github Personal Access Token in \emph{.Renviron} copied to Docker image for fetching Github repos during package installation. Set to \code{NULL} to turn off.}
 }
 \value{
 \code{job} Background job that deploys the dmdu app (not working locally)
 }
 \description{
-Run Deployment as a background task
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 }
 \seealso{
 Other deploy: 
