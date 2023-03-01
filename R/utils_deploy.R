@@ -6,6 +6,7 @@
 #' @param copy_r_environ \code{lgl} Whether to include the _.Renviron_ file
 #' @param copy_r_profile \code{lgl} Whether to include the _.Rprofile_ file
 #' @param copy_renv_lock \code{lgl} Whether to include the _renv.lock_ file
+#' @param copy_files \code{chr} vector of files to copy in addition to default.
 #' @param rebuild \code{lgl} Whether to rebuild the tar.gz
 #' @param remove_previous_builds \code{lgl} Whether to remove previous build files from `deploy_path` folder
 #' @return \code{msg} All files are updated based on other arguments and an informative message indicates files and
@@ -15,6 +16,7 @@ deploy_tar <- function(deploy_path = "deploy",
                        copy_r_environ = TRUE,
                        copy_r_profile = TRUE,
                        copy_renv_lock = TRUE,
+                       copy_files = NULL,
                        rebuild = TRUE,
                        remove_previous_builds = TRUE,
                        lockfile_path = "renv.lock") {
@@ -85,6 +87,7 @@ deploy_stage <- function(deploy_path = "deploy",
                          copy_r_environ = TRUE,
                          copy_r_profile = TRUE,
                          copy_renv_lock = TRUE,
+                         copy_files = NULL,
                          lockfile_path = "renv.lock",
                          copy_dockerfile = TRUE,
                          GITHUB_PAT = remotes:::github_pat(),
@@ -102,6 +105,7 @@ deploy_stage <- function(deploy_path = "deploy",
     GITHUB_PAT <- !!GITHUB_PAT
 
     copy_files <- c(
+      copy_files,
       # c auto removes nulls
       Renviron = if (!!copy_r_environ)
         !!fs::path_abs(".Renviron"),
