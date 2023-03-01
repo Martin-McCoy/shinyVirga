@@ -150,7 +150,7 @@ deploy_stage <- function(deploy_path = "deploy",
     dockerfiles <- purrr::map(rlang::set_names(paste0("Dockerfile", c("", "_base"))), readLines)
     if (made_dockerfile) {
       # IF use_renv was selected when calling `deploy_stage`
-      if (!!use_renv) {
+      if (use_renv) {
         golem::add_dockerfile_with_renv(
           source_folder = "../",
           output_dir = ".",
