@@ -83,6 +83,7 @@ deploy_tar <- function(deploy_path = "deploy",
 #' @description `r lifecycle::badge("experimental")`
 #' @family deploy
 #' @param GITHUB_PAT \code{chr} Github Personal Access Token. ** Default remotes:::github_pat() **. Includes the Github Personal Access Token in _.Renviron_ copied to Docker image for fetching Github repos during package installation. Set to `NULL` to turn off.
+#' @param launch_job \code{lgl} whether to launch the deployment script _jobs.R_ in the `deploy_path` directory after writing it.
 #' @return \code{job} Background job that deploys the dmdu app (not working locally)
 #' @export
 deploy_stage <- function(deploy_path = "deploy",
@@ -93,6 +94,7 @@ deploy_stage <- function(deploy_path = "deploy",
                          copy_files = NULL,
                          rebuild = TRUE,
                          remove_previous_builds = TRUE,
+                         launch_job = TRUE,
                          lockfile_path = "renv.lock",
                          GITHUB_PAT = remotes:::github_pat(),
                          docker_image_tag = tolower(golem::get_golem_name())) {
@@ -100,19 +102,26 @@ deploy_stage <- function(deploy_path = "deploy",
   UU::mkpath(deploy_path)
   lockfile_path <- fs::path_abs(lockfile_path)
 
-  images <- rlang::parse_expr(capture.output(dput(rlang::set_names(sprintf("%s%s:%s", docker_image_tag, c("", "_base"),"latest"), c("main", "base")))))
 
+  opts <- list(
+    deploy_path = deploy_path,
+    include_github_pat = is.character(GITHUB_PAT),
+    use_renv = use_renv,
+    copy_r_environ = copy_r_environ,
+    copy_r_profile = copy_r_profile,
+    copy_renv_lock = copy_renv_lock,
+    copy_files = copy_files,
+    rebuild = rebuild,
+    remove_previous_builds = remove_previous_builds,
+    lockfile_path = !!fs::path_abs(lockfile_path),
+    docker_image_tags = rlang::parse_expr(capture.output(dput(rlang::set_names(sprintf("%s%s:%s", docker_image_tag, c("", "_base"),"latest"), c("main", "base")))))
+  )
   job <- rlang::expr({
 
-    docker_image_tags <- !!images
+    list2env(!!opts, envir = environment())
 
-    include_github_pat <- !!is.character(GITHUB_PAT)
-    copy_r_environ <- !!copy_r_environ
-    copy_r_profile <- !!copy_r_profile
-    copy_renv_lock <- !!copy_renv_lock
-    copy_files <- !!copy_files
-    rebuild <- !!rebuild
-    remove_previous_builds <- !!remove_previous_builds
+
+
     copy_files <- c(
       copy_files,
       # c auto removes nulls
@@ -196,6 +205,7 @@ deploy_stage <- function(deploy_path = "deploy",
   })
   job_path <- fs::path(deploy_path, "job.R")
   write(deparse(job), job_path)
-  rstudioapi::jobRunScript(job_path, name = glue::glue("Build {docker_image_tag} Docker images"))
+  if (launch_job)
+    rstudioapi::jobRunScript(job_path, name = glue::glue("Build {docker_image_tag} Docker images"))
   UU::ignore_files("deploy/")
 }
