@@ -19,6 +19,7 @@ devtools::load_all()
 
 <!-- badges: start -->
 `r lifecycle::badge('experimental')`
+[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 <!-- badges: end -->
 
 The goal of `shinyVirga` is to consolidate generalized utility functions useful in development of shiny apps that are currently used in the various Virga Labs repositories in one convenient location. `shinyVirga` is intended to supply Virga Labs developers with a toolkit of well-maintained functions and modules adaptable to various use cases encountered likely to be encountered during shiny development with Virga Labs. 

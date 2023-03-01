@@ -4,6 +4,8 @@
 # shinyVirga
 
 <!-- badges: start -->
+[![Lifecycle:
+experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 <!-- badges: end -->
 
 The goal of `shinyVirga` is to consolidate generalized utility functions
@@ -41,6 +43,14 @@ overlap categories):
 <td>Create a gridded card layout</td>
 <td>
 Creates a grid layout informed by the https://miro.com/app/board/o9J_l90QVck=/?moveToWidget=3074457361986467451&amp;cot=14design spec
+</td>
+</tr>
+<tr>
+<td>dbg_msg</td>
+<td></td>
+<td>Print a debug message to the R and Javascript Console</td>
+<td>
+Print a debug message to the R and Javascript Console
 </td>
 </tr>
 <tr>
