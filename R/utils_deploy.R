@@ -113,7 +113,7 @@ deploy_stage <- function(deploy_path = "deploy",
     copy_files = copy_files,
     rebuild = rebuild,
     remove_previous_builds = remove_previous_builds,
-    lockfile_path = !!fs::path_abs(lockfile_path),
+    lockfile_path = rlang::expr(!!fs::path_abs(lockfile_path)),
     docker_image_tags = rlang::parse_expr(capture.output(dput(rlang::set_names(sprintf("%s%s:%s", docker_image_tag, c("", "_base"),"latest"), c("main", "base")))))
   )
   job <- rlang::expr({
