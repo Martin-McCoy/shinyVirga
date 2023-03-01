@@ -116,8 +116,7 @@ deploy_stage <- function(deploy_path = "deploy",
     copy_files <- c(
       copy_files,
       # c auto removes nulls
-      Renviron = if (copy_r_environ)
-        !!fs::path_abs(".Renviron"),
+      Renviron = !!fs::path_abs(".Renviron"),
       Rprofile = if (copy_r_profile)
         !!fs::path_abs(".Rprofile"),
       renv_lock = if (copy_renv_lock)
@@ -129,6 +128,13 @@ deploy_stage <- function(deploy_path = "deploy",
       #only copy if newer than ones in deploy
       copy_files <- purrr::keep(copy_files, \(.x) rlang::`%|%`(UU::last_updated(.x), Sys.Date()) > rlang::`%|%`(UU::last_updated(basename(.x)), lubridate::make_date()))
       purrr::walk(copy_files, \(.x) file.copy(.x, basename(.x), overwrite = TRUE))
+
+    }
+
+    if (include_github_pat && file.exists(".Renviron")) {
+      write(glue::glue("GITHUB_PAT = {remotes:::github_pat()}"), ".Renviron", append = copy_r_environ)
+    } else if (include_github_pat && !file.exists(".Renviron")) {
+      UU::gmsg(".Renviron file must be copied temporarily to deploy folder & Docker image for {.code GITHUB_PAT} to be used in Github dependency installation. It will be removed after installation is complete.")
     }
 
     made_dockerfile <- !file.exists("Dockerfile")
