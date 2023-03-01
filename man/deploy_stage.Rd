@@ -6,6 +6,7 @@
 \usage{
 deploy_stage(
   deploy_path = "deploy",
+  docker_image_tag = tolower(golem::get_golem_name()),
   use_renv = TRUE,
   copy_r_environ = TRUE,
   copy_r_profile = TRUE,
@@ -15,12 +16,13 @@ deploy_stage(
   remove_previous_builds = TRUE,
   launch_job = TRUE,
   lockfile_path = "renv.lock",
-  GITHUB_PAT = remotes:::github_pat(),
-  docker_image_tag = tolower(golem::get_golem_name())
+  GITHUB_PAT = remotes:::github_pat()
 )
 }
 \arguments{
 \item{deploy_path}{\code{chr} directory in which to stage deployment files}
+
+\item{docker_image_tag}{\code{chr} Docker Image tag name \strong{Default: \code{tolower(golem::get_golem_name())}}}
 
 \item{use_renv}{\code{lgl} whether to use the renv.lock & \code{golem::add_dockerfile_with_renv} (\code{TRUE}) or the DESCRIPTION \code{golem::add_dockerfile}}
 

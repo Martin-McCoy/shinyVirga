@@ -82,11 +82,13 @@ deploy_tar <- function(deploy_path = "deploy",
 #' @inheritParams deploy_tar
 #' @description `r lifecycle::badge("experimental")`
 #' @family deploy
+#' @param docker_image_tag \code{chr} Docker Image tag name **Default: `tolower(golem::get_golem_name())`**
 #' @param GITHUB_PAT \code{chr} Github Personal Access Token. ** Default remotes:::github_pat() **. Includes the Github Personal Access Token in _.Renviron_ copied to Docker image for fetching Github repos during package installation. Set to `NULL` to turn off.
 #' @param launch_job \code{lgl} whether to launch the deployment script _jobs.R_ in the `deploy_path` directory after writing it.
 #' @return \code{job} Background job that deploys the dmdu app (not working locally)
 #' @export
 deploy_stage <- function(deploy_path = "deploy",
+                         docker_image_tag = tolower(golem::get_golem_name()),
                          use_renv = TRUE,
                          copy_r_environ = TRUE,
                          copy_r_profile = TRUE,
@@ -96,8 +98,7 @@ deploy_stage <- function(deploy_path = "deploy",
                          remove_previous_builds = TRUE,
                          launch_job = TRUE,
                          lockfile_path = "renv.lock",
-                         GITHUB_PAT = remotes:::github_pat(),
-                         docker_image_tag = tolower(golem::get_golem_name())) {
+                         GITHUB_PAT = remotes:::github_pat()) {
 
   UU::mkpath(deploy_path)
   lockfile_path <- fs::path_abs(lockfile_path)
