@@ -106,16 +106,21 @@ deploy_stage <- function(deploy_path = "deploy",
 
     docker_image_tags <- !!images
 
-    GITHUB_PAT <- !!GITHUB_PAT
-
+    include_github_pat <- !!is.character(GITHUB_PAT)
+    copy_r_environ <- !!copy_r_environ
+    copy_r_profile <- !!copy_r_profile
+    copy_renv_lock <- !!copy_renv_lock
+    copy_files <- !!copy_files
+    rebuild <- !!rebuild
+    remove_previous_builds <- !!remove_previous_builds
     copy_files <- c(
       copy_files,
       # c auto removes nulls
-      Renviron = if (!!copy_r_environ)
+      Renviron = if (copy_r_environ)
         !!fs::path_abs(".Renviron"),
-      Rprofile = if (!!copy_r_profile)
+      Rprofile = if (copy_r_profile)
         !!fs::path_abs(".Rprofile"),
-      renv_lock = if (!!copy_renv_lock)
+      renv_lock = if (copy_renv_lock)
         !!fs::path_abs(lockfile_path)
     )
 
