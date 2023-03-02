@@ -226,7 +226,6 @@ add_pseudo_module <- function (name,
   write_there("#' @description A shiny Module.")
   write_there("#'")
   write_there("#' @param .ns \\code{fun} ns function. Typically found automatically.")
-  write_there("#' @inheritParams shiny::callModule")
   write_there("#'")
   if (export) {
     write_there(sprintf("#' @rdname %s", ph_ui))
@@ -252,7 +251,8 @@ add_pseudo_module <- function (name,
     } else {
       write_there("#' @noRd ")
     }
-    write_there(sprintf("%s <- function(session = shiny::getDefaultReactiveDomain()){", ph_server))
+    write_there(sprintf("%s <- function(){", ph_server))
+    write_there("    session  <-  shiny::getDefaultReactiveDomain()")
     write_there("    ns <- session$ns")
     write_there("    input <- session$input")
     write_there("    output <- session$output")
