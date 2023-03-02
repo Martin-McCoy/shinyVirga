@@ -82,6 +82,7 @@ deploy_tar <- function(deploy_path = "deploy",
 #' @inheritParams deploy_tar
 #' @description `r lifecycle::badge("experimental")`
 #' @family deploy
+#' @param r_build \code{chr} The name of the R build to use in the docker image. See the [Rocker Hub](https://hub.docker.com/u/rocker) for options.
 #' @param docker_image_tag \code{chr} Docker Image tag name **Default: `tolower(golem::get_golem_name())`**
 #' @param GITHUB_PAT \code{chr} Github Personal Access Token. ** Default remotes:::github_pat() **. Includes the Github Personal Access Token in _.Renviron_ copied to Docker image for fetching Github repos during package installation. Set to `NULL` to turn off.
 #' @param launch_job \code{lgl} whether to launch the deployment script _jobs.R_ in the `deploy_path` directory after writing it.
@@ -89,6 +90,7 @@ deploy_tar <- function(deploy_path = "deploy",
 #' @export
 deploy_stage <- function(deploy_path = "deploy",
                          docker_image_tag = tolower(golem::get_golem_name()),
+                         r_build = "rocker/r-ver:4.2.1@sha256:3e3f21d75482c5c66e122188ae88ad5c89ca24f5202dd07f69c623b3c8af7e80",
                          use_renv = TRUE,
                          copy_r_environ = TRUE,
                          copy_r_profile = TRUE,
@@ -115,7 +117,8 @@ deploy_stage <- function(deploy_path = "deploy",
     rebuild = rebuild,
     remove_previous_builds = remove_previous_builds,
     lockfile_path = rlang::expr(!!fs::path_abs(lockfile_path)),
-    docker_image_tags = rlang::parse_expr(capture.output(dput(rlang::set_names(sprintf("%s%s:%s", docker_image_tag, c("", "_base"),"latest"), c("main", "base")))))
+    docker_image_tags = rlang::parse_expr(capture.output(dput(rlang::set_names(sprintf("%s%s:%s", docker_image_tag, c("", "_base"),"latest"), c("main", "base"))))),
+    r_build = r_build
   )
   job <- rlang::expr({
 
@@ -156,7 +159,7 @@ deploy_stage <- function(deploy_path = "deploy",
           source_folder = "../",
           output_dir = ".",
           lockfile = lockfile_path,
-          from = "rocker/r-ver:4.2.1@sha256:3e3f21d75482c5c66e122188ae88ad5c89ca24f5202dd07f69c623b3c8af7e80"
+          from = r_build
         )
       } else {
         golem::add_dockerfile()

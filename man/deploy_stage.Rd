@@ -7,6 +7,8 @@
 deploy_stage(
   deploy_path = "deploy",
   docker_image_tag = tolower(golem::get_golem_name()),
+  r_build =
+    "rocker/r-ver:4.2.1@sha256:3e3f21d75482c5c66e122188ae88ad5c89ca24f5202dd07f69c623b3c8af7e80",
   use_renv = TRUE,
   copy_r_environ = TRUE,
   copy_r_profile = TRUE,
@@ -23,6 +25,8 @@ deploy_stage(
 \item{deploy_path}{\code{chr} directory in which to stage deployment files}
 
 \item{docker_image_tag}{\code{chr} Docker Image tag name \strong{Default: \code{tolower(golem::get_golem_name())}}}
+
+\item{r_build}{\code{chr} The name of the R build to use in the docker image. See the \href{https://hub.docker.com/u/rocker}{Rocker Hub} for options.}
 
 \item{use_renv}{\code{lgl} whether to use the renv.lock & \code{golem::add_dockerfile_with_renv} (\code{TRUE}) or the DESCRIPTION \code{golem::add_dockerfile}}
 
