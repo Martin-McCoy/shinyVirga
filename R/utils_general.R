@@ -56,7 +56,7 @@ ns_find <- function(e = rlang::caller_env(2)) {
 #' @details No `-` can be used in user supplied namespace names as this is the separator shiny uses to separate namespace sections and is how this function splits apart sections.
 #' @param levels \code{num} indicating what segments of the namespace to keep.
 #' @param add \code{chr} segments to append to the result
-#' @param .ns \code{fun} `ns` function
+#' @inheritParams js_after
 #' @family general
 #' @return \code{chr} The custom namespace string
 #' @export
@@ -194,6 +194,102 @@ msg_mod_fun <- function(.call = rlang::trace_back(bottom = 5), e = rlang::caller
     cli::cli_text(cli::col_br_cyan("NS: ", e$ns("|")),cli::col_br_blue("call: {.code {rlang::expr_deparse(.call$call[[length(.call$call)]])}}|"),cli::col_br_black("env:{.code {rlang::env_label(e)}}"))
   }
 
+}
+
+
+
+#' Add a pseudo-module, one which maintains the namespace of it's parent module
+#'
+#' @param name \code{chr} name of the module
+#' @param path \code{chr} directory in which to create it
+#' @param export \code{lgl} whether it should be exported in the package
+#' @param ph_name \code{chr} The name of file
+#' @param ph_ui \code{chr} The name of the module ui function
+#' @param ph_server \code{chr} The name of the module server function
+#' @return \code{file} The new file opens
+#' @export
+
+add_pseudo_module <- function (name,
+                               path = "R",
+                               export = FALSE,
+                               ph_name = sprintf("pmod_%s", name),
+                               ph_ui = sprintf("pmod_%s_ui", name),
+                               ph_server = sprintf("pmod_%s_server", name),
+                               open = TRUE)
+{
+  file_path <- fs::path(path, ph_name, ext = "R")
+  write_there <- function(..., path = file_path) {
+    write(..., file = path, append = TRUE)
+  }
+  write_there(sprintf("#' %s UI Function", name))
+  write_there("#'")
+  write_there("#' @description A shiny Module.")
+  write_there("#'")
+  write_there("#' @param .ns \\code{fun} ns function. Typically found automatically.")
+  write_there("#' @inheritParams shiny::callModule")
+  write_there("#'")
+  if (export) {
+    write_there(sprintf("#' @rdname %s", ph_ui))
+    write_there("#' @export ")
+  } else {
+    write_there("#' @noRd ")
+  }
+  write_there("#'")
+  write_there("#' @importFrom shiny tagList ")
+  write_there(sprintf("%s <- function(.ns = shinyVirga::ns_find()){", ph_ui))
+  write_there("  ns <- force(.ns)")
+  write_there("  tagList(")
+  write_there("    ")
+  write_there("  )")
+  write_there("}")
+  write_there("    ")
+  if (utils::packageVersion("shiny") < "1.5") {
+    write_there(sprintf("#' %s Server Function", name))
+    write_there("#'")
+    if (export) {
+      write_there(sprintf("#' @rdname %s", ph_server))
+      write_there("#' @export ")
+    } else {
+      write_there("#' @noRd ")
+    }
+    write_there(sprintf("%s <- function(session = shiny::getDefaultReactiveDomain()){", ph_server))
+    write_there("    ns <- session$ns")
+    write_there("    input <- session$input")
+    write_there("    output <- session$output")
+    write_there("}")
+    write_there("    ")
+    write_there("## To be copied in the UI")
+    write_there(sprintf("# %s()", ph_ui))
+    write_there("    ")
+    write_there("## To be copied in the server")
+    write_there(sprintf("# %s())",
+                        ph_server))
+  } else {
+    write_there(sprintf("#' %s Server Functions", name))
+    write_there("#'")
+    if (export) {
+      write_there(sprintf("#' @rdname %s", ph_server))
+      write_there("#' @export ")
+    } else {
+      write_there("#' @noRd ")
+    }
+    write_there(sprintf("%s <- function(session = shiny::getDefaultReactiveDomain()){",
+                        ph_server))
+
+    write_there("    ns <- session$ns")
+    write_there("    input <- session$input")
+    write_there("    output <- session$output")
+    write_there("    ")
+    write_there("}")
+    write_there("    ")
+    write_there("## To be copied in the UI")
+    write_there(sprintf("# %s()", ph_ui))
+    write_there("    ")
+    write_there("## To be copied in the server")
+    write_there(sprintf("# %s()", ph_server))
+  }
+  if (open)
+    rstudioapi::documentOpen(file_path)
 }
 
 #' Insert module debugging statements throughout module files.

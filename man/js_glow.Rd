@@ -16,7 +16,7 @@ js_glow(id, color = "deepskyblue", asis = FALSE, delay = NULL, .ns = ns_find())
 
 \item{delay}{\code{dbl} duration in ms before removing the content from the element. Set to 0 to allow the element to persist.}
 
-\item{.ns}{\code{fun} ns function. Typically found automatically if inside a \code{server} module. \strong{It is recommended to supply this argument if using this function in a \code{ui} module.}}
+\item{.ns}{\code{fun} ns function. Typically found automatically.}
 }
 \description{
 Add an animated glow to an element

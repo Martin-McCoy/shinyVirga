@@ -11,7 +11,7 @@ ns_custom(levels, add = NULL, .ns = ns_find())
 
 \item{add}{\code{chr} segments to append to the result}
 
-\item{.ns}{\code{fun} \code{ns} function}
+\item{.ns}{\code{fun} ns function. Typically found automatically.}
 }
 \value{
 \code{chr} The custom namespace string

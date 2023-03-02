@@ -12,7 +12,7 @@ js_mouseover_once(id, asis = FALSE, .ns = ns_find())
 \item{asis}{If \code{TRUE}, use the ID as-is even when inside a module
 (instead of adding the namespace prefix to the ID).}
 
-\item{.ns}{\code{fun} ns function. Typically found automatically if inside a \code{server} module. \strong{It is recommended to supply this argument if using this function in a \code{ui} module.}}
+\item{.ns}{\code{fun} ns function. Typically found automatically.}
 }
 \description{
 Make a shiny input with named ID with a logical TRUE value when the element is moused over.
