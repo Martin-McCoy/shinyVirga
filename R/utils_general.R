@@ -273,9 +273,10 @@ add_pseudo_module <- function (name,
     } else {
       write_there("#' @noRd ")
     }
-    write_there(sprintf("%s <- function(session = shiny::getDefaultReactiveDomain()){",
+    write_there(sprintf("%s <- function(){",
                         ph_server))
 
+    write_there("    session <- shiny::getDefaultReactiveDomain()")
     write_there("    ns <- session$ns")
     write_there("    input <- session$input")
     write_there("    output <- session$output")
