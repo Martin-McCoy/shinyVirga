@@ -63,8 +63,11 @@ deploy_tar <- function(deploy_path = "deploy",
       purrr::walk(old_builds, file.remove)
   }
   copy_files <- fs::path(deploy_path, copy_files)
-  if (rebuild)
-    copy_files <- c(copy_files, devtools::build(path = deploy_path))
+  if (rebuild) {
+    build_path <- devtools::build(path = deploy_path)
+    copy_files <- rlang::set_names(c(copy_files, build_path), c(names(copy_files), basename(build_path)))
+  }
+
 
   if (UU::is_legit(copy_files)) {
     cli::cli_alert_success("The following files were updated:")
