@@ -36,11 +36,9 @@ Suggests:
     attachment (>= 0.3.0),
     dockerfiler (>= 0.2.0),
     functionMap,
-	  googlesheets4,
-	  virgaUtils
+	  googlesheets4
 Remotes: 
     MangoTheCat/functionMap,
-    Martin-McCoy/virgaUtils,
     yogat3ch/bs4Dash,
     yogat3ch/UU,
     JohnCoene/tippy

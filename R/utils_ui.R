@@ -407,13 +407,14 @@ col_auto <- function(..., .noWS = NULL, .renderHook = NULL) {
 #' @inheritParams base::dump
 #'
 #' @return \code{chr} file path invisibly
+#' @keywords internal
 
 
 glossary_sync <-
   function(ss = "163ArY3cL67Vp-gzqjKSw_4r2kl-pCqMRsKDrK_zgbM0",
            sheet = "Main",
            file = "R/glossary.R")  {
-    virgaUtils::google_auth()
+    UU::need_pkg("virgaUtils", "google_auth")()
     .glossary <- googlesheets4::read_sheet(ss, sheet = sheet)
 
     # Force remove duplicates
