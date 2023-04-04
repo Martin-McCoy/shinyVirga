@@ -427,6 +427,7 @@ js_bs4Card_action <- function(id, action = 'toggle') {
                $(sel).click()
              }
            }
+           openCard('*{id}*')
            ")
   )
 }
