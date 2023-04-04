@@ -401,3 +401,32 @@ js_mouseover_once <- function(id,
   )
 
 }
+
+#' Open/Close a bs4Card with ID
+#'
+#' @param id \code{chr} ID of the bs4Card
+#' @param action \code{chr} One of:
+#' \itemize{
+#'   \item{\code{toggle}}{ Toggle Open/Closed}
+#'   \item{\code{open}}{ If closed, open, otherwise do nothing}
+#'   \item{\code{close}}{ If open, close, otherwise do nothing}
+#' }
+#'
+#' @return \code{None}
+#' @export
+#'
+
+js_bs4Card_action <- function(id, action = 'toggle') {
+  shinyjs::runjs(
+    UU::glue_js("
+           function openCard(id, toggle = *{ifelse(action == 'toggle', 'true', 'false')}*) {
+             let sel = `#${id} > .card-header > .card-tools > .btn-tool`
+             if (toggle) {
+               $(sel).click()
+             } else if ($(sel + ' > .fas').hasClass('fa-*{switch(action, open = 'plus', close =  'minus')}*')) {
+               $(sel).click()
+             }
+           }
+           ")
+  )
+}
