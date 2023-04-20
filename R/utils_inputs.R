@@ -14,7 +14,7 @@
 #' @param metric_col_names \code{chr} column name with names (if there are names)
 #'
 #' @return \code{chr/list} list if category_col supplied, otherwise character vector
-#'
+#' @export
 
 select_choices <- function(metrics_df, metric_col_values, category_col, metric_col_names) {
 
