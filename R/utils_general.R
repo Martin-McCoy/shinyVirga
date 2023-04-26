@@ -222,9 +222,7 @@ add_pseudo_module <- function (name,
     write(..., file = path, append = TRUE)
   }
   write_there(sprintf("#' %s UI Function", name))
-  write_there("#'")
   write_there("#' @description A shiny Module.")
-  write_there("#'")
   write_there("#' @param .ns \\code{fun} ns function. Typically found automatically.")
   write_there("#'")
   if (export) {
@@ -233,7 +231,6 @@ add_pseudo_module <- function (name,
   } else {
     write_there("#' @noRd ")
   }
-  write_there("#'")
   write_there("#' @importFrom shiny tagList ")
   write_there(sprintf("%s <- function(.ns = shinyVirga::ns_find()){", ph_ui))
   write_there("  ns <- force(.ns)")
@@ -266,7 +263,6 @@ add_pseudo_module <- function (name,
                         ph_server))
   } else {
     write_there(sprintf("#' %s Server Functions", name))
-    write_there("#'")
     if (export) {
       write_there(sprintf("#' @rdname %s", ph_server))
       write_there("#' @export ")
