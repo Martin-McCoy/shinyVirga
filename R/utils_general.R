@@ -224,7 +224,6 @@ add_pseudo_module <- function (name,
   write_there(sprintf("#' %s UI Function", name))
   write_there("#' @description A shiny Module.")
   write_there("#' @param .ns \\code{fun} ns function. Typically found automatically.")
-  write_there("#'")
   if (export) {
     write_there(sprintf("#' @rdname %s", ph_ui))
     write_there("#' @export ")
@@ -241,7 +240,6 @@ add_pseudo_module <- function (name,
   write_there("    ")
   if (utils::packageVersion("shiny") < "1.5") {
     write_there(sprintf("#' %s Server Function", name))
-    write_there("#'")
     if (export) {
       write_there(sprintf("#' @rdname %s", ph_server))
       write_there("#' @export ")
