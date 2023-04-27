@@ -315,7 +315,6 @@ use_msg_mod_fun <- function(pattern = "^mod") {
 
 }
 
-
 #' Print a debug message to the R and Javascript Console
 #'
 #' @param x \code{chr} message formatted for \link[cli]{format_inline}
