@@ -304,7 +304,8 @@ enurl <- function(url, text){
 #' @family ui
 #' @export
 #' @examples
-#' if (interactive()) {
+#' \dontrun{
+#'if (interactive()) {
 #'  library(shiny)
 #'
 #'  link <- a(href = "#", "My super link", style = "color: lightblue;")
@@ -322,6 +323,8 @@ enurl <- function(url, text){
 #'  shinyApp(ui, server)
 #'
 #' }
+#' }
+#'
 make_action_button <- function(tag, inputId = NULL) {
   # some obvious checks
   if (!inherits(tag, "shiny.tag")) stop("Must provide a shiny tag.")

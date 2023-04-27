@@ -26,6 +26,7 @@
 /*.Rcheck/
 /*.tar.gz
 /cache/
+docs
 inst/WORDLIST
 inst/vault
 vignettes/*.html

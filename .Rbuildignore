@@ -2,6 +2,10 @@
 ^README\.Rmd$
 ^\.Renviron$
 ^\.Rproj\.user$
+^\.github$
 ^\.pre-commit-config\.yaml$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
 ^virgaShiny\.Rproj$
 inst/vault

@@ -22,6 +22,7 @@ Make current tag behave like an action button. \ifelse{html}{\href{https://lifec
 Only works with compatible tags like button or links
 }
 \examples{
+\dontrun{
 if (interactive()) {
  library(shiny)
 
@@ -40,6 +41,8 @@ if (interactive()) {
  shinyApp(ui, server)
 
 }
+}
+
 }
 \seealso{
 Other golem: 

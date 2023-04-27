@@ -8,6 +8,13 @@
 \description{
 A collection of useful utility functions for working with shiny and shiny frameworks
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://martin-mccoy.github.io/shinyVirga/}
+}
+
+}
 \author{
 \strong{Maintainer}: Stephen Holsenbeck \email{stephen@virgalabs.io}
 

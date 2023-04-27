@@ -22,7 +22,7 @@ js_glow(id, color = "deepskyblue", asis = FALSE, delay = NULL, .ns = ns_find())
 Add an animated glow to an element
 }
 \examples{
-
+\dontrun{
 library(shiny)
 devtools::load_all(pkgload::pkg_path())
 # Define UI for application that draws a histogram
@@ -40,6 +40,8 @@ server <- function(input, output) {
   )
 
 }
+}
+
 shinyApp(ui = ui, server = server)
 }
 \seealso{

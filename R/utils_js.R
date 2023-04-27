@@ -179,7 +179,7 @@ js_callout <- function(id,
 #'
 #' @export
 #' @examples
-#'
+#' \dontrun{
 #' library(shiny)
 #' devtools::load_all(pkgload::pkg_path())
 #' # Define UI for application that draws a histogram
@@ -197,6 +197,8 @@ js_callout <- function(id,
 #'   )
 #'
 #' }
+#' }
+#'
 #' shinyApp(ui = ui, server = server)
 
 js_glow <- function(id,
