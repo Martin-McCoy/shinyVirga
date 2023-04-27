@@ -120,7 +120,7 @@ browser_server <- function(e = rlang::caller_env()) {
 browser_ui <- function(.ns = ns_find()) {
   force(.ns)
   id <- .ns('browser')
-  UU::gmsg("Use $('#{id}').show() in JS console for browser button")
+  dbg_msg("Use $('#{id}').show() in JS console for browser button")
   tagList(
     bs4Dash::actionButton(.ns("browser"), "browser"),
     tags$script(type = "text/javascript", shiny::HTML(glue::glue("$('#{id}').hide();"))),
