@@ -329,7 +329,7 @@ dbg_msg <- function(x, e = rlang::caller_env()) {
     msg <- cli::format_inline(x, .envir = e)
     cli::cli_text(cli::col_br_magenta(msg))
     if (shiny::isRunning()) {
-      shinyjs::runjs(UU::glue_js("console.log('Debug: *{msg}*')"))
+      UU::need_pkg("shinyjs","runjs")(UU::glue_js("console.log('Debug: *{msg}*')"))
     }
   }
 }
