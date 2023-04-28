@@ -1,0 +1,8 @@
+.DS_Store
+.RData
+.Rhistory
+.Rproj.user
+.Ruserdata
+cicerone_highlight
+deploy
+inst/
