@@ -4,12 +4,19 @@
 \alias{dbg_msg}
 \title{Print a debug message to the R and Javascript Console}
 \usage{
-dbg_msg(x, e = rlang::caller_env())
+dbg_msg(
+  x,
+  e = rlang::caller_env(),
+  session = shiny::getDefaultReactiveDomain()
+)
 }
 \arguments{
 \item{x}{\code{chr} message formatted for \link[cli]{format_inline}}
 
 \item{e}{\code{env} Environment}
+
+\item{session}{The \code{session} object passed to function given to
+\code{shinyServer}. Default is \code{getDefaultReactiveDomain()}.}
 }
 \value{
 \code{msg}

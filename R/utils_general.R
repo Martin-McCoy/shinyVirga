@@ -319,16 +319,16 @@ use_msg_mod_fun <- function(pattern = "^mod") {
 #'
 #' @param x \code{chr} message formatted for \link[cli]{format_inline}
 #' @param e \code{env} Environment
-#'
+#' @inheritParams shiny::updateActionButton
 #' @return \code{msg}
 #' @export
 #'
 
-dbg_msg <- function(x, e = rlang::caller_env()) {
+dbg_msg <- function(x, e = rlang::caller_env(), session = shiny::getDefaultReactiveDomain()) {
   if (getOption("use_debug", FALSE)) {
     msg <- cli::format_inline(x, .envir = e)
     cli::cli_text(cli::col_br_magenta(msg))
-    if (shiny::isRunning()) {
+    if (shiny::isRunning() && inherits(session, "ShinySession")) {
       UU::need_pkg("shinyjs","runjs")(UU::glue_js("console.log('Debug: *{msg}*')"))
     }
   }
