@@ -141,7 +141,9 @@ warn_id <- function(warn_html, id, ..., ms = 10000) {
   warn_text <- htmltools::doRenderTags(warn_html)
   if (shiny::isRunning()) {
     shinyjs::html(id = id, html = warn_text, ...)
-    shinyjs::delay(ms, shinyjs::html(id, html = NULL))
+    if (!is.null(ms)) {
+      shinyjs::delay(ms, shinyjs::html(id, html = NULL))
+    }
   } else
     UU::gwarn(warn_text)
   FALSE
