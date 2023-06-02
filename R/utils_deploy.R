@@ -14,6 +14,7 @@
 #' @export
 deploy_tar <- function(deploy_path = "deploy",
                        use_renv = TRUE,
+                       use_github_pat = TRUE,
                        copy_r_environ = TRUE,
                        copy_r_profile = TRUE,
                        copy_renv_lock = TRUE,
@@ -76,6 +77,10 @@ deploy_tar <- function(deploy_path = "deploy",
     })
   }
 
+  if (use_github_pat) {
+    UU::creds_to_renviron(proj_dir = deploy_path, GITHUB_PAT = Sys.getenv("GITHUB_PAT"),scope = "project")
+  }
+  UU::ignore_files(deploy_path)
 
 }
 
