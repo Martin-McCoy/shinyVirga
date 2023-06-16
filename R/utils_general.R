@@ -184,6 +184,16 @@ path_strip_shiny <- function(path, resourcepath = "www", leading_slash = FALSE) 
 }
 
 
+shiny.tag_map <- function(x, name = NULL, attribs = NULL, previous) {
+  fns <- purrr::compact(list(
+    name = name,
+    attribs = attribs
+  ))
+
+  if (!rlang::is_empty(x$attribs)) {
+
+  }
+}
 
 #' @title Display the name of the parent module
 #' @description Stack traces often aren't available in Shiny. Use this function inside of modules to know where errors occur
@@ -248,7 +258,7 @@ add_pseudo_module <- function (name,
     } else {
       write_there("#' @noRd ")
     }
-    write_there(sprintf("%s <- function(){", ph_server))
+    write_there(sprintf("%s <- function(parent_env = rlang::caller_env()){", ph_server))
     write_there("  session <- shiny::getDefaultReactiveDomain()")
     write_there("  ns <- session$ns")
     write_there("  input <- session$input")
