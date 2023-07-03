@@ -331,6 +331,7 @@ js_callback <- function(id,
 #' @param as_callback \code{lgl} Should the resulting code be wrapped in a callback function?
 #' @param on \code{chr} A javascript event name, must be specified with a selector to argument `on_dom` that indicates the jQuery selector for a DOM element to which the event will pertain.
 #' @param as_tag \code{lgl} Whether the output should be a script tag.
+#' @param priority_event \code{lgl} Is the priority event level. See [Communicating with JS](https://shiny.posit.co/r/articles/build/communicating-with-js/) for details.
 #' @return \code{chr/shiny.tag} script tag with javascript
 #' @export
 #' @family JS
@@ -343,12 +344,17 @@ js_set_input_val <- function(id,
                              as_callback = FALSE,
                              on = NULL,
                              as_tag = FALSE,
+                             priority_event = TRUE,
                              .ns = ns_find()) {
   if (!asis)
     id <- .ns(id)
   rlang::env_bind(environment(), ...)
 
-  to_glue <- c("Shiny.setInputValue('*{id}*', *{value}*, {priority: 'event'});")
+  priority <- if (isTRUE(priority_event))
+    ", {priority: 'event'}"
+  else
+    ""
+  to_glue <- c("Shiny.setInputValue('*{id}*', *{value}**{priority}*);")
 
   value <- switch(
     value_to,
