@@ -7,6 +7,7 @@
 deploy_tar(
   deploy_path = "deploy",
   use_renv = TRUE,
+  use_github_pat = TRUE,
   copy_r_environ = TRUE,
   copy_r_profile = TRUE,
   copy_renv_lock = TRUE,

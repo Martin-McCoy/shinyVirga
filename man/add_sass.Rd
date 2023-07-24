@@ -9,10 +9,10 @@ add_sass(sass, .open = "|", .close = "|", .envir = rlang::caller_env())
 \arguments{
 \item{sass}{\code{chr} with Sass}
 
-\item{.open}{[\code{character(1)}: \sQuote{\\{}]\cr The opening delimiter. Doubling the
+\item{.open}{[\code{character(1)}: \sQuote{\\\{}]\cr The opening delimiter. Doubling the
 full delimiter escapes it.}
 
-\item{.close}{[\code{character(1)}: \sQuote{\\}}]\cr The closing delimiter. Doubling the
+\item{.close}{[\code{character(1)}: \sQuote{\\\}}]\cr The closing delimiter. Doubling the
 full delimiter escapes it.}
 
 \item{.envir}{[\code{environment}: \code{parent.frame()}]\cr Environment to evaluate each expression in. Expressions are

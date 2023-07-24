@@ -439,3 +439,26 @@ js_bs4Card_action <- function(id, action = 'toggle') {
            ")
   )
 }
+
+
+#' Create an incrementing shiny input each time a render function runs
+#' @description
+#' Requires \code{\link[shinyjs]{runjs}}. Useful for creating a callback once a DT is rerendered to update the page number for page number retention.
+#'
+#' @param outputId \code{chr} The outputId value
+#' @inheritParams shiny::updateActionButton
+#'
+#' @return Called for side effects. Runs code via shinyjs.
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' output[[outputId]] <- renderDT({
+#'   ## DT CODE
+#'   render_ran_input(outputId)
+#' })
+#' }
+#'
+render_ran_input <- function(outputId, session = shiny::getDefaultReactiveDomain()) {
+  shinyjs::runjs(shinyVirga::js_set_input_val(paste0(session$ns(outputId), "_ran"), session$input[[outputId]] %|0|% 0 + 1, asis = TRUE))
+}

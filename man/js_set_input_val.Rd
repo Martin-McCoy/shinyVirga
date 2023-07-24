@@ -14,6 +14,7 @@ js_set_input_val(
   as_callback = FALSE,
   on = NULL,
   as_tag = FALSE,
+  priority_event = TRUE,
   .ns = ns_find()
 )
 }
@@ -47,6 +48,8 @@ Shiny.setInputValue('{{input}}', {{value}}, {priority: 'event'});
 \item{on}{\code{chr} A javascript event name, must be specified with a selector to argument \code{on_dom} that indicates the jQuery selector for a DOM element to which the event will pertain.}
 
 \item{as_tag}{\code{lgl} Whether the output should be a script tag.}
+
+\item{priority_event}{\code{lgl} Is the priority event level. See \href{https://shiny.posit.co/r/articles/build/communicating-with-js/}{Communicating with JS} for details.}
 
 \item{.ns}{\code{fun} ns function. Typically found automatically.}
 
