@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">shinyVirga</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.23.6</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.24.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -52,6 +52,7 @@
 <span>  as_callback <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  on <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  as_tag <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  priority_event <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  .ns <span class="op">=</span> <span class="fu"><a href="ns_find.html">ns_find</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -101,6 +102,10 @@ Shiny.setInputValue('{{input}}', {{value}}, {priority: 'event'});
 
 <dt>as_tag</dt>
 <dd><p><code>lgl</code> Whether the output should be a script tag.</p></dd>
+
+
+<dt>priority_event</dt>
+<dd><p><code>lgl</code> Is the priority event level. See <a href="https://shiny.posit.co/r/articles/build/communicating-with-js/" class="external-link">Communicating with JS</a> for details.</p></dd>
 
 
 <dt>.ns</dt>
