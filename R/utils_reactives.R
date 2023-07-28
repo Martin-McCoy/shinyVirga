@@ -46,3 +46,33 @@ rv2l <- rv_to_list
 #' @export
 #' @rdname rv_to_list
 rvtl <- rv_to_list
+
+.nonreactiveVals <- new.env()
+
+#' Create a non-reactiveVal
+#' @description
+#'  these are useful in conjunction with `req` to evaluate whether a reactive should run while preventing reactive flush or chaining when the internal value changes
+#' @aliases nrV
+#' @inheritParams shiny::reactiveVal
+#'
+#' @return \code{obj} Whatever object was last stored
+#' @export
+#'
+#' @examples
+#' my_nrv <- nonreactiveVal(5)
+#' my_nrv()
+nonreactiveVal <- function(value = NULL) {
+  address <- paste0(".", rlang::hash(rnorm(3)))
+  if (!is.null(value))
+    assign(address, value, envir = .nonreactiveVals)
+  rlang::new_function(
+    args = rlang::pairlist2(value = ),
+    body = rlang::expr({
+      if (!missing(value))
+        assign(!!address, value, envir = .nonreactiveVals)
+      get0(!!address, envir = .nonreactiveVals)
+    })
+  )
+
+}
+nrV <- nonreactiveVal

@@ -16,7 +16,7 @@ render_ran_input(outputId, session = shiny::getDefaultReactiveDomain())
 Called for side effects. Runs code via shinyjs.
 }
 \description{
-Requires \code{\link[shinyjs]{runjs}}
+Requires \code{\link[shinyjs]{runjs}}. Useful for creating a callback once a DT is rerendered to update the page number for page number retention.
 }
 \examples{
 \dontrun{
