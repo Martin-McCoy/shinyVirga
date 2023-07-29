@@ -65,7 +65,7 @@ nonreactiveVal <- function(value = NULL) {
   address <- paste0(".", rlang::hash(rnorm(3)))
   if (!is.null(value))
     assign(address, value, envir = .nonreactiveVals)
-  rlang::new_function(
+  out <- rlang::new_function(
     args = rlang::pairlist2(value = ),
     body = rlang::expr({
       if (!missing(value))
@@ -73,6 +73,10 @@ nonreactiveVal <- function(value = NULL) {
       get0(!!address, envir = .nonreactiveVals)
     })
   )
+  reg.finalizer(rlang::fn_env(out), rlang::new_function(args = rlang::pairlist2(x=), body = rlang::expr({
+    rm(!!address, envir = .nonreactiveVals)
+  })), onexit = TRUE)
 
+  out
 }
 nrV <- nonreactiveVal
