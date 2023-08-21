@@ -47,9 +47,9 @@ use_driver.js <- function() {
   htmltools::htmlDependency(
     name = "driver.js",
     version = "1",
-    src = c(href = "https://cdn.jsdelivr.net/npm/driver.js@1.0.1/dist/driver.js.iife.js"),
-    script = "driver.min.js",
-    stylesheet = "driver.min.css"
+    src = c(href = "https://cdn.jsdelivr.net/npm/driver.js@1.0.1/dist/"),
+    script = "driver.js.iife.js",
+    stylesheet = "driver.css"
   )
 }
 
