@@ -158,8 +158,8 @@ js_callout <- function(id,
       purrr::map(stringr::str_replace_all, pattern = '"(\\w+)"\\s*:', replacement = '\\1:')
 
     to_glue <- c(
-      c("var driver = new Driver(*{driver$opts}*);",
-        "driver.highlight(*{driver$args}*)")
+      c("const driver = new driver(*{driver$opts}*);",
+        "driver.popover(*{driver$args}*)")
     )
 
     if (animate_el) {
