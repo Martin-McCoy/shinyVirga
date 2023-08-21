@@ -123,7 +123,7 @@ js_callout <- function(id,
       id <- .ns(id)
 
     html <- htmltools::doRenderTags(description)
-    driver <- list(
+    driver_settings <- list(
       args = list(
         element = make_id(id),
         popover = purrr::map(list(
@@ -158,8 +158,8 @@ js_callout <- function(id,
       purrr::map(stringr::str_replace_all, pattern = '"(\\w+)"\\s*:', replacement = '\\1:')
 
     to_glue <- c(
-      c("const driver = new driver(*{driver$opts}*);",
-        "driver.popover(*{driver$args}*)")
+      c("const newDriver = new driver(*{driver_settings$opts}*);",
+        "driver.popover(*{driver_settings$args}*)")
     )
 
     if (animate_el) {
