@@ -159,7 +159,7 @@ js_callout <- function(id,
 
     to_glue <- c(
       c("const newDriver = new driver(*{driver_settings$opts}*);",
-        "driver.popover(*{driver_settings$args}*)")
+        "newDriver.highlight(*{driver_settings$args}*)")
     )
 
     if (animate_el) {
