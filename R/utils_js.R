@@ -54,119 +54,147 @@ use_driver.js <- function() {
 }
 
 make_id <- function(x) {
-  if (grepl("^#", x))
+  if (grepl("^#|\\.", x))
     x
   else
     paste0("#", x)
 }
 make_id_ <- Vectorize(make_id)
 
-#' Create a driver.js callout
-#' Must include `shinyVirga::use_driver.js()` in the head of the page.
-#' @family JS
-#' @param className className to wrap driver.js popover
-#' @param animate Whether to animate or not
-#' @param opacity Background opacity (0 means only popovers and without overlay)
-#' @param padding Distance of element from around the edges
-#' @param allowClose Whether the click on overlay should close or not
-#' @param overlayClickNext Whether the click on overlay should move next
-#' @param doneBtnText Text on the final button
-#' @param closeBtnText Text on the close button for this step
-#' @param stageBackground Background color for the staged behind highlighted element
-#' @param nextBtnText Next button text for this step
-#' @param prevBtnText Previous button text for this step
-#' @param showButtons Do not show control buttons in footer
-#' @param keyboardControl Allow controlling through keyboard (escape to close, arrow keys to move)
-#' @param scrollIntoViewOptions We use `scrollIntoView()` when possible, pass here the options for it if you want any
-#' @param onHighlightStarted Called when element is about to be highlighted
-#' @param onHighlighted Called when element is fully highlighted
-#' @param onDeselected Called when element has been deselected
-#' @param onReset Called when overlay is about to be cleared
-#' @param onNext Called when moving to next step on any step
-#' @param onPrevious Called when moving to previous step on any step
-#' @inheritParams js_after
-#' @inheritParams js_callback
-#'
-#' @export
-#'
 
-js_callout <- function(id,
+#' Create a driver.js callout
+#' Must include `shinyVirga::use_driver.js()` & \code{\link[shinyjs]{useShinyJS}} in the head of the page.
+#' @family JS
+
+#' @param el \code{chr} ID or class of element. If a character not prefixed by `.` for a class or `#` for an ID, it will be assumed and ID and `#` will be added.
+#' @param title \code{chr} Title of popover
+#' @param description \code{chr} Description for it
+#' @param side \code{chr}  The position of the popover relative to the target element.
+#' @param align \code{chr} The alignment of the popover relative to the target element.
+#' @param animate \code{lgl} Whether to animate the product tour. (default: true)
+#' @param overlayColor \code{chr} Overlay color. (default: black) This is useful when you have a dark background and want to highlight elements with a light background color.
+#' @param smoothScroll \code{lgl}  Whether to smooth scroll to the highlighted element. (default: false)
+#' @param allowClose \code{lgl}  Whether to allow closing the popover by clicking on the backdrop. (default: true)
+#' @param overlayOpacity \code{num}  Opacity of the backdrop. (default: 0.5)
+#' @param stagePadding \code{num} Distance between the highlighted element and the cutout. (default: 10)
+#' @param stageRadius  \code{num}  Radius of the cutout around the highlighted element. (default: 5)
+#' @param allowKeyboardControl \code{lgl} Whether to allow keyboard navigation. (default: true)
+#' @param disableActiveInteraction \code{lgl} Whether to disable interaction with the highlighted element. (default: false)
+#' @param popoverClass \code{chr} If you want to add custom class to the popover
+#' @param popoverOffset \code{num} Distance between the popover and the highlighted element. (default: 10)
+#' @param showButtons \code{chr}  Array of buttons to show in the popover. Defaults to ["next", "previous", "close"] for product tours and [] for single element highlighting.
+#' @param disableButtons \code{chr}  Array of buttons to disable. This is useful when you want to show some of the buttons, but disable some of them.
+#' @param showProgress \code{lgl}  Whether to show the progress text in popover. (default: false)
+#' @param progressText \code{chr} See \code{\href{https://driverjs.com/docs/configuration}{docs}} for details
+#' @param doneBtnText  \code{chr} See \code{\href{https://driverjs.com/docs/configuration}{docs}} for details
+#' @param closeBtnText \code{chr} See \code{\href{https://driverjs.com/docs/configuration}{docs}} for details
+#' @param nextBtnText \code{chr} See \code{\href{https://driverjs.com/docs/configuration}{docs}} for details
+#' @param prevBtnText \code{chr} See \code{\href{https://driverjs.com/docs/configuration}{docs}} for details
+#' @param doneBtnText \code{chr} See \code{\href{https://driverjs.com/docs/configuration}{docs}} for details
+#' @param onPopoverRender \code{chr} See \code{\href{https://driverjs.com/docs/configuration}{docs}} for details
+#' @param onHighlightStarted \code{chr} See \code{\href{https://driverjs.com/docs/configuration}{docs}} for details
+#' @param onHighlighted \code{chr} See \code{\href{https://driverjs.com/docs/configuration}{docs}} for details
+#' @param onDeselected \code{chr} See \code{\href{https://driverjs.com/docs/configuration}{docs}} for details
+#' @param onDestroyStarted \code{chr} See \code{\href{https://driverjs.com/docs/configuration}{docs}} for details
+#' @param onDestroyed \code{chr} See \code{\href{https://driverjs.com/docs/configuration}{docs}} for details
+#' @param onNextClick \code{chr} See \code{\href{https://driverjs.com/docs/configuration}{docs}} for details
+#' @param onPrevClick \code{chr} See \code{\href{https://driverjs.com/docs/configuration}{docs}} for details
+#' @param onCloseClick \code{chr} See \code{\href{https://driverjs.com/docs/configuration}{docs}} for details
+#' @inheritParams js_after
+#' @export
+
+js_callout <- function(el,
                        title,
                        description,
-                       position = "bottom-center",
-                       className = 'scoped-class',
+                       side = c("top", "right", "bottom", "left")[3],
+                       align = c("start", 'center', "end")[2],
                        animate = TRUE,
-                       opacity = 0.75,
-                       padding = 10,
+                       overlayColor = "black",
+                       smoothScroll = FALSE,
                        allowClose = TRUE,
-                       overlayClickNext = FALSE,
-                       doneBtnText = 'Done',
-                       closeBtnText = 'Close',
-                       stageBackground = '#ffffff',
+                       overlayOpacity = 0.5,
+                       stagePadding = 10,
+                       stageRadius = 5,
+                       allowKeyboardControl = TRUE,
+                       disableActiveInteraction = FALSE,
+                       popoverClass = 'scoped-class',
+                       popoverOffset = 10,
+                       showButtons = NULL,
+                       disableButtons = NULL,
+                       showProgress = FALSE,
+                       progressText = FALSE,
                        nextBtnText = 'Next',
                        prevBtnText = 'Previous',
-                       showButtons = TRUE,
-                       keyboardControl = TRUE,
-                       scrollIntoViewOptions = list(),
+                       doneBtnText = 'Done',
+                       onPopoverRender = NULL,
                        onHighlightStarted = NULL,
                        onHighlighted = NULL,
                        onDeselected = NULL,
-                       onReset = NULL,
-                       onNext = NULL,
-                       onPrevious = NULL,
+                       onDestroyStarted = NULL,
+                       onDestroyed = NULL,
+                       onNextClick = NULL,
+                       onPrevClick = NULL,
+                       onCloseClick = NULL,
                        asis = FALSE,
-                       animate_el = TRUE,
                        .ns = ns_find()) {
 
 
     if (!asis)
-      id <- .ns(id)
+      el <- .ns(el)
 
     html <- htmltools::doRenderTags(description)
     driver_settings <- list(
       args = list(
-        element = make_id(id),
+        element = make_id(el),
         popover = purrr::map(list(
         title = title,
         description = description,
-        position = position
+        side = side,
+        align = align
       ), htmltools::doRenderTags)),
-      opts = purrr::compact(list(
-        className = className,
-        animate = animate,
-        opacity = opacity,
-        padding = padding,
-        allowClose = allowClose,
-        overlayClickNext = overlayClickNext,
-        doneBtnText = doneBtnText,
-        closeBtnText = closeBtnText,
-        stageBackground = stageBackground,
-        nextBtnText = nextBtnText,
-        prevBtnText = prevBtnText,
-        showButtons = showButtons,
-        keyboardControl = keyboardControl,
-        scrollIntoViewOptions = scrollIntoViewOptions,
-        onHighlightStarted = onHighlightStarted,
-        onHighlighted = onHighlighted,
-        onDeselected = onDeselected,
-        onReset = onReset,
-        onNext = onNext,
-        onPrevious = onPrevious
-      ))
+      opts = purrr::compact(
+        list(
+          animate = animate,
+          overlayColor = overlayColor,
+          smoothScroll = smoothScroll,
+          allowClose = allowClose,
+          overlayOpacity = overlayOpacity,
+          stagePadding = stagePadding,
+          stageRadius = stageRadius,
+          allowKeyboardControl = allowKeyboardControl,
+          disableActiveInteraction = disableActiveInteraction,
+          popoverClass = popoverClass,
+          popoverOffset = popoverOffset,
+          showButtons = showButtons,
+          disableButtons = disableButtons,
+          showProgress = showProgress,
+          progressText = progressText,
+          nextBtnText = nextBtnText,
+          prevBtnText = prevBtnText,
+          doneBtnText = doneBtnText,
+          onPopoverRender = onPopoverRender,
+          onHighlightStarted = onHighlightStarted,
+          onHighlighted = onHighlighted,
+          onDeselected = onDeselected,
+          onDestroyStarted = onDestroyStarted,
+          onDestroyed = onDestroyed,
+          onNextClick = onNextClick,
+          onPrevClick = onPrevClick,
+          onCloseClick = onCloseClick
+        )
+      )
     ) |>
-      purrr::map(jsonlite::toJSON, auto_unbox = TRUE, pretty = TRUE) |>
+      purrr::map(jsonlite::toJSON, pretty = TRUE, auto_unbox = TRUE) |>
       purrr::map(stringr::str_replace_all, pattern = '"(\\w+)"\\s*:', replacement = '\\1:')
 
     to_glue <- c(
-      c("const newDriver = driver.js.driver(*{driver_settings$opts}*);",
-        "newDriver.highlight(*{driver_settings$args}*)")
+      c("(() => {
+        const driver = window.driver.js.driver;
+        const newDriver = new driver(*{driver_settings$opts}*);",
+        "newDriver.highlight(*{driver_settings$args}*)
+        })()")
     )
 
-    if (animate_el) {
-
-
-
-    }
     the_js <- UU::glue_js(to_glue)
     shinyjs::runjs(the_js)
 }
