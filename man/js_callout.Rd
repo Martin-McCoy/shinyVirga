@@ -3,89 +3,120 @@
 \name{js_callout}
 \alias{js_callout}
 \title{Create a driver.js callout
-Must include \code{shinyVirga::use_driver.js()} in the head of the page.}
+Must include \code{shinyVirga::use_driver.js()} & \code{\link[shinyjs]{useShinyJS}} in the head of the page.}
 \usage{
 js_callout(
-  id,
+  el,
   title,
   description,
-  position = "bottom-center",
-  className = "scoped-class",
+  side = c("top", "right", "bottom", "left")[3],
+  align = c("start", "center", "end")[2],
   animate = TRUE,
-  opacity = 0.75,
-  padding = 10,
+  overlayColor = "black",
+  smoothScroll = FALSE,
   allowClose = TRUE,
-  overlayClickNext = FALSE,
-  doneBtnText = "Done",
-  closeBtnText = "Close",
-  stageBackground = "#ffffff",
+  overlayOpacity = 0.5,
+  stagePadding = 10,
+  stageRadius = 5,
+  allowKeyboardControl = TRUE,
+  disableActiveInteraction = FALSE,
+  popoverClass = "scoped-class",
+  popoverOffset = 10,
+  showButtons = NULL,
+  disableButtons = NULL,
+  showProgress = FALSE,
+  progressText = FALSE,
   nextBtnText = "Next",
   prevBtnText = "Previous",
-  showButtons = TRUE,
-  keyboardControl = TRUE,
-  scrollIntoViewOptions = list(),
+  doneBtnText = "Done",
+  onPopoverRender = NULL,
   onHighlightStarted = NULL,
   onHighlighted = NULL,
   onDeselected = NULL,
-  onReset = NULL,
-  onNext = NULL,
-  onPrevious = NULL,
+  onDestroyStarted = NULL,
+  onDestroyed = NULL,
+  onNextClick = NULL,
+  onPrevClick = NULL,
+  onCloseClick = NULL,
   asis = FALSE,
-  animate_el = TRUE,
   .ns = ns_find()
 )
 }
 \arguments{
-\item{id}{\code{(chr)} Automatically namespaced with \code{ns} if inside a module}
+\item{el}{\code{chr} ID or class of element. If a character not prefixed by \code{.} for a class or \verb{#} for an ID, it will be assumed and ID and \verb{#} will be added.}
 
-\item{className}{className to wrap driver.js popover}
+\item{title}{\code{chr} Title of popover}
 
-\item{animate}{Whether to animate or not}
+\item{description}{\code{chr} Description for it}
 
-\item{opacity}{Background opacity (0 means only popovers and without overlay)}
+\item{side}{\code{chr}  The position of the popover relative to the target element.}
 
-\item{padding}{Distance of element from around the edges}
+\item{align}{\code{chr} The alignment of the popover relative to the target element.}
 
-\item{allowClose}{Whether the click on overlay should close or not}
+\item{animate}{\code{lgl} Whether to animate the product tour. (default: true)}
 
-\item{overlayClickNext}{Whether the click on overlay should move next}
+\item{overlayColor}{\code{chr} Overlay color. (default: black) This is useful when you have a dark background and want to highlight elements with a light background color.}
 
-\item{doneBtnText}{Text on the final button}
+\item{smoothScroll}{\code{lgl}  Whether to smooth scroll to the highlighted element. (default: false)}
 
-\item{closeBtnText}{Text on the close button for this step}
+\item{allowClose}{\code{lgl}  Whether to allow closing the popover by clicking on the backdrop. (default: true)}
 
-\item{stageBackground}{Background color for the staged behind highlighted element}
+\item{overlayOpacity}{\code{num}  Opacity of the backdrop. (default: 0.5)}
 
-\item{nextBtnText}{Next button text for this step}
+\item{stagePadding}{\code{num} Distance between the highlighted element and the cutout. (default: 10)}
 
-\item{prevBtnText}{Previous button text for this step}
+\item{stageRadius}{\code{num}  Radius of the cutout around the highlighted element. (default: 5)}
 
-\item{showButtons}{Do not show control buttons in footer}
+\item{allowKeyboardControl}{\code{lgl} Whether to allow keyboard navigation. (default: true)}
 
-\item{keyboardControl}{Allow controlling through keyboard (escape to close, arrow keys to move)}
+\item{disableActiveInteraction}{\code{lgl} Whether to disable interaction with the highlighted element. (default: false)}
 
-\item{scrollIntoViewOptions}{We use \code{scrollIntoView()} when possible, pass here the options for it if you want any}
+\item{popoverClass}{\code{chr} If you want to add custom class to the popover}
 
-\item{onHighlightStarted}{Called when element is about to be highlighted}
+\item{popoverOffset}{\code{num} Distance between the popover and the highlighted element. (default: 10)}
 
-\item{onHighlighted}{Called when element is fully highlighted}
+\item{showButtons}{\code{chr}  Array of buttons to show in the popover. Defaults to \link{"next", "previous", "close"} for product tours and [] for single element highlighting.}
 
-\item{onDeselected}{Called when element has been deselected}
+\item{disableButtons}{\code{chr}  Array of buttons to disable. This is useful when you want to show some of the buttons, but disable some of them.}
 
-\item{onReset}{Called when overlay is about to be cleared}
+\item{showProgress}{\code{lgl}  Whether to show the progress text in popover. (default: false)}
 
-\item{onNext}{Called when moving to next step on any step}
+\item{progressText}{\code{chr} See \code{\href{https://driverjs.com/docs/configuration}{docs}} for details}
 
-\item{onPrevious}{Called when moving to previous step on any step}
+\item{nextBtnText}{\code{chr} See \code{\href{https://driverjs.com/docs/configuration}{docs}} for details}
+
+\item{prevBtnText}{\code{chr} See \code{\href{https://driverjs.com/docs/configuration}{docs}} for details}
+
+\item{doneBtnText}{\code{chr} See \code{\href{https://driverjs.com/docs/configuration}{docs}} for details}
+
+\item{onPopoverRender}{\code{chr} See \code{\href{https://driverjs.com/docs/configuration}{docs}} for details}
+
+\item{onHighlightStarted}{\code{chr} See \code{\href{https://driverjs.com/docs/configuration}{docs}} for details}
+
+\item{onHighlighted}{\code{chr} See \code{\href{https://driverjs.com/docs/configuration}{docs}} for details}
+
+\item{onDeselected}{\code{chr} See \code{\href{https://driverjs.com/docs/configuration}{docs}} for details}
+
+\item{onDestroyStarted}{\code{chr} See \code{\href{https://driverjs.com/docs/configuration}{docs}} for details}
+
+\item{onDestroyed}{\code{chr} See \code{\href{https://driverjs.com/docs/configuration}{docs}} for details}
+
+\item{onNextClick}{\code{chr} See \code{\href{https://driverjs.com/docs/configuration}{docs}} for details}
+
+\item{onPrevClick}{\code{chr} See \code{\href{https://driverjs.com/docs/configuration}{docs}} for details}
+
+\item{onCloseClick}{\code{chr} See \code{\href{https://driverjs.com/docs/configuration}{docs}} for details}
 
 \item{asis}{If \code{TRUE}, use the ID as-is even when inside a module
 (instead of adding the namespace prefix to the ID).}
 
 \item{.ns}{\code{fun} ns function. Typically found automatically.}
+
+\item{closeBtnText}{\code{chr} See \code{\href{https://driverjs.com/docs/configuration}{docs}} for details}
 }
 \description{
 Create a driver.js callout
-Must include \code{shinyVirga::use_driver.js()} in the head of the page.
+Must include \code{shinyVirga::use_driver.js()} & \code{\link[shinyjs]{useShinyJS}} in the head of the page.
 }
 \seealso{
 Other JS: 
