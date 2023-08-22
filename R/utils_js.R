@@ -158,7 +158,7 @@ js_callout <- function(id,
       purrr::map(stringr::str_replace_all, pattern = '"(\\w+)"\\s*:', replacement = '\\1:')
 
     to_glue <- c(
-      c("const newDriver = new driver(*{driver_settings$opts}*);",
+      c("const newDriver = driver.js.driver(*{driver_settings$opts}*);",
         "newDriver.highlight(*{driver_settings$args}*)")
     )
 
