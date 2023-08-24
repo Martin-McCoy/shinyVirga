@@ -468,6 +468,63 @@ js_bs4Card_action <- function(id, action = 'toggle') {
   )
 }
 
+#' Force the browser to download JSON, useful for saved session recovery
+#' @description
+#' Useful in combination with `options(shiny.error = ...)` for saving a session on a break.
+#' See Examples for details
+#' @param x \code{chr/obj} The raw json as a character, a path to a file, or an R object in which case \code{\link[jsonlite]{toJSON}} will be used to convert the object to JSON.
+#' @param is_file \code{lgl} If x is a file, must be TRUE
+#' @param filename \code{chr} Name of file to be downlaoded
+#'
+#' @return \code{none} called for side effects
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' library(shiny)
+#'
+#' ui <- fluidPage(
+#'   shinyjs::useShinyjs(),
+#'   actionButton("break_me", "Break the app")
+#' )
+#'
+#' server <- function(input, output, session) {
+#'   options(shiny.error = \() {
+#'   js_force_download_json(jsonlite::toJSON(list(some = "important information")), filename = "test.json")
+#'   })
+#'   observeEvent(input$break_me, {
+#'     rlang::abort("Done broke the app")
+#'   })
+#' }
+#'
+#' shinyApp(ui, server)
+#'
+#' }
+
+js_force_download_json <- function(x, is_file = FALSE, filename = "recovery-save-session.json") {
+  no_brackets <- !any(stringr::str_detect(x), "\\{")
+  if (!is.character(x) && no_brackets) {
+    x <- jsonlite::toJSON(x, auto_unbox = TRUE, pretty = TRUE)
+  }
+  if (is_file) {
+    x <- readLines(x)
+  }
+  x <- glue::glue_collapse(x, sep = "\n")
+  stopifnot(`Must be run in a shiny session` = shiny::isRunning())
+ UU::need_pkg("shinyjs", "runjs")(UU::glue_js("(() => {
+  var json = `*{x}*`;
+  var data = \"text/json;charset=utf-8,\" + encodeURIComponent(json);
+  var a = document.createElement('a');
+  a.href = 'data:' + data;
+  a.download = '*{filename}*';
+  a.innerHTML = 'download JSON';
+  var container = document.getElementsByTagName('body')[0];
+  container.appendChild(a);
+  a.click();
+  a.remove();
+  })()"))
+}
+
 
 #' Create an incrementing shiny input each time a render function runs
 #' @description
