@@ -74,7 +74,7 @@ nonreactiveVal <- function(value = NULL) {
     })
   )
   reg.finalizer(rlang::fn_env(out), rlang::new_function(args = rlang::pairlist2(x=), body = rlang::expr({
-    rm(!!address, envir = .nonreactiveVals)
+    suppressWarnings(rm(!!address, envir = .nonreactiveVals))
   })), onexit = TRUE)
 
   out
