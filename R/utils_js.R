@@ -502,7 +502,7 @@ js_bs4Card_action <- function(id, action = 'toggle') {
 #' }
 
 js_force_download_json <- function(x, is_file = FALSE, filename = "recovery-save-session.json") {
-  no_brackets <- !any(stringr::str_detect(x), "\\{")
+  no_brackets <- !any(stringr::str_detect(x, "\\{"))
   if (!is.character(x) && no_brackets) {
     x <- jsonlite::toJSON(x, auto_unbox = TRUE, pretty = TRUE)
   }
