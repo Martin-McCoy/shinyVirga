@@ -211,25 +211,30 @@ msg_mod_fun <- function(.call = rlang::trace_back(bottom = 5), e = rlang::caller
 
 
 #' Add a pseudo-module, one which maintains the namespace of it's parent module
+#' @description
+#' The usage of a pseudo-module is nearly identical to the module, but inputs & outputs in the pseudo-module are shared between the parent and the pseudo-module. This allows for developers to functionalize input components whose values must necessarily must be considered in confluence with one another. Using modules, the developer must keep track of shared inputs explicitly between modules using \code{\link[shiny]{reactiveVal}} and/or \code{\link[shiny]{reactiveValues}} and pass them as arguments to any nested modules. As a codebase changes, and inputs are added and removed, keeping track of where confluences of interactions are stored and updating arguments accordingly is cumulative technical debt. With pseudo-modules shared reactive inputs allow the developer to logically segment interactivity involving confluences of inputs as they see fit without incurring the technical debt of passing \code{\link[shiny]{reactiveVal}} and/or \code{\link[shiny]{reactiveValues}} around when interactions are removed or added.
 #'
 #' @param name \code{chr} name of the module
 #' @param path \code{chr} directory in which to create it
 #' @param export \code{lgl} whether it should be exported in the package
-#' @param ph_name \code{chr} The name of file
-#' @param ph_ui \code{chr} The name of the module ui function
-#' @param ph_server \code{chr} The name of the module server function
+#' @param pm_name \code{chr} The name of file
+#' @param pm_ui \code{chr} The name of the module ui function
+#' @param pm_server \code{chr} The name of the module server function
+#' @param use_ud \code{lgl} Whether to include the `session$userData` environment as a shorthand variable `ud` in the module for ease of access to a user's session state variables.
 #' @return \code{file} The new file opens
 #' @export
+
 
 add_pseudo_module <- function (name,
                                path = "R",
                                export = FALSE,
-                               ph_name = sprintf("pmod_%s", name),
-                               ph_ui = sprintf("pmod_%s_ui", name),
-                               ph_server = sprintf("pmod_%s_server", name),
+                               pm_name = sprintf("pmod_%s", name),
+                               pm_ui = sprintf("pmod_%s_ui", name),
+                               pm_server = sprintf("pmod_%s_server", name),
+                               use_ud = TRUE,
                                open = TRUE)
 {
-  file_path <- fs::path(path, ph_name, ext = "R")
+  file_path <- fs::path(path, pm_name, ext = "R")
   write_there <- function(..., path = file_path) {
     write(..., file = path, append = TRUE)
   }
@@ -237,14 +242,16 @@ add_pseudo_module <- function (name,
   write_there("#' @description A shiny Module.")
   write_there("#' @param .ns \\code{fun} ns function. Typically found automatically.")
   if (export) {
-    write_there(sprintf("#' @rdname %s", ph_ui))
+    write_there(sprintf("#' @rdname %s", pm_ui))
     write_there("#' @export ")
   } else {
     write_there("#' @noRd ")
   }
   write_there("#' @importFrom shiny tagList ")
-  write_there(sprintf("%s <- function(.ns = shinyVirga::ns_find()){", ph_ui))
+  write_there(sprintf("%s <- function(.ns = shinyVirga::ns_find()){", pm_ui))
   write_there("  ns <- force(.ns)")
+  if (use_ud)
+    write_there("  ud <- session$userData")
   write_there("  tagList(")
   write_there("    ")
   write_there("  )")
@@ -253,52 +260,145 @@ add_pseudo_module <- function (name,
   if (utils::packageVersion("shiny") < "1.5") {
     write_there(sprintf("#' %s Server Function", name))
     if (export) {
-      write_there(sprintf("#' @rdname %s", ph_server))
+      write_there(sprintf("#' @rdname %s", pm_server))
       write_there("#' @export ")
     } else {
       write_there("#' @noRd ")
     }
-    write_there(sprintf("%s <- function(parent_env = rlang::caller_env()){", ph_server))
+    write_there(sprintf("%s <- function(parent_env = rlang::caller_env()){", pm_server))
     write_there("  session <- shiny::getDefaultReactiveDomain()")
     write_there("  ns <- session$ns")
     write_there("  input <- session$input")
     write_there("  output <- session$output")
+    if (use_ud)
+      write_there("    ud <- session$userData")
     write_there("}")
     write_there("    ")
     write_there("## To be copied in the UI")
-    write_there(sprintf("# %s()", ph_ui))
+    write_there(sprintf("# %s()", pm_ui))
     write_there("    ")
     write_there("## To be copied in the server")
     write_there(sprintf("# %s())",
-                        ph_server))
+                        pm_server))
   } else {
     write_there(sprintf("#' %s Server Functions", name))
     if (export) {
-      write_there(sprintf("#' @rdname %s", ph_server))
+      write_there(sprintf("#' @rdname %s", pm_server))
       write_there("#' @export ")
     } else {
       write_there("#' @noRd ")
     }
     write_there(sprintf("%s <- function(){",
-                        ph_server))
+                        pm_server))
 
     write_there("  session <- shiny::getDefaultReactiveDomain()")
     write_there("  ns <- session$ns")
     write_there("  input <- session$input")
     write_there("  output <- session$output")
+    if (use_ud)
+      write_there("    ud <- session$userData")
     write_there("  ")
     write_there("}")
     write_there("    ")
     write_there("## To be copied in the UI")
-    write_there(sprintf("# %s()", ph_ui))
+    write_there(sprintf("# %s()", pm_ui))
     write_there("    ")
     write_there("## To be copied in the server")
-    write_there(sprintf("# %s()", ph_server))
+    write_there(sprintf("# %s()", pm_server))
   }
   if (open)
     rstudioapi::documentOpen(file_path)
 }
 
+
+#' Add a module file to the `path` specified
+#' @inherit add_pseudo_module params return
+#' @export
+add_module <- function(
+    name,
+    path = "R",
+    export = FALSE,
+    ph_ui = " ",
+    ph_server = " ",
+    use_ud = TRUE,
+    ...
+) {
+  write_there <- function(...) {
+    write(..., file = path, append = TRUE)
+  }
+
+  write_there(sprintf("#' %s UI Function", name))
+  write_there("#'")
+  write_there("#' @description A shiny Module.")
+  write_there("#'")
+  write_there("#' @param id,input,output,session Internal parameters for {shiny}.")
+  write_there("#'")
+  if (export) {
+    write_there(sprintf("#' @rdname mod_%s", name))
+    write_there("#' @export ")
+  } else {
+    write_there("#' @noRd ")
+  }
+  write_there("#'")
+  write_there("#' @importFrom shiny NS tagList ")
+  write_there(sprintf("mod_%s_ui <- function(id){", name))
+  write_there("  ns <- NS(id)")
+  if (use_ud)
+    write_there("  ud <- session$userData")
+  write_there("  tagList(")
+  write_there(ph_ui)
+  write_there("  )")
+  write_there("}")
+  write_there("    ")
+
+  if (utils::packageVersion("shiny") < "1.5") {
+    write_there(sprintf("#' %s Server Function", name))
+    write_there("#'")
+    if (export) {
+      write_there(sprintf("#' @rdname mod_%s", name))
+      write_there("#' @export ")
+    } else {
+      write_there("#' @noRd ")
+    }
+    write_there(sprintf("mod_%s_server <- function(input, output, session){", name))
+    write_there("  ns <- session$ns")
+    if (use_ud)
+      write_there("  ud <- session$userData")
+    write_there(ph_server)
+    write_there("}")
+    write_there("    ")
+
+    write_there("## To be copied in the UI")
+    write_there(sprintf('# mod_%s_ui("%s_1")', name, name))
+    write_there("    ")
+    write_there("## To be copied in the server")
+    write_there(sprintf('# callModule(mod_%s_server, "%s_1")', name, name))
+  } else {
+    write_there(sprintf("#' %s Server Functions", name))
+    write_there("#'")
+    if (export) {
+      write_there(sprintf("#' @rdname mod_%s", name))
+      write_there("#' @export ")
+    } else {
+      write_there("#' @noRd ")
+    }
+    write_there(sprintf("mod_%s_server <- function(id){", name))
+    write_there("  moduleServer( id, function(input, output, session){")
+    write_there("    ns <- session$ns")
+    if (use_ud)
+      write_there("    ud <- session$userData")
+    write_there(ph_server)
+    write_there("  })")
+    write_there("}")
+    write_there("    ")
+
+    write_there("## To be copied in the UI")
+    write_there(sprintf('# mod_%s_ui("%s_1")', name, name))
+    write_there("    ")
+    write_there("## To be copied in the server")
+    write_there(sprintf('# mod_%s_server("%s_1")', name, name))
+  }
+}
 #' Insert module debugging statements throughout module files.
 #' @param pattern \code{chr} The pattern to search for in files that will be modified.
 #' @return Modifies all files beginning with `pattern` insert \link[shinyVirga]{msg_mod_fun}
