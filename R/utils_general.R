@@ -239,6 +239,10 @@ add_pseudo_module <- function (name,
   write_there <- function(..., path = file_path) {
     write(..., file = path, append = TRUE)
   }
+  session_arg <- if (use_ud)
+    ", session = shiny::getDefaultReactiveDomain()"
+  else
+    ""
   write_there(sprintf("#' %s UI Function", name))
   write_there("#' @description A shiny Module.")
   write_there("#' @param .ns \\code{fun} ns function. Typically found automatically.")
@@ -249,7 +253,7 @@ add_pseudo_module <- function (name,
     write_there("#' @noRd ")
   }
   write_there("#' @importFrom shiny tagList ")
-  write_there(sprintf("%s <- function(.ns = shinyVirga::ns_find()){", pm_ui))
+  write_there(sprintf("%s <- function(.ns = shinyVirga::ns_find()%s){", pm_ui, session_arg))
   write_there("  ns <- force(.ns)")
   if (use_ud)
     write_there("  ud <- session$userData")
@@ -327,7 +331,10 @@ add_module <- function(
   write_there <- function(...) {
     write(..., file = path, append = TRUE)
   }
-
+  session_arg <- if (use_ud)
+    ", session = shiny::getDefaultReactiveDomain()"
+  else
+    ""
   write_there(sprintf("#' %s UI Function", name))
   write_there("#'")
   write_there("#' @description A shiny Module.")
@@ -342,7 +349,7 @@ add_module <- function(
   }
   write_there("#'")
   write_there("#' @importFrom shiny NS tagList ")
-  write_there(sprintf("mod_%s_ui <- function(id){", name))
+  write_there(sprintf("mod_%s_ui <- function(id%s){", name, session_arg))
   write_there("  ns <- NS(id)")
   if (use_ud)
     write_there("  ud <- session$userData")
