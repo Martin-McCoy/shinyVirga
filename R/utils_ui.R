@@ -336,6 +336,11 @@ ui_tabs <- function(tabs) {
     sb_item_arg_nms <- rlang::fn_fmls_names(bs4Dash::bs4SidebarMenuItem)
     sb_args <- purrr::compact(x[stringr::str_subset(sb_item_arg_nms, "icon", negate = TRUE)])
 
+    sb_args$text <- if (inherits(sb_args$text, "character"))
+      HTML(sb_args$text)
+    else
+      sb_args$text
+
     rlang::exec(
       bs4Dash::bs4SidebarMenuItem,
       !!!purrr::list_modify(
