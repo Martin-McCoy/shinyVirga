@@ -11,20 +11,34 @@ rv <- function(...) {
 #'
 #' @param x \code{reactiveValues}
 #' @param indices \code{chr/num} valid indexing object
-#' @param assign \code{lgl} whether to assign the values in `indices`to their respective names in `x`
 #' @family reactives
 #' @return \code{reactiveValues/list} depending on the value of `assign`
 #' @export
 
-rv_index <- function(x, indices, assign = FALSE) {
+rv_index <- function(x, indices, ...) {
   if (is.character(indices) && is.null(names(indices)))
     indices <- rlang::set_names(indices)
-  if (assign)
-    out <- purrr::iwalk(indices, ~`<<-`(x[[.y]], .x))
-  else
-    out <- purrr::map(indices, ~x[[.x]])
+  out <- purrr::map(indices, \(.x) x[[.x]])
   return(out)
 }
+
+#' Add named objects to a `reactiveValues` object
+#'
+#' @inheritParams rv_index
+#' @param ... \code{named objects} to assign when `assign = TRUE`
+#'
+#' @return \code{none} Modifies in place
+#' @export
+#'
+
+rv_modify <- function(x, ...) {
+  .dots <- rlang::dots_list(...)
+  nms <- names(.dots)
+  for (i in seq_along(.dots)) {
+    x[[nms[i]]] <- .dots[[i]]
+  }
+}
+
 
 #' Convert a reactiveValues object to a list
 #' @description Convenience wrapper around \link[shiny]{reactiveValuesToList}
