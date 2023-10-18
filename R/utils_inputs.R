@@ -27,7 +27,7 @@ select_choices <- function(metrics_df, metric_col_values, category_col, metric_c
   }
 
   if (!missing(category_col)) {
-    metrics_df |>
+    out <- metrics_df |>
       dplyr::select(!!category_col, !!metric_col_values) |>
       dplyr::group_by(!!category_col) |>
       {\(.x) {
@@ -36,6 +36,10 @@ select_choices <- function(metrics_df, metric_col_values, category_col, metric_c
       purrr::map(\(.x) {
         as.list(.x[[1]])
       })
+    nm_lgl <- UU::zchar(names(out)) | anyNA(names(out))
+    if (any(nm_lgl))
+      UU::gbort("All {.code metric_col_values} must have non-zero length names in {.code category_col}. Problematic indices are: {paste0(collapse = ', ', which(nm_lgl))}")
+    out
   } else {
     metrics_df |>
       dplyr::pull(!!metric_col_values)
