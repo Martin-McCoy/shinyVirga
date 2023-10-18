@@ -50,6 +50,8 @@ Other JS:
 \code{\link{js_callback}()},
 \code{\link{js_callout}()},
 \code{\link{js_mouseover_once}()},
+\code{\link{js_picker_disable}()},
+\code{\link{js_picker_enable}()},
 \code{\link{js_set_input_val}()},
 \code{\link{use_driver.js}()}
 }

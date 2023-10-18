@@ -1,7 +1,16 @@
 Package: shinyVirga
 Title: A Collection of R shiny utilities by Virga Labs
 Version: 0.28.0
-Authors@R: person("Stephen", "Holsenbeck", , "stephen@virgalabs.io", role = c("aut", "cre"))
+Authors@R: c(
+        utils::person(
+          "Stephen",
+          "Holsenbeck",
+          email = "stephen@virgalabs.io",
+          role = c("aut", "cre"),
+          comment = "2ndary email: sholsen@alumni.emory.edu"
+        ),
+        utils::person("Maria", "Sevillano", email = "maria@virgalabs.io", role = 'ctb')
+      )
 Description: A collection of useful utility functions for working with shiny and shiny frameworks
 License: LGPL (>= 2.1)
 Imports: 

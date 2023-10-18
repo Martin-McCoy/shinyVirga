@@ -468,6 +468,59 @@ js_bs4Card_action <- function(id, action = 'toggle') {
   )
 }
 
+picker_js <- function(enable = TRUE) {
+  status <- ifelse(enable, "true", 'false')
+  sprintf("((id) => {
+      var picker = $(id)
+      if (picker) {
+        picker.prop('disabled', %s);
+        picker.selectpicker('refresh');
+      }
+
+      })('#*{id}*')
+      ", status)
+}
+
+#' Enable a bootstrap pickerInput
+#'
+#' @inheritParams js_mouseover_once
+#' @author Maria Sevillano, Stephen Holsenbeck
+#' @return \code{none} called for side-effects
+#' @export
+#'
+#' @family JS
+js_picker_enable <- function(id,
+                             asis = FALSE,
+                             .ns = ns_find()) {
+  if (!asis)
+    id <- .ns(id)
+  shinyjs::runjs(
+    UU::glue_js(picker_js(enable = TRUE))
+  )
+
+
+}
+
+#' Disable a bootstrap pickerInput
+#'
+#' @inheritParams js_mouseover_once
+#' @author Maria Sevillano, Stephen Holsenbeck
+#' @return \code{none} called for side-effects
+#' @export
+#'
+#' @family JS
+js_picker_disable <- function(id,
+                             asis = FALSE,
+                             .ns = ns_find()) {
+  if (!asis)
+    id <- .ns(id)
+  shinyjs::runjs(
+    UU::glue_js(picker_js(enable = FALSE))
+  )
+
+}
+
+
 #' Force the browser to download JSON, useful for saved session recovery
 #' @description
 #' Useful in combination with `options(shiny.error = ...)` for saving a session on a break.
