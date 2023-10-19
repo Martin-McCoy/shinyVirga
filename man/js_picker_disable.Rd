@@ -32,6 +32,6 @@ Other JS:
 \code{\link{use_driver.js}()}
 }
 \author{
-Maria Sevillano, Stephen Holsenbeck
+\href{https://github.com/pvictor}{Victor Perrier}, Maria Sevillano, Stephen Holsenbeck
 }
 \concept{JS}

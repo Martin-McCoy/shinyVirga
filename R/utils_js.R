@@ -484,7 +484,7 @@ picker_js <- function(enable = TRUE) {
 #' Enable a bootstrap pickerInput
 #'
 #' @inheritParams js_mouseover_once
-#' @author Maria Sevillano, Stephen Holsenbeck
+#' @author [Victor Perrier](https://github.com/pvictor), Maria Sevillano, Stephen Holsenbeck
 #' @return \code{none} called for side-effects
 #' @export
 #'
@@ -503,8 +503,7 @@ js_picker_enable <- function(id,
 
 #' Disable a bootstrap pickerInput
 #'
-#' @inheritParams js_mouseover_once
-#' @author Maria Sevillano, Stephen Holsenbeck
+#' @inherit js_picker_enable params author
 #' @return \code{none} called for side-effects
 #' @export
 #'
