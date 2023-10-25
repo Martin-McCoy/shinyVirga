@@ -36,6 +36,7 @@ Imports:
     sass,
     shiny,
     shinyjs,
+    shinyWidgets,
     snakecase (>= 0.11.0),
     stringr,
     tibble,
