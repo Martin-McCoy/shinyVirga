@@ -12,11 +12,12 @@
 #' @export
 #'
 
-transifex_select <- function(inputId, label, choices = c("English" = "en", "Spanish"= "es"), selected = c(English = "en"), multiple = FALSE, options = list(), choicesOpt = NULL, width = NULL, class = NULL, inline = FALSE, ...) {
+mod_transifex_select <- function(inputId, label, choices = c("English" = "en", "Spanish"= "es"), selected = c(English = "en"), multiple = FALSE, options = list(), choicesOpt = NULL, width = NULL, class = NULL, inline = FALSE, key = Sys.getenv("TRANSIFEX_API_KEY", ''), ...) {
   tagList(
     shiny::singleton(
       shiny::tags$head(
         tags$script(type="text/javascript", src="//cdn.transifex.com/live.js"),
+        tags$script(type="text/javascript", UU::glue_js('window.liveSettings={api_key:"*{Sys.getenv("TRANSIFEX_API_KEY", "")}*"}'))
       )
     ),
     do.call(
@@ -46,9 +47,8 @@ transifex_select <- function(inputId, label, choices = c("English" = "en", "Span
 #' @export
 #'
 
-transifex_select_server <- function(inputId, key = Sys.getenv("TRANSIFEX_API_KEY", ''), session = shiny::getDefaultReactiveDomain()) {
+mod_transifex_select_server <- function(inputId, session = shiny::getDefaultReactiveDomain()) {
   input <- session$input
-  shinyjs::runjs(UU::glue_js('window.liveSettings={api_key:"*{key}*"}'))
   observeEvent(input[[inputId]], {
     shinyjs::runjs(UU::glue_js("Transifex.live.translateTo('*{input[[inputId]]}*');"))
   }, priority = 2)
