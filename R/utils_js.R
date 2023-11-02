@@ -519,6 +519,31 @@ js_picker_disable <- function(id,
 
 }
 
+#' Opens all accordions of provided `id`
+#'
+#' @inheritParams js_picker_enable
+#'
+#' @return \code{none} Opens accordions
+#' @export
+#'
+
+js_accordion_toggle <- function(id,
+                               asis = FALSE,
+                               .ns = ns_find()) {
+  if (!asis)
+    id <- .ns(id)
+
+  shinyjs::runjs(
+    UU::glue_js(
+      "
+      $('#*{id}*').find('a').each((i, e) => {
+        $(e).click()
+      })
+      "
+    )
+  )
+}
+
 
 #' Force the browser to download JSON, useful for saved session recovery
 #' @description
