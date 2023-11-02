@@ -145,7 +145,10 @@
     <loc>https://martin-mccoy.github.io/shinyVirga/reference/jq_hide.html</loc>
   </url>
   <url>
-    <loc>https://martin-mccoy.github.io/shinyVirga/reference/js_accordion_toggle.html</loc>
+    <loc>https://martin-mccoy.github.io/shinyVirga/reference/js_accordion_close.html</loc>
+  </url>
+  <url>
+    <loc>https://martin-mccoy.github.io/shinyVirga/reference/js_accordion_open.html</loc>
   </url>
   <url>
     <loc>https://martin-mccoy.github.io/shinyVirga/reference/js_after.html</loc>
