@@ -527,7 +527,7 @@ js_picker_disable <- function(id,
 #' @export
 #'
 
-js_accordion_toggle <- function(id,
+js_accordion_open <- function(id,
                                asis = FALSE,
                                .ns = ns_find()) {
   if (!asis)
@@ -537,7 +537,40 @@ js_accordion_toggle <- function(id,
     UU::glue_js(
       "
       $('#*{id}*').find('a').each((i, e) => {
-        $(e).click()
+        var el = $(e);
+        if (el.hasClass('collapsed')) {
+          el.click()
+        }
+
+      })
+      "
+    )
+  )
+}
+
+#' Opens all accordions of provided `id`
+#'
+#' @inheritParams js_picker_enable
+#'
+#' @return \code{none} Opens accordions
+#' @export
+#'
+
+js_accordion_close <- function(id,
+                                     asis = FALSE,
+                                     .ns = ns_find()) {
+  if (!asis)
+    id <- .ns(id)
+
+  shinyjs::runjs(
+    UU::glue_js(
+      "
+      $('#*{id}*').find('a').each((i, e) => {
+        var el = $(e);
+        if (!el.hasClass('collapsed')) {
+          el.click()
+        }
+
       })
       "
     )
