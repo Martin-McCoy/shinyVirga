@@ -519,6 +519,35 @@ js_picker_disable <- function(id,
 
 }
 
+#' Check to ensure all plotlys are visible within an element
+#'
+#' @inheritParams js_picker_disable
+#'
+#' @return \code{none} called for side affects
+#' @export
+#'
+
+js_all_plotly_visible <- function(id,
+                                  asis = FALSE,
+                                  .ns = ns_find()) {
+  if (!asis)
+    id <- .ns(id)
+  shinyjs::runjs(
+    UU::glue_js(
+      "
+      function isVisible(selector) {
+        return $(selector).is(':visible');
+      }
+      $('#*{id}*').each((i, e) => {
+        var v = isVisible($(e).find('.svg-container')[0])
+        Shiny.setInputValue(e.id + '_visible', v, {priority: 'event'})
+      })
+      "
+    )
+  )
+
+}
+
 #' Opens all accordions of provided `id`
 #'
 #' @inheritParams js_picker_enable
