@@ -552,6 +552,32 @@ js_all_plotly_visible <- function(id,
 
 }
 
+#' Remove or show sliderInput tick marks
+#'
+#' @inheritParams js_accordion_open
+#' @param hide \code{lgl} Whether to hide the tick marks
+
+#'
+#' @return \code{None} Removes tick marks from slider
+#' @export
+#'
+
+js_sliderInput_ticks <- function(id,
+                                 hide = TRUE,
+                              asis = FALSE,
+                              .ns = ns_find()) {
+  if (!asis)
+    id <- .ns(id)
+
+  shinyjs::runjs(
+    UU::glue_js(
+      '$("#*{id}*").siblings("span.irs").find(".irs-grid").attr("hidden", *{tolower(hide)}*)'
+    )
+  )
+}
+
+
+
 #' Opens all accordions of provided `id`
 #'
 #' @inheritParams js_picker_enable
