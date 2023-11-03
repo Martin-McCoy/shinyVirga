@@ -530,17 +530,21 @@ js_picker_disable <- function(id,
 js_all_plotly_visible <- function(id,
                                   asis = FALSE,
                                   .ns = ns_find()) {
+  the_ns <- .ns('')
   if (!asis)
     id <- .ns(id)
+
   shinyjs::runjs(
     UU::glue_js(
       "
       function isVisible(selector) {
         return $(selector).is(':visible');
       }
-      $('#*{id}*').each((i, e) => {
-        var v = isVisible($(e).find('.svg-container')[0])
-        Shiny.setInputValue(e.id + '_visible', v, {priority: 'event'})
+      $('#*{id}*').find('.plotly.html-widget').each((i, e) => {
+        var ns = '*{the_ns}*';
+        var svg = $(e).find('.svg-container')[0];
+        var v = isVisible(svg);
+        Shiny.setInputValue('*{the_ns}*' + e.id.match(/\\w+$/)[0] + '_visible', v, {priority: 'event'})
       })
       "
     )
