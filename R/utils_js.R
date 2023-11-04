@@ -62,6 +62,33 @@ make_id <- function(x) {
 make_id_ <- Vectorize(make_id)
 
 
+#' Set attributes of a DOM element
+#' @description
+#' This will replace existing attribute if it exists.
+#'
+#' @inheritParams js_after
+#' @param ... \code{named args} attributes to set
+#'
+#' @return \code{None} Updates the element
+#' @export
+#'
+
+js_set_attrs <-  function(id,
+                         ...,
+                         asis = FALSE,
+                         .ns = ns_find()) {
+  if (!asis)
+    id <- .ns(id)
+
+  .dots <- rlang::dots_list(...)
+  purrr::imap_chr(.dots, \(.x, .y) {
+    UU::glue_js("$('#*{id}*').css('*{ .y}*', '*{ .x}*');")
+  }) |>
+    glue::glue_collapse() |>
+    shinyjs::runjs()
+
+}
+
 #' Create a driver.js callout
 #' Must include `shinyVirga::use_driver.js()` & \code{\link[shinyjs]{useShinyJS}} in the head of the page.
 #' @family JS
