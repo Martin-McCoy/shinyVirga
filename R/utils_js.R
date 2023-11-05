@@ -564,9 +564,6 @@ js_all_plotly_visible <- function(id,
   shinyjs::runjs(
     UU::glue_js(
       "
-      function isVisible(selector) {
-        return $(selector).is(':visible');
-      }
       $('#*{id}*').find('.plotly.html-widget').each((i, e) => {
         var ns = '*{the_ns}*';
         var svg = $(e).find('.svg-container')[0];
@@ -663,7 +660,27 @@ js_accordion_close <- function(id,
   )
 }
 
+#' Title
+#'
+#' @inheritParams js_picker_enable
+#' @param panel_id ID of the panel to close/open when clicking outside. `asis` applies to this argument as well
+#' @return \code{shiny.tag} with script that adds event listener
+#' @export
+#'
+js_click_to_close <- function(id,
+                              panel_id,
+                              asis = FALSE,
+                              .ns = ns_find()) {
 
+  if (!asis) {
+    id <- .ns(id)
+    panel_id <- .ns(panel_id)
+  }
+  tags$script(
+    type = "text/javascript",
+    UU::glue_js(readLines(system.file(package = "shinyVirga", "js/js_click_to_close.js")))
+  )
+}
 #' Force the browser to download JSON, useful for saved session recovery
 #' @description
 #' Useful in combination with `options(shiny.error = ...)` for saving a session on a break.
