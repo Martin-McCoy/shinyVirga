@@ -664,18 +664,21 @@ js_accordion_close <- function(id,
 #'
 #' @inheritParams js_picker_enable
 #' @param panel_id ID of the panel to close/open when clicking outside. `asis` applies to this argument as well
+#' @param asis_panel If the panel_id should be left asis `TRUE` or namespaced `FALSE`
 #' @return \code{shiny.tag} with script that adds event listener
 #' @export
 #'
 js_click_to_close <- function(id,
                               panel_id,
                               asis = FALSE,
+                              asis_panel = FALSE,
                               .ns = ns_find()) {
 
   if (!asis) {
     id <- .ns(id)
-    panel_id <- .ns(panel_id)
   }
+  if (!asis_panel)
+    panel_id <- .ns(panel_id)
   tags$script(
     type = "text/javascript",
     UU::glue_js(readLines(system.file(package = "shinyVirga", "js/js_click_to_close.js")))
