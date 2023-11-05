@@ -4,19 +4,26 @@
 \alias{render_ran_input}
 \title{Create an incrementing shiny input each time a render function runs}
 \usage{
-render_ran_input(outputId, session = shiny::getDefaultReactiveDomain())
+render_ran_input(
+  id,
+  htmlwidget,
+  asis = FALSE,
+  session = shiny::getDefaultReactiveDomain()
+)
 }
 \arguments{
-\item{outputId}{\code{chr} The outputId value}
+\item{id}{\code{(chr)} Automatically namespaced with \code{ns} if inside a module}
 
-\item{session}{The \code{session} object passed to function given to
-\code{shinyServer}. Default is \code{getDefaultReactiveDomain()}.}
+\item{htmlwidget}{\code{htmlwidget} If the render function is rendering an htmlwidget, it can be passed. This obviates the need for shinyjs.}
+
+\item{asis}{If \code{TRUE}, use the ID as-is even when inside a module
+(instead of adding the namespace prefix to the ID).}
 }
 \value{
-Called for side effects. Runs code via shinyjs.
+Runs code via shinyjs unless an htmlwidget is provided, in which case it modifies the htmlwidget with \link[htmlwidgets]{onRender} and returns it.
 }
 \description{
-Requires \code{\link[shinyjs]{runjs}}. Useful for creating a callback once a DT is rerendered to update the page number for page number retention.
+Requires \code{\link[shinyjs]{runjs}} if not using \code{htmlwidget}. Useful for firing an observer after a render function completes to update the page number for page number retention.
 }
 \examples{
 \dontrun{

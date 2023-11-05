@@ -741,12 +741,11 @@ js_force_download_json <- function(x, is_file = FALSE, filename = "recovery-save
 
 #' Create an incrementing shiny input each time a render function runs
 #' @description
-#' Requires \code{\link[shinyjs]{runjs}}. Useful for creating a callback once a DT is rerendered to update the page number for page number retention.
+#' Requires \code{\link[shinyjs]{runjs}} if not using `htmlwidget`. Useful for firing an observer after a render function completes to update the page number for page number retention.
 #'
-#' @param outputId \code{chr} The outputId value
-#' @inheritParams shiny::updateActionButton
-#'
-#' @return Called for side effects. Runs code via shinyjs.
+#' @inheritParams js_picker_enable
+#' @param htmlwidget \code{htmlwidget} If the render function is rendering an htmlwidget, it can be passed. This obviates the need for shinyjs.
+#' @return Runs code via shinyjs unless an htmlwidget is provided, in which case it modifies the htmlwidget with \link[htmlwidgets]{onRender} and returns it.
 #' @export
 #'
 #' @examples
@@ -757,6 +756,33 @@ js_force_download_json <- function(x, is_file = FALSE, filename = "recovery-save
 #' })
 #' }
 #'
-render_ran_input <- function(outputId, session = shiny::getDefaultReactiveDomain()) {
-  shinyjs::runjs(shinyVirga::js_set_input_val(paste0(session$ns(outputId), "_ran"), session$input[[outputId]] %|0|% 0 + 1, asis = TRUE))
+render_ran_input <- function(id, htmlwidget, asis = FALSE, session = shiny::getDefaultReactiveDomain()) {
+
+  if (!missing(htmlwidget)) {
+    htmlwidgets::onRender(
+      htmlwidget,
+      UU::glue_js(
+        "
+        (e, x) => {
+          var id = e.id + '_ran';
+          if (window[id]) {
+            window[id] += 1;
+          }  else {
+            window[id] = 0
+          }
+          Shiny.setInputValue(id, window[id], {priority: 'event'});
+        }
+
+      ")
+    )
+  } else {
+    id_ran <- paste0(id, "_ran")
+
+    if (!asis) {
+      id_ran <- session$ns(id_ran)
+    }
+    val <- shiny::isolate(session$input[[id_ran]] %||% 0)
+    shinyjs::runjs(shinyVirga::js_set_input_val(id_ran,  val + 1, asis = TRUE))
+  }
+
 }

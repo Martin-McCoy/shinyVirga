@@ -25,6 +25,7 @@ Imports:
     glue,
     golem,
     htmltools,
+    htmlwidgets,
     jsonlite (>= 1.8.3),
     lifecycle,
     lubridate (>= 1.9.0),
