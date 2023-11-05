@@ -166,6 +166,9 @@
     <loc>https://martin-mccoy.github.io/shinyVirga/reference/js_callout.html</loc>
   </url>
   <url>
+    <loc>https://martin-mccoy.github.io/shinyVirga/reference/js_click_to_close.html</loc>
+  </url>
+  <url>
     <loc>https://martin-mccoy.github.io/shinyVirga/reference/js_force_download_json.html</loc>
   </url>
   <url>
@@ -284,6 +287,9 @@
   </url>
   <url>
     <loc>https://martin-mccoy.github.io/shinyVirga/reference/undisplay.html</loc>
+  </url>
+  <url>
+    <loc>https://martin-mccoy.github.io/shinyVirga/reference/useShinyVirga.html</loc>
   </url>
   <url>
     <loc>https://martin-mccoy.github.io/shinyVirga/reference/use_driver.js.html</loc>
