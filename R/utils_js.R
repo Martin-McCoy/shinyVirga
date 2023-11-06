@@ -252,9 +252,9 @@ js_callout <- function(el,
 #'   )
 #'
 #' }
+#' shinyApp(ui = ui, server = server)
 #' }
 #'
-#' shinyApp(ui = ui, server = server)
 
 js_glow <- function(id,
                     color = "deepskyblue",
