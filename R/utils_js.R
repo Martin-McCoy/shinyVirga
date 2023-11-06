@@ -681,7 +681,7 @@ js_click_to_close <- function(id,
     panel_id <- .ns(panel_id)
   tags$script(
     type = "text/javascript",
-    UU::glue_js(readLines(system.file(package = "shinyVirga", "js/js_click_to_close.js")))
+    UU::glue_js(system.file(package = "shinyVirga", "js/js_click_to_close.js"))
   )
 }
 #' Force the browser to download JSON, useful for saved session recovery
