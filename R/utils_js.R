@@ -748,6 +748,7 @@ js_force_download_json <- function(x, is_file = FALSE, filename = "recovery-save
 #'
 #' @inheritParams js_picker_enable
 #' @param htmlwidget \code{htmlwidget} If the render function is rendering an htmlwidget, it can be passed. This obviates the need for shinyjs.
+#' @param debugger \code{lgl} whether to add a debugger statement to the callback.
 #' @return Runs code via shinyjs unless an htmlwidget is provided, in which case it modifies the htmlwidget with \link[htmlwidgets]{onRender} and returns it.
 #' @export
 #'
@@ -759,32 +760,28 @@ js_force_download_json <- function(x, is_file = FALSE, filename = "recovery-save
 #' })
 #' }
 #'
-render_ran_input <- function(id, htmlwidget, asis = FALSE, session = shiny::getDefaultReactiveDomain()) {
+render_ran_input <- function(id, htmlwidget, asis = FALSE, session = shiny::getDefaultReactiveDomain(), debugger = FALSE) {
 
   if (!missing(htmlwidget)) {
     htmlwidgets::onRender(
       htmlwidget,
       UU::glue_js(
-        "
-        (e, x) => {
-          var id = e.id + '_ran';
-          if (window[id]) {
-            window[id] += 1;
-          }  else {
-            window[id] = 0
-          }
-          Shiny.setInputValue(id, window[id], {priority: 'event'});
-        }
-
-      ")
+        c("(e, x) => {",
+          "var id = e.id + '_ran';",
+          "var val = window[id] || 0;",
+          if (debugger) 'debugger;',
+          "val += 1;",
+          "window[id] = val;",
+          "Shiny.setInputValue(id, val, {priority: 'event'});",
+        "}")
+      )
     )
   } else {
     id_ran <- paste0(id, "_ran")
-
+    val <- shiny::isolate(session$input[[id_ran]] %||% 0)
     if (!asis) {
       id_ran <- session$ns(id_ran)
     }
-    val <- shiny::isolate(session$input[[id_ran]] %||% 0)
     shinyjs::runjs(shinyVirga::js_set_input_val(id_ran,  val + 1, asis = TRUE))
   }
 

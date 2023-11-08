@@ -8,7 +8,8 @@ render_ran_input(
   id,
   htmlwidget,
   asis = FALSE,
-  session = shiny::getDefaultReactiveDomain()
+  session = shiny::getDefaultReactiveDomain(),
+  debugger = FALSE
 )
 }
 \arguments{
@@ -18,6 +19,8 @@ render_ran_input(
 
 \item{asis}{If \code{TRUE}, use the ID as-is even when inside a module
 (instead of adding the namespace prefix to the ID).}
+
+\item{debugger}{\code{lgl} whether to add a debugger statement to the callback.}
 }
 \value{
 Runs code via shinyjs unless an htmlwidget is provided, in which case it modifies the htmlwidget with \link[htmlwidgets]{onRender} and returns it.
