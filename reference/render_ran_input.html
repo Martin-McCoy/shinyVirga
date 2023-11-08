@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">shinyVirga</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.35.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.35.4</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -46,7 +46,8 @@
 <span>  <span class="va">id</span>,</span>
 <span>  <span class="va">htmlwidget</span>,</span>
 <span>  asis <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  session <span class="op">=</span> <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/domains.html" class="external-link">getDefaultReactiveDomain</a></span><span class="op">(</span><span class="op">)</span></span>
+<span>  session <span class="op">=</span> <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/domains.html" class="external-link">getDefaultReactiveDomain</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  debugger <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -63,6 +64,10 @@
 <dt>asis</dt>
 <dd><p>If <code>TRUE</code>, use the ID as-is even when inside a module
 (instead of adding the namespace prefix to the ID).</p></dd>
+
+
+<dt>debugger</dt>
+<dd><p><code>lgl</code> whether to add a debugger statement to the callback.</p></dd>
 
 </dl></div>
     <div class="section level2">
