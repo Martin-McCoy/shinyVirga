@@ -28,20 +28,20 @@ dynamic_row <- function(...) {
 #' @export
 #'
 
-copyright <- function(copyright_holder = shiny::a("Virga Labs ", href = "https://www.virgalabs.io/", target = "_blank"), class = "", logo = img_base64(css_props = list(`max-width` = "3em", `max-height` = "1em", display = "inline-block;"))) {
+copyright <- function(..., copyright_holder = shiny::a(logo, href = "https://www.virgalabs.io/", target = "_blank"), logo = img_base64(css_props = list(`max-width` = "3em", `max-height` = "1em", display = "inline-block;")), class = "") {
+  s <- htmltools::tags$script(type = "text/javascript",
+         "document.getElementById('c_year').innerHTML = new Date().getFullYear();")
 
-  htmltools::withTags(
-    div(
-      class = paste("inline-block", class), "All Rights Reserved", copyright_holder, " Ⓒ ", span(id = "c_year")
-,      script(type = "text/javascript", "
-           document.getElementById('c_year').innerHTML = `${new Date().getFullYear()}`;
-           "),
-      if (UU::is_legit(logo))
-        logo
-
-    )
+  htmltools::tags$div(
+    class = paste("inline-block", class),
+    copyright_holder, " Ⓒ ",
+    htmltools::tags$span(id = "c_year"), ...,
+    s
   )
+
 }
+
+
 
 img_base64 <- function(path = system.file("img/virga_logo.png", package = "shinyVirga"), css_props) {
 
