@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">shinyVirga</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.35.4</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.35.5</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -42,7 +42,14 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">select_choices</span><span class="op">(</span><span class="va">metrics_df</span>, <span class="va">metric_col_values</span>, <span class="va">category_col</span>, <span class="va">metric_col_names</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">select_choices</span><span class="op">(</span></span>
+<span>  <span class="va">metrics_df</span>,</span>
+<span>  <span class="va">metric_col_values</span>,</span>
+<span>  <span class="va">category_col</span>,</span>
+<span>  <span class="va">metric_col_names</span>,</span>
+<span>  sort_within_categories <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  sort_categories <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -61,6 +68,14 @@
 
 <dt>metric_col_names</dt>
 <dd><p><code>chr</code> column name with names (if there are names)</p></dd>
+
+
+<dt>sort_within_categories</dt>
+<dd><p><code>lgl</code> Whether to sort values within categories</p></dd>
+
+
+<dt>sort_general</dt>
+<dd><p><code>lgl</code> Whether to sort categories (if categories included), or the choices themselves if no categories.</p></dd>
 
 </dl></div>
     <div class="section level2">
