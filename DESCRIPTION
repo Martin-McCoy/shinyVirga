@@ -1,6 +1,6 @@
 Package: shinyVirga
 Title: A Collection of R shiny utilities by Virga Labs
-Version: 0.35.4
+Version: 0.35.5
 Authors@R: c(
         utils::person(
           "Stephen",
@@ -42,7 +42,7 @@ Imports:
     stringr,
     tibble,
     tippy (>= 1.0.0),
-    UU (>= 1.18.0)
+    UU (>= 1.42.0)
 Suggests: 
     attachment (>= 0.3.0),
     dockerfiler (>= 0.2.0),

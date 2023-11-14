@@ -4,7 +4,14 @@
 \alias{select_choices}
 \title{make a nested category list for \code{\link[shiny]{selectInput}}}
 \usage{
-select_choices(metrics_df, metric_col_values, category_col, metric_col_names)
+select_choices(
+  metrics_df,
+  metric_col_values,
+  category_col,
+  metric_col_names,
+  sort_within_categories = FALSE,
+  sort_categories = FALSE
+)
 }
 \arguments{
 \item{metrics_df}{\code{tbl} See description}
@@ -14,6 +21,10 @@ select_choices(metrics_df, metric_col_values, category_col, metric_col_names)
 \item{category_col}{\code{chr} column name with categories}
 
 \item{metric_col_names}{\code{chr} column name with names (if there are names)}
+
+\item{sort_within_categories}{\code{lgl} Whether to sort values within categories}
+
+\item{sort_general}{\code{lgl} Whether to sort categories (if categories included), or the choices themselves if no categories.}
 }
 \value{
 \code{chr/list} list if category_col supplied, otherwise character vector
