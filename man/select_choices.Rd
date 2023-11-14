@@ -10,7 +10,7 @@ select_choices(
   category_col,
   metric_col_names,
   sort_within_categories = FALSE,
-  sort_categories = FALSE
+  sort_general = FALSE
 )
 }
 \arguments{

@@ -17,7 +17,7 @@
 #' @return \code{chr/list} list if category_col supplied, otherwise character vector
 #' @export
 
-select_choices <- function(metrics_df, metric_col_values, category_col, metric_col_names, sort_within_categories = FALSE, sort_categories = FALSE) {
+select_choices <- function(metrics_df, metric_col_values, category_col, metric_col_names, sort_within_categories = FALSE, sort_general = FALSE) {
 
   metric_col_values <- rlang::ensym(metric_col_values)
   category_col <- rlang::ensym(category_col)
