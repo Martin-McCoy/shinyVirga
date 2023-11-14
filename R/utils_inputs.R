@@ -42,7 +42,7 @@ select_choices <- function(metrics_df, metric_col_values, category_col, metric_c
       UU::gbort("All {.code metric_col_values} must have non-zero length names in {.code category_col}. Problematic indices are: {paste0(collapse = ', ', which(nm_lgl))}")
     #sort metric_choices alphabetically within their categories
     if (sort_within_categories)
-      out <- lapply(out, sort_by_names)
+      out <- lapply(out, UU::sort_by_names)
     out
   } else {
     dplyr::pull(metrics_df, !!metric_col_values)
