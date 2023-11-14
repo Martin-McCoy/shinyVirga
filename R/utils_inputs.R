@@ -51,5 +51,6 @@ select_choices <- function(metrics_df, metric_col_values, category_col, metric_c
   if (sort_general)
     out <- UU::sort_by_names(out)
 
+  return(out)
 }
 
