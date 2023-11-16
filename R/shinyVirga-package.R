@@ -17,10 +17,10 @@ useShinyVirga <- function() {
   shiny::tagList(
     htmltools::htmlDependency(
       name = "shinyVirga-funs",
-      version = as.character(utils::packageVersion("shinyVirga")),
+      version = utils::packageVersion("shinyVirga"),
       package = "shinyVirga",
-      src = "js",
-      script = "shinyVirga-funs.js"
+      src = "srcjs",
+      script = list(src = "shinyVirga-funs.js", defer = NA)
     )
   )
 }

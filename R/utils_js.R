@@ -46,9 +46,9 @@ js_after <- function(id,
 use_driver.js <- function() {
   htmltools::htmlDependency(
     name = "driver.js",
-    version = "1",
+    version = "1.0.1",
     src = c(href = "https://cdn.jsdelivr.net/npm/driver.js@1.0.1/dist/"),
-    script = "driver.js.iife.js",
+    script = list(src = "driver.js.iife.js", defer = NA),
     stylesheet = "driver.css"
   )
 }
