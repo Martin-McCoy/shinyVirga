@@ -153,7 +153,7 @@ warn_id <- function(warn_html, id, ..., ms = 10000) {
 #' @description Useful for linking to internal files, such as with image source attributes `<img src="[path]">`
 #' @param path \code{chr}
 #' @param resourcepath \code{chr} A resource path specified in _app_ui.R_
-#'
+#' @param leading_slash \code{lgl} If leading slash should be included `TRUE` or removed `FALSE`.
 #' @return \code{chr} without stripped directories
 #' @export
 #' @family general
@@ -161,8 +161,11 @@ warn_id <- function(warn_html, id, ..., ms = 10000) {
 #' path_strip_to("inst/app/www/img/myimage.svg", "www")
 path_strip_to <- function(path, resourcepath = "www", leading_slash = FALSE) {
   out <- stringr::str_replace(path, paste0(".*(?=\\",paste0(.Platform$file.sep, resourcepath),")"), "")
-  if (!leading_slash)
+  has_leading_slash <- stringr::str_detect(out, paste0("^\\", .Platform$file.sep))
+  if (!leading_slash && has_leading_slash)
     out <- stringr::str_sub(out, start = 2)
+  else if (leading_slash && !has_leading_slash)
+    out <- paste0(.Platform$file.sep, out)
   return(out)
 }
 
