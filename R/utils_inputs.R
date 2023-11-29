@@ -12,11 +12,12 @@
 #' @param metric_col_values \code{chr} column name with values
 #' @param category_col \code{chr} column name with categories
 #' @param metric_col_names \code{chr} column name with names (if there are names)
-#'
+#' @param sort_within_categories \code{lgl} Whether to sort values within categories
+#' @param sort_general \code{lgl} Whether to sort categories (if categories included), or the choices themselves if no categories.
 #' @return \code{chr/list} list if category_col supplied, otherwise character vector
 #' @export
 
-select_choices <- function(metrics_df, metric_col_values, category_col, metric_col_names) {
+select_choices <- function(metrics_df, metric_col_values, category_col, metric_col_names, sort_within_categories = FALSE, sort_general = FALSE) {
 
   metric_col_values <- rlang::ensym(metric_col_values)
   category_col <- rlang::ensym(category_col)
@@ -26,8 +27,8 @@ select_choices <- function(metrics_df, metric_col_values, category_col, metric_c
                                 !!metric_col_values := rlang::set_names(!!metric_col_values, !!metric_col_names))
   }
 
-  if (!missing(category_col)) {
-    metrics_df |>
+  out <- if (!missing(category_col)) {
+    out <- metrics_df |>
       dplyr::select(!!category_col, !!metric_col_values) |>
       dplyr::group_by(!!category_col) |>
       {\(.x) {
@@ -36,10 +37,20 @@ select_choices <- function(metrics_df, metric_col_values, category_col, metric_c
       purrr::map(\(.x) {
         as.list(.x[[1]])
       })
+    nm_lgl <- UU::zchar(names(out)) | anyNA(names(out))
+    if (any(nm_lgl))
+      UU::gbort("All {.code metric_col_values} must have non-zero length names in {.code category_col}. Problematic indices are: {paste0(collapse = ', ', which(nm_lgl))}")
+    #sort metric_choices alphabetically within their categories
+    if (sort_within_categories)
+      out <- lapply(out, UU::sort_by_names)
+    out
   } else {
-    metrics_df |>
-      dplyr::pull(!!metric_col_values)
+    dplyr::pull(metrics_df, !!metric_col_values)
   }
 
+  if (sort_general)
+    out <- UU::sort_by_names(out)
 
+  return(out)
 }
+

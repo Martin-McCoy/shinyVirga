@@ -80,7 +80,7 @@ deploy_tar <- function(deploy_path = "deploy",
   if (use_github_pat) {
     UU::creds_to_renviron(proj_dir = deploy_path, GITHUB_PAT = Sys.getenv("GITHUB_PAT"),scope = "project")
   }
-  UU::ignore_files(deploy_path)
+  UU::ignore_files(fs::path(deploy_path, ".Renviron"))
 
 }
 
@@ -221,5 +221,7 @@ deploy_stage <- function(deploy_path = "deploy",
   write(deparse(job), job_path)
   if (launch_job)
     rstudioapi::jobRunScript(job_path, name = glue::glue("Build {docker_image_tag} Docker images"))
-  UU::ignore_files("deploy/")
+
+  UU::ignore_files(fs::path(deploy_path, ".Renviron"))
+
 }

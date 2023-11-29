@@ -5,3 +5,22 @@
 #' @importFrom lifecycle deprecated
 ## usethis namespace: end
 NULL
+
+
+#' Adds JS Dependencies to the DOM for shinyVirga to function
+#'
+#' @return \code{tagList}
+#' @export
+#'
+
+useShinyVirga <- function() {
+  shiny::tagList(
+    htmltools::htmlDependency(
+      name = "shinyVirga-funs",
+      version = utils::packageVersion("shinyVirga"),
+      package = "shinyVirga",
+      src = "srcjs",
+      script = list(src = "shinyVirga-funs.js", defer = NA)
+    )
+  )
+}

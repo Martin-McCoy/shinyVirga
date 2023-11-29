@@ -46,9 +46,9 @@ js_after <- function(id,
 use_driver.js <- function() {
   htmltools::htmlDependency(
     name = "driver.js",
-    version = "1",
+    version = "1.0.1",
     src = c(href = "https://cdn.jsdelivr.net/npm/driver.js@1.0.1/dist/"),
-    script = "driver.js.iife.js",
+    script = list(src = "driver.js.iife.js", defer = NA),
     stylesheet = "driver.css"
   )
 }
@@ -61,6 +61,33 @@ make_id <- function(x) {
 }
 make_id_ <- Vectorize(make_id)
 
+
+#' Set attributes of a DOM element
+#' @description
+#' This will replace existing attribute if it exists.
+#'
+#' @inheritParams js_after
+#' @param ... \code{named args} attributes to set
+#'
+#' @return \code{None} Updates the element
+#' @export
+#'
+
+js_set_attrs <-  function(id,
+                         ...,
+                         asis = FALSE,
+                         .ns = ns_find()) {
+  if (!asis)
+    id <- .ns(id)
+
+  .dots <- rlang::dots_list(...)
+  purrr::imap_chr(.dots, \(.x, .y) {
+    UU::glue_js("$('#*{id}*').css('*{ .y}*', '*{ .x}*');")
+  }) |>
+    glue::glue_collapse() |>
+    shinyjs::runjs()
+
+}
 
 #' Create a driver.js callout
 #' Must include `shinyVirga::use_driver.js()` & \code{\link[shinyjs]{useShinyJS}} in the head of the page.
@@ -225,9 +252,9 @@ js_callout <- function(el,
 #'   )
 #'
 #' }
+#' shinyApp(ui = ui, server = server)
 #' }
 #'
-#' shinyApp(ui = ui, server = server)
 
 js_glow <- function(id,
                     color = "deepskyblue",
@@ -468,15 +495,261 @@ js_bs4Card_action <- function(id, action = 'toggle') {
   )
 }
 
+picker_js <- function(enable = TRUE) {
+  status <- ifelse(enable, "true", 'false')
+  sprintf("((id) => {
+      var picker = $(id)
+      if (picker) {
+        picker.prop('disabled', %s);
+        picker.selectpicker('refresh');
+      }
+
+      })('#*{id}*')
+      ", status)
+}
+
+#' Enable a bootstrap pickerInput
+#'
+#' @inheritParams js_mouseover_once
+#' @author [Victor Perrier](https://github.com/pvictor), Maria Sevillano, Stephen Holsenbeck
+#' @return \code{none} called for side-effects
+#' @export
+#'
+#' @family JS
+js_picker_enable <- function(id,
+                             asis = FALSE,
+                             .ns = ns_find()) {
+  if (!asis)
+    id <- .ns(id)
+  shinyjs::runjs(
+    UU::glue_js(picker_js(enable = TRUE))
+  )
+
+
+}
+
+#' Disable a bootstrap pickerInput
+#'
+#' @inherit js_picker_enable params author
+#' @return \code{none} called for side-effects
+#' @export
+#'
+#' @family JS
+js_picker_disable <- function(id,
+                             asis = FALSE,
+                             .ns = ns_find()) {
+  if (!asis)
+    id <- .ns(id)
+  shinyjs::runjs(
+    UU::glue_js(picker_js(enable = FALSE))
+  )
+
+}
+
+#' Check to ensure all plotlys are visible within an element
+#'
+#' @inheritParams js_picker_disable
+#'
+#' @return \code{none} called for side affects
+#' @export
+#'
+
+js_all_plotly_visible <- function(id,
+                                  asis = FALSE,
+                                  .ns = ns_find()) {
+  the_ns <- .ns('')
+  if (!asis)
+    id <- .ns(id)
+
+  shinyjs::runjs(
+    UU::glue_js(
+      "
+      $('#*{id}*').find('.plotly.html-widget').each((i, e) => {
+        var ns = '*{the_ns}*';
+        var svg = $(e).find('.svg-container')[0];
+        var v = isVisible(svg);
+        Shiny.setInputValue('*{the_ns}*' + e.id.match(/\\w+$/)[0] + '_visible', v, {priority: 'event'})
+      })
+      "
+    )
+  )
+
+}
+
+#' Remove or show sliderInput tick marks
+#'
+#' @inheritParams js_accordion_open
+#' @param hide \code{lgl} Whether to hide the tick marks
+
+#'
+#' @return \code{None} Removes tick marks from slider
+#' @export
+#'
+
+js_sliderInput_ticks <- function(id,
+                                 hide = TRUE,
+                              asis = FALSE,
+                              .ns = ns_find()) {
+  if (!asis)
+    id <- .ns(id)
+
+  shinyjs::runjs(
+    UU::glue_js(
+      '$("#*{id}*").siblings("span.irs").find(".irs-grid").attr("hidden", *{tolower(hide)}*)'
+    )
+  )
+}
+
+
+
+#' Opens all accordions of provided `id`
+#'
+#' @inheritParams js_picker_enable
+#'
+#' @return \code{none} Opens accordions
+#' @export
+#'
+
+js_accordion_open <- function(id,
+                               asis = FALSE,
+                               .ns = ns_find()) {
+  if (!asis)
+    id <- .ns(id)
+
+  shinyjs::runjs(
+    UU::glue_js(
+      "
+      $('#*{id}*').find('a').each((i, e) => {
+        var el = $(e);
+        if (el.hasClass('collapsed')) {
+          el.click()
+        }
+
+      })
+      "
+    )
+  )
+}
+
+#' Opens all accordions of provided `id`
+#'
+#' @inheritParams js_picker_enable
+#'
+#' @return \code{none} Opens accordions
+#' @export
+#'
+
+js_accordion_close <- function(id,
+                                     asis = FALSE,
+                                     .ns = ns_find()) {
+  if (!asis)
+    id <- .ns(id)
+
+  shinyjs::runjs(
+    UU::glue_js(
+      "
+      $('#*{id}*').find('a').each((i, e) => {
+        var el = $(e);
+        if (!el.hasClass('collapsed')) {
+          el.click()
+        }
+
+      })
+      "
+    )
+  )
+}
+
+#' Title
+#'
+#' @inheritParams js_picker_enable
+#' @param panel_id ID of the panel to close/open when clicking outside. `asis` applies to this argument as well
+#' @param asis_panel If the panel_id should be left asis `TRUE` or namespaced `FALSE`
+#' @return \code{shiny.tag} with script that adds event listener
+#' @export
+#'
+js_click_to_close <- function(id,
+                              panel_id,
+                              asis = FALSE,
+                              asis_panel = FALSE,
+                              .ns = ns_find()) {
+
+  if (!asis) {
+    id <- .ns(id)
+  }
+  if (!asis_panel)
+    panel_id <- .ns(panel_id)
+  tags$script(
+    type = "text/javascript",
+    UU::glue_js(system.file(package = "shinyVirga", "js/js_click_to_close.js"))
+  )
+}
+#' Force the browser to download JSON, useful for saved session recovery
+#' @description
+#' Useful in combination with `options(shiny.error = ...)` for saving a session on a break.
+#' See Examples for details
+#' @param x \code{chr/obj} The raw json as a character, a path to a file, or an R object in which case \code{\link[jsonlite]{toJSON}} will be used to convert the object to JSON.
+#' @param is_file \code{lgl} If x is a file, must be TRUE
+#' @param filename \code{chr} Name of file to be downlaoded
+#'
+#' @return \code{none} called for side effects
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' library(shiny)
+#'
+#' ui <- fluidPage(
+#'   shinyjs::useShinyjs(),
+#'   actionButton("break_me", "Break the app")
+#' )
+#'
+#' server <- function(input, output, session) {
+#'   options(shiny.error = \() {
+#'   js_force_download_json(jsonlite::toJSON(list(some = "important information")), filename = "test.json")
+#'   })
+#'   observeEvent(input$break_me, {
+#'     rlang::abort("Done broke the app")
+#'   })
+#' }
+#'
+#' shinyApp(ui, server)
+#'
+#' }
+
+js_force_download_json <- function(x, is_file = FALSE, filename = "recovery-save-session.json") {
+  no_brackets <- !any(stringr::str_detect(x, "\\{"))
+  if (!is.character(x) && no_brackets) {
+    x <- jsonlite::toJSON(x, auto_unbox = TRUE, pretty = TRUE)
+  }
+  if (is_file) {
+    x <- readLines(x)
+  }
+  x <- glue::glue_collapse(x, sep = "\n")
+  stopifnot(`Must be run in a shiny session` = shiny::isRunning())
+ UU::need_pkg("shinyjs", "runjs")(UU::glue_js("(() => {
+  var json = `*{x}*`;
+  var data = \"text/json;charset=utf-8,\" + encodeURIComponent(json);
+  var a = document.createElement('a');
+  a.href = 'data:' + data;
+  a.download = '*{filename}*';
+  a.innerHTML = 'download JSON';
+  var container = document.getElementsByTagName('body')[0];
+  container.appendChild(a);
+  a.click();
+  a.remove();
+  })()"))
+}
+
 
 #' Create an incrementing shiny input each time a render function runs
 #' @description
-#' Requires \code{\link[shinyjs]{runjs}}. Useful for creating a callback once a DT is rerendered to update the page number for page number retention.
+#' Requires \code{\link[shinyjs]{runjs}} if not using `htmlwidget`. Useful for firing an observer after a render function completes to update the page number for page number retention.
 #'
-#' @param outputId \code{chr} The outputId value
-#' @inheritParams shiny::updateActionButton
-#'
-#' @return Called for side effects. Runs code via shinyjs.
+#' @inheritParams js_picker_enable
+#' @param htmlwidget \code{htmlwidget} If the render function is rendering an htmlwidget, it can be passed. This obviates the need for shinyjs.
+#' @param debugger \code{lgl} whether to add a debugger statement to the callback.
+#' @return Runs code via shinyjs unless an htmlwidget is provided, in which case it modifies the htmlwidget with \link[htmlwidgets]{onRender} and returns it.
 #' @export
 #'
 #' @examples
@@ -487,6 +760,29 @@ js_bs4Card_action <- function(id, action = 'toggle') {
 #' })
 #' }
 #'
-render_ran_input <- function(outputId, session = shiny::getDefaultReactiveDomain()) {
-  shinyjs::runjs(shinyVirga::js_set_input_val(paste0(session$ns(outputId), "_ran"), session$input[[outputId]] %|0|% 0 + 1, asis = TRUE))
+render_ran_input <- function(id, htmlwidget, asis = FALSE, session = shiny::getDefaultReactiveDomain(), debugger = FALSE) {
+
+  if (!missing(htmlwidget)) {
+    htmlwidgets::onRender(
+      htmlwidget,
+      UU::glue_js(
+        c("(e, x) => {",
+          "var id = e.id + '_ran';",
+          "var val = window[id] || 0;",
+          if (debugger) 'debugger;',
+          "val += 1;",
+          "window[id] = val;",
+          "Shiny.setInputValue(id, val, {priority: 'event'});",
+        "}")
+      )
+    )
+  } else {
+    id_ran <- paste0(id, "_ran")
+    val <- shiny::isolate(session$input[[id_ran]] %||% 0)
+    if (!asis) {
+      id_ran <- session$ns(id_ran)
+    }
+    shinyjs::runjs(shinyVirga::js_set_input_val(id_ran,  val + 1, asis = TRUE))
+  }
+
 }

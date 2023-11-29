@@ -16,7 +16,12 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Stephen Holsenbeck \email{stephen@virgalabs.io}
+\strong{Maintainer}: Stephen Holsenbeck \email{stephen@virgalabs.io} (2ndary email: sholsen@alumni.emory.edu)
+
+Other contributors:
+\itemize{
+  \item Maria Sevillano \email{maria@virgalabs.io} [contributor]
+}
 
 }
 \keyword{internal}

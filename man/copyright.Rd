@@ -5,19 +5,20 @@
 \title{Creates an always up to date italicized copyright element.}
 \usage{
 copyright(
-  copyright_holder = shiny::a("Virga Labs ", href = "https://www.virgalabs.io/", target =
+  ...,
+  copyright_holder = shiny::a(logo, href = "https://www.virgalabs.io/", target =
     "_blank"),
-  class = "",
   logo = img_base64(css_props = list(`max-width` = "3em", `max-height` = "1em", display =
-    "inline-block;"))
+    "inline-block;")),
+  class = ""
 )
 }
 \arguments{
 \item{copyright_holder}{\code{shiny.tag} to display for the copyright}
 
-\item{class}{\code{chr} additional classes for the parent div}
-
 \item{logo}{\code{shiny.tag} A logo to display after the copyright message. Set to NULL to turn off.}
+
+\item{class}{\code{chr} additional classes for the parent div}
 }
 \value{
 \code{shiny.tag}

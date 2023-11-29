@@ -10,6 +10,8 @@ path_strip_shiny(path, resourcepath = "www", leading_slash = FALSE)
 \item{path}{\code{chr}}
 
 \item{resourcepath}{\code{chr} A resource path specified in \emph{app_ui.R}}
+
+\item{leading_slash}{\code{lgl} If leading slash should be included \code{TRUE} or removed \code{FALSE}.}
 }
 \value{
 \code{chr} without stripped directories

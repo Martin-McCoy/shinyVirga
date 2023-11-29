@@ -8,9 +8,10 @@ add_pseudo_module(
   name,
   path = "R",
   export = FALSE,
-  ph_name = sprintf("pmod_\%s", name),
-  ph_ui = sprintf("pmod_\%s_ui", name),
-  ph_server = sprintf("pmod_\%s_server", name),
+  pm_name = sprintf("pmod_\%s", name),
+  pm_ui = sprintf("pmod_\%s_ui", name),
+  pm_server = sprintf("pmod_\%s_server", name),
+  use_ud = TRUE,
   open = TRUE
 )
 }
@@ -21,15 +22,18 @@ add_pseudo_module(
 
 \item{export}{\code{lgl} whether it should be exported in the package}
 
-\item{ph_name}{\code{chr} The name of file}
+\item{pm_name}{\code{chr} The name of file}
 
-\item{ph_ui}{\code{chr} The name of the module ui function}
+\item{pm_ui}{\code{chr} The name of the module ui function}
 
-\item{ph_server}{\code{chr} The name of the module server function}
+\item{pm_server}{\code{chr} The name of the module server function}
+
+\item{use_ud}{\code{lgl} Whether to include the \code{session$userData} environment as a shorthand variable \code{ud} in the module for ease of access to a user's session state variables.}
 }
 \value{
 \code{file} The new file opens
 }
 \description{
-Add a pseudo-module, one which maintains the namespace of it's parent module
+The usage of a pseudo-module is nearly identical to the module, but inputs & outputs in the pseudo-module are shared between the parent and the pseudo-module.  It's usefulness shines when developing numerous interacting inputs, say for a complex plot, and those inputs need be modular but also must interact with one another in a confluence fashion to determine how the plot renders.
+The pseudo-module allows developers to functionalize input components whose values must necessarily must be considered in concert with one another. Using modules, the developer must keep track of shared inputs explicitly between modules using \code{\link[shiny]{reactiveVal}} and/or \code{\link[shiny]{reactiveValues}} and pass them as arguments to any nested modules. As a codebase changes, and inputs are added and removed, keeping track of where confluences of interactions are stored and updating arguments accordingly is cumulative technical debt. With pseudo-modules shared reactive inputs allow the developer to logically segment interactivity involving confluences of inputs as they see fit without incurring the technical debt of passing \code{\link[shiny]{reactiveVal}} and/or \code{\link[shiny]{reactiveValues}} around when interactions are removed or added.
 }
