@@ -28,7 +28,7 @@ dynamic_row <- function(...) {
 #' @export
 #'
 
-copyright <- function(..., copyright_holder = shiny::a(logo, href = "https://www.virgalabs.io/", target = "_blank"), logo = img_base64(css_props = list(`max-width` = "3em", `max-height` = "1em", display = "inline-block;")), class = "") {
+copyright <- function(..., copyright_holder = shiny::a(logo, href = "https://www.virgalabs.io/", target = "_blank", `aria-label` = "A link to the Virga Labs website"), logo = img_base64(css_props = list(`max-width` = "3em", `max-height` = "1em", display = "inline-block;")), class = "") {
   s <- htmltools::tags$script(type = "text/javascript",
          "document.getElementById('c_year').innerHTML = new Date().getFullYear();")
 
