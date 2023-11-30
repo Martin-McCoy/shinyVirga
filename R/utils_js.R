@@ -746,6 +746,7 @@ js_force_download_json <- function(x, is_file = FALSE, filename = "recovery-save
 #' @description
 #' Requires \code{\link[shinyjs]{runjs}} if not using `htmlwidget`. Useful for firing an observer after a render function completes to update the page number for page number retention.
 #'
+#' @param id \code{chr} the id of the output for which a new input with the name `[id]_ran` (without brackets) will be incremented each time it renders.
 #' @inheritParams js_picker_enable
 #' @param htmlwidget \code{htmlwidget} If the render function is rendering an htmlwidget, it can be passed. This obviates the need for shinyjs.
 #' @param debugger \code{lgl} whether to add a debugger statement to the callback.

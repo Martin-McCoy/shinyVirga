@@ -13,7 +13,7 @@ render_ran_input(
 )
 }
 \arguments{
-\item{id}{\code{(chr)} Automatically namespaced with \code{ns} if inside a module}
+\item{id}{\code{chr} the id of the output for which a new input with the name \verb{[id]_ran} (without brackets) will be incremented each time it renders.}
 
 \item{htmlwidget}{\code{htmlwidget} If the render function is rendering an htmlwidget, it can be passed. This obviates the need for shinyjs.}
 
