@@ -7,7 +7,7 @@
 copyright(
   ...,
   copyright_holder = shiny::a(logo, href = "https://www.virgalabs.io/", target =
-    "_blank"),
+    "_blank", `aria-label` = "A link to the Virga Labs website"),
   logo = img_base64(css_props = list(`max-width` = "3em", `max-height` = "1em", display =
     "inline-block;")),
   class = ""

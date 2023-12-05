@@ -15,6 +15,8 @@ mod_transifex_select(
   width = NULL,
   class = NULL,
   inline = FALSE,
+  transifex_options = list(api_key = key, detect_lang = FALSE, picker = "", version =
+    "latest"),
   key = Sys.getenv("TRANSIFEX_API_KEY", ""),
   ...
 )
@@ -41,6 +43,8 @@ To limit the number of selection possible, see example below.}
 \item{width}{The width of the input : 'auto', 'fit', '100px', '75\%'.}
 
 \item{inline}{Display picker inline, to have label and menu on same line use \code{width = "fit"}.}
+
+\item{transifex_options}{\code{list} List of options to be passed to the \href{https://help.transifex.com/en/articles/6370718-javascript-api}{liveSettings object}}
 
 \item{...}{a collection of attributes.}
 }

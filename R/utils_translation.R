@@ -7,17 +7,37 @@
 #'
 #' @inheritParams shinyWidgets::pickerInput
 #' @inheritParams htmltools::tagAppendAttributes
+#' @param transifex_options \code{list} List of options to be passed to the \href{https://help.transifex.com/en/articles/6370718-javascript-api}{liveSettings object}
 #' @family translation
 #' @return \code{shiny.tag}
 #' @export
 #'
 
-mod_transifex_select <- function(inputId, label, choices = c("English" = "en", "Spanish"= "es"), selected = c(English = "en"), multiple = FALSE, options = list(), choicesOpt = NULL, width = NULL, class = NULL, inline = FALSE, key = Sys.getenv("TRANSIFEX_API_KEY", ''), ...) {
+mod_transifex_select <-
+  function(inputId,
+           label,
+           choices = c("English" = "en", "Spanish" = "es"),
+           selected = c(English = "en"),
+           multiple = FALSE,
+           options = list(),
+           choicesOpt = NULL,
+           width = NULL,
+           class = NULL,
+           inline = FALSE,
+           transifex_options = list(api_key = key,
+                                    detect_lang = FALSE,
+                                    picker = "",
+                                    version = "latest"),
+           key = Sys.getenv("TRANSIFEX_API_KEY", ''),
+           ...) {
+
+    tfex_options <- jsonlite::toJSON(transifex_options, auto_unbox = TRUE) |>
+      stringr::str_replace_all('"(\\w+)"\\s*:', '\\1:')
   tagList(
     shiny::singleton(
       shiny::tags$head(
         tags$script(type="text/javascript", src="//cdn.transifex.com/live.js"),
-        tags$script(type="text/javascript", UU::glue_js('window.liveSettings={api_key:"*{Sys.getenv("TRANSIFEX_API_KEY", "")}*"}'))
+        tags$script(type="text/javascript", UU::glue_js('window.liveSettings=*{tfex_options}*'))
       )
     ),
     do.call(
