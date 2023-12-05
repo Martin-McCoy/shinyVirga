@@ -24,12 +24,16 @@ mod_transifex_select <-
            width = NULL,
            class = NULL,
            inline = FALSE,
-           transifex_options = list(api_key = key,
-                                    detect_lang = FALSE,
-                                    picker = "",
+           transifex_options = list(detect_lang = FALSE,
+                                    picker = "#test",
                                     version = "latest"),
            key = Sys.getenv("TRANSIFEX_API_KEY", ''),
            ...) {
+
+    transifex_options <- rlang::list2(
+      api_key = key,
+      !!!transifex_options
+    )
 
     tfex_options <- jsonlite::toJSON(transifex_options, auto_unbox = TRUE) |>
       stringr::str_replace_all('"(\\w+)"\\s*:', '\\1:')
