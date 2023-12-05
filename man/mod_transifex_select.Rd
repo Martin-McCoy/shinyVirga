@@ -15,8 +15,7 @@ mod_transifex_select(
   width = NULL,
   class = NULL,
   inline = FALSE,
-  transifex_options = list(api_key = key, detect_lang = FALSE, picker = "", version =
-    "latest"),
+  transifex_options = list(detect_lang = FALSE, picker = "#test", version = "latest"),
   key = Sys.getenv("TRANSIFEX_API_KEY", ""),
   ...
 )
