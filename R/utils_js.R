@@ -466,8 +466,10 @@ js_mouseover_once <- function(id,
 }
 
 #' Open/Close a bs4Card with ID
-#'
+#' @description
+#' Requires `shinyVirga::useShinyVirga()` in the head of the DOM of the app (typically in ui file).
 #' @param id \code{chr} ID of the bs4Card
+#' @inheritParams js_set_input_val
 #' @param action \code{chr} One of:
 #' \itemize{
 #'   \item{\code{toggle}}{ Toggle Open/Closed}
@@ -479,19 +481,11 @@ js_mouseover_once <- function(id,
 #' @export
 #'
 
-js_bs4Card_action <- function(id, action = 'toggle') {
+js_bs4Card_action <- function(id, action = 'toggle', asis = FALSE, .ns = ns_find()) {
+  if (!asis)
+    id <- .ns(id)
   shinyjs::runjs(
-    UU::glue_js("
-           function openCard(id, toggle = *{ifelse(action == 'toggle', 'true', 'false')}*) {
-             let sel = `#${id} > .card-header > .card-tools > .btn-tool`
-             if (toggle) {
-               $(sel).click()
-             } else if ($(sel + ' > .fas').hasClass('fa-*{switch(action, open = 'plus', close =  'minus')}*')) {
-               $(sel).click()
-             }
-           }
-           openCard('*{id}*')
-           ")
+    UU::glue_js("cardOpen('*{id}*', action = '*{action}*')")
   )
 }
 
@@ -549,7 +543,7 @@ js_picker_disable <- function(id,
 #' Check to ensure all plotlys are visible within an element
 #'
 #' @inheritParams js_picker_disable
-#'
+#' @inherit js_bs4Card_action description
 #' @return \code{none} called for side affects
 #' @export
 #'
@@ -580,8 +574,6 @@ js_all_plotly_visible <- function(id,
 #'
 #' @inheritParams js_accordion_open
 #' @param hide \code{lgl} Whether to hide the tick marks
-
-#'
 #' @return \code{None} Removes tick marks from slider
 #' @export
 #'
