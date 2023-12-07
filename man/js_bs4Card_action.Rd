@@ -4,7 +4,7 @@
 \alias{js_bs4Card_action}
 \title{Open/Close a bs4Card with ID}
 \usage{
-js_bs4Card_action(id, action = "toggle")
+js_bs4Card_action(id, action = "toggle", asis = FALSE, .ns = ns_find())
 }
 \arguments{
 \item{id}{\code{chr} ID of the bs4Card}
@@ -15,10 +15,15 @@ js_bs4Card_action(id, action = "toggle")
 \item{\code{open}}{ If closed, open, otherwise do nothing}
 \item{\code{close}}{ If open, close, otherwise do nothing}
 }}
+
+\item{asis}{If \code{TRUE}, use the ID as-is even when inside a module
+(instead of adding the namespace prefix to the ID).}
+
+\item{.ns}{\code{fun} ns function. Typically found automatically.}
 }
 \value{
 \code{None}
 }
 \description{
-Open/Close a bs4Card with ID
+Requires \code{shinyVirga::useShinyVirga()} in the head of the DOM of the app (typically in ui file).
 }

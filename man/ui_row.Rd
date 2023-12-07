@@ -30,7 +30,8 @@ ui_row(
   box = TRUE,
   row = TRUE,
   class = NULL,
-  add_attribs = NULL
+  add_attribs = NULL,
+  state_input = !is.null(id)
 )
 }
 \arguments{
@@ -140,6 +141,8 @@ TRUE by default}
 \item{class}{\code{chr} A class to add to the top level div.row}
 
 \item{add_attribs}{\code{list} of attributes to append to arbitrary tags in the format \verb{list([jQuery selector] = list([attribute] = [value]))}}
+
+\item{state_input}{\code{lgl} Whether to make a logical input value with the ID provided. Must ensure \code{id} is namespaced with the \code{ns} function if calling inside a module. The resulting input will be \code{input[['{id}_state']]} where \code{id} is the value passed to the \code{id} argument.}
 }
 \value{
 A full-width \link[bs4Dash]{box} nested in a row
