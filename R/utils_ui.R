@@ -86,6 +86,7 @@ simpleCard <- function(...,
 #' @inheritParams bs4Dash::box
 #' @param box \code{lgl} Whether to box the contents or just put them in row. **Default TRUE**
 #' @param row \code{lgl} Whether to wrap the output in a row. **Default TRUE**
+#' @param state_input \code{lgl} Whether to make a logical input value with the ID provided. Must ensure `id` is namespaced with the `ns` function if calling inside a module. The resulting input will be `input[['{id}_state']]` where `id` is the value passed to the `id` argument.
 #' @param class \code{chr} A class to add to the top level div.row
 #' @param add_attribs \code{list} of attributes to append to arbitrary tags in the format `list([jQuery selector] = list([attribute] = [value]))`
 #' @return A full-width \link[bs4Dash]{box} nested in a row
@@ -118,7 +119,8 @@ ui_row <- function(...,
                    box = TRUE,
                    row = TRUE,
                    class = NULL,
-                   add_attribs = NULL
+                   add_attribs = NULL,
+                   state_input = !is.null(id)
 ) {
 
   .dots <- rlang::dots_list(...)
@@ -166,7 +168,7 @@ ui_row <- function(...,
     out <- NULL
 
   if (row)
-    out <- shiny::fluidRow(class = trimws(paste("ui_row", class)), id = id, out)
+    out <- shiny::fluidRow(class = trimws(paste("ui_row", class)), out)
 
   has_class <- !is.null(class)
   has_attr <- !is.null(add_attribs)
@@ -183,6 +185,23 @@ ui_row <- function(...,
         out <- o$allTags()
       }
     }
+
+  }
+  if (state_input) {
+    out <- tagAppendChild(
+      out,
+      tags$script(
+        UU::glue_js(
+          "
+        $(cardToggleSelector('*{id}*')).on('click', () =>
+          {
+            Shiny.setInputValue('*{id}*' + '_state', cardStatusOpen('*{id}*', immediate = true), {priority: 'event'})
+          }
+        )
+        "
+        )
+      )
+    )
 
   }
   out
