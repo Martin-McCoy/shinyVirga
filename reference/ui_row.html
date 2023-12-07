@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">shinyVirga</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.35.8</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.36.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -68,7 +68,8 @@
 <span>  box <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  row <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  class <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  add_attribs <span class="op">=</span> <span class="cn">NULL</span></span>
+<span>  add_attribs <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  state_input <span class="op">=</span> <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NULL.html" class="external-link">is.null</a></span><span class="op">(</span><span class="va">id</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -267,6 +268,10 @@ TRUE by default</p></dd>
 
 <dt>add_attribs</dt>
 <dd><p><code>list</code> of attributes to append to arbitrary tags in the format <code>list([jQuery selector] = list([attribute] = [value]))</code></p></dd>
+
+
+<dt>state_input</dt>
+<dd><p><code>lgl</code> Whether to make a logical input value with the ID provided. Must ensure <code>id</code> is namespaced with the <code>ns</code> function if calling inside a module. The resulting input will be <code>input[['{id}_state']]</code> where <code>id</code> is the value passed to the <code>id</code> argument.</p></dd>
 
 </dl></div>
     <div class="section level2">

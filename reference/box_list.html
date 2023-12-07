@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">shinyVirga</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.35.8</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.36.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -57,6 +57,9 @@
 
     <dt><code>row</code></dt>
 <dd><p><code>lgl</code> Whether to wrap the output in a row. <strong>Default TRUE</strong></p></dd>
+
+    <dt><code>state_input</code></dt>
+<dd><p><code>lgl</code> Whether to make a logical input value with the ID provided. Must ensure <code>id</code> is namespaced with the <code>ns</code> function if calling inside a module. The resulting input will be <code>input[['{id}_state']]</code> where <code>id</code> is the value passed to the <code>id</code> argument.</p></dd>
 
     <dt><code>class</code></dt>
 <dd><p><code>chr</code> A class to add to the top level div.row</p></dd>
