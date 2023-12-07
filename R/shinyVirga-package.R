@@ -20,7 +20,7 @@ useShinyVirga <- function() {
       version = utils::packageVersion("shinyVirga"),
       package = "shinyVirga",
       src = "srcjs",
-      script = list(src = "shinyVirga-funs.js", defer = NA)
+      script = list(src = "shinyVirga-funs.js")
     )
   )
 }
