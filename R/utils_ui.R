@@ -168,7 +168,7 @@ ui_row <- function(...,
     out <- NULL
 
   if (row)
-    out <- shiny::fluidRow(class = trimws(paste("ui_row", class)), out)
+    out <- shiny::fluidRow(class = trimws(paste("ui_row", class)), out, id = if (!box) id)
 
   has_class <- !is.null(class)
   has_attr <- !is.null(add_attribs)
