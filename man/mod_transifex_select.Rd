@@ -15,7 +15,7 @@ mod_transifex_select(
   width = NULL,
   class = NULL,
   inline = FALSE,
-  transifex_options = list(detect_lang = FALSE, picker = "#test", version = "latest"),
+  include_deps = FALSE,
   key = Sys.getenv("TRANSIFEX_API_KEY", ""),
   ...
 )
@@ -43,9 +43,11 @@ To limit the number of selection possible, see example below.}
 
 \item{inline}{Display picker inline, to have label and menu on same line use \code{width = "fit"}.}
 
-\item{transifex_options}{\code{list} List of options to be passed to the \href{https://help.transifex.com/en/articles/6370718-javascript-api}{liveSettings object}}
-
-\item{...}{a collection of attributes.}
+\item{...}{
+  Arguments passed on to \code{\link[=mod_transifex_deps]{mod_transifex_deps}}
+  \describe{
+    \item{\code{transifex_options}}{\code{list} List of options to be passed to the \href{https://help.transifex.com/en/articles/6370718-javascript-api}{liveSettings object}.  The option \code{manual_init} must be \code{TRUE} when including the dependencies anywhere other than in the \code{head} of the application.}
+  }}
 }
 \value{
 \code{shiny.tag}

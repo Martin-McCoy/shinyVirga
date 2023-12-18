@@ -7,7 +7,8 @@
 #'
 #' @inheritParams shinyWidgets::pickerInput
 #' @inheritParams htmltools::tagAppendAttributes
-#' @param transifex_options \code{list} List of options to be passed to the \href{https://help.transifex.com/en/articles/6370718-javascript-api}{liveSettings object}
+
+#' @inheritDotParams mod_transifex_deps transifex_options
 #' @family translation
 #' @return \code{shiny.tag}
 #' @export
@@ -24,26 +25,14 @@ mod_transifex_select <-
            width = NULL,
            class = NULL,
            inline = FALSE,
-           transifex_options = list(detect_lang = FALSE,
-                                    picker = "#test",
-                                    version = "latest"),
+           include_deps = FALSE,
            key = Sys.getenv("TRANSIFEX_API_KEY", ''),
            ...) {
 
-    transifex_options <- rlang::list2(
-      api_key = key,
-      !!!transifex_options
-    )
 
-    tfex_options <- jsonlite::toJSON(transifex_options, auto_unbox = TRUE) |>
-      stringr::str_replace_all('"(\\w+)"\\s*:', '\\1:')
   tagList(
-    shiny::singleton(
-      shiny::tags$head(
-        tags$script(type="text/javascript", src="//cdn.transifex.com/live.js"),
-        tags$script(type="text/javascript", UU::glue_js('window.liveSettings=*{tfex_options}*'))
-      )
-    ),
+    if (include_deps)
+      mod_transifex_deps(key = key, ...),
     do.call(
       shinyWidgets::pickerInput,
       list(
@@ -57,8 +46,7 @@ mod_transifex_select <-
         width = width,
         inline = inline
       )
-    ) |>
-      tagAppendAttributes(...)
+    )
   )
 }
 
@@ -77,4 +65,35 @@ mod_transifex_select_server <- function(inputId, session = shiny::getDefaultReac
     shinyjs::runjs(UU::glue_js("Transifex.live.translateTo('*{input[[inputId]]}*');"))
   }, priority = 2)
 
+}
+
+#' Include transifex dependencies
+#'
+#' @param key \code{chr} The Transifex API Key associated with the Project > Resource.
+#' @param transifex_options \code{list} List of options to be passed to the \href{https://help.transifex.com/en/articles/6370718-javascript-api}{liveSettings object}.  The option `manual_init` must be `TRUE` when including the dependencies anywhere other than in the `head` of the application.
+#' @return \code{shiny.tag.list} containing a \code{\link[htmltools]{singleton}} with the Transifex live.js and liveSettings options scripts.
+#' @export
+#'
+
+mod_transifex_deps <- function(key = Sys.getenv("TRANSIFEX_API_KEY", ''), transifex_options = list(version = "latest", manual_init = TRUE)) {
+  transifex_options <- rlang::list2(
+    api_key = key,
+    !!!transifex_options
+  )
+
+  tfex_options <- jsonlite::toJSON(transifex_options, auto_unbox = TRUE) |>
+    stringr::str_replace_all('"(\\w+)"\\s*:', '\\1:')
+  shiny::singleton(
+    rlang::exec(shiny::tagList,
+                purrr::map(
+                  list(
+                    UU::glue_js('window.liveSettings=*{tfex_options}*'),
+                    list(src = "//cdn.transifex.com/live.js"),
+                    if (isTRUE(transifex_options$manual_init))
+                      list("Transifex.live.init()")
+                  ),
+                  \(.x) rlang::exec(htmltools::tags$script, type = "text/javascript", !!!.x)
+                )
+    )
+  )
 }
