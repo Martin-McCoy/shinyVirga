@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">shinyVirga</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.36.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.37.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -53,7 +53,7 @@
 <span>  width <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  class <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  inline <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  transifex_options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>detect_lang <span class="op">=</span> <span class="cn">FALSE</span>, picker <span class="op">=</span> <span class="st">"#test"</span>, version <span class="op">=</span> <span class="st">"latest"</span><span class="op">)</span>,</span>
+<span>  include_deps <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  key <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"TRANSIFEX_API_KEY"</span>, <span class="st">""</span><span class="op">)</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -101,12 +101,12 @@ To limit the number of selection possible, see example below.</p></dd>
 <dd><p>Display picker inline, to have label and menu on same line use <code>width = "fit"</code>.</p></dd>
 
 
-<dt>transifex_options</dt>
-<dd><p><code>list</code> List of options to be passed to the <a href="https://help.transifex.com/en/articles/6370718-javascript-api" class="external-link">liveSettings object</a></p></dd>
-
-
 <dt>...</dt>
-<dd><p>a collection of attributes.</p></dd>
+<dd><p>Arguments passed on to <code><a href="mod_transifex_deps.html">mod_transifex_deps</a></code></p><dl><dt><code>transifex_options</code></dt>
+<dd><p><code>list</code> List of options to be passed to the <a href="https://help.transifex.com/en/articles/6370718-javascript-api" class="external-link">liveSettings object</a>.  The option <code>manual_init</code> must be <code>TRUE</code> when including the dependencies anywhere other than in the <code>head</code> of the application.</p></dd>
+
+  
+</dl></dd>
 
 </dl></div>
     <div class="section level2">
