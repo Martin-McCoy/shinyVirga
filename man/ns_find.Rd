@@ -21,8 +21,6 @@ Other general:
 \code{\link{browser_ui}()},
 \code{\link{is_shiny.tag}()},
 \code{\link{ns_custom}()},
-\code{\link{path_strip_shiny}()},
-\code{\link{path_strip_to}()},
 \code{\link{tab_ns_extract}()},
 \code{\link{warn_id}()}
 }

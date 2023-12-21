@@ -42,7 +42,7 @@ Imports:
     stringr,
     tibble,
     tippy (>= 1.0.0),
-    UU (>= 1.42.0)
+    UU (>= 1.43.0)
 Suggests: 
     attachment (>= 0.3.0),
     dockerfiler (>= 0.2.0),

@@ -14,6 +14,8 @@
 \alias{reactiveValuesToList}
 \alias{isolate}
 \alias{tags}
+\alias{path_strip_to}
+\alias{path_strip_shiny}
 \title{Objects exported from other packages}
 \keyword{internal}
 \description{
@@ -27,6 +29,6 @@ below to see their documentation.
 
   \item{shiny}{\code{\link[shiny]{isolate}}, \code{\link[shiny]{reactiveValues}}, \code{\link[shiny]{reactiveValuesToList}}}
 
-  \item{UU}{\code{\link[UU:grapes-or-0-or-grapes]{\%|0|\%}}, \code{\link[UU:grapes-or-legit-or-grapes]{\%|legit|\%}}, \code{\link[UU:grapes-or-try-or-grapes]{\%|try|\%}}, \code{\link[UU:grapes-or-zchar-or-grapes]{\%|zchar|\%}}, \code{\link[UU]{write_dir_fn}}}
+  \item{UU}{\code{\link[UU:grapes-or-0-or-grapes]{\%|0|\%}}, \code{\link[UU:grapes-or-legit-or-grapes]{\%|legit|\%}}, \code{\link[UU:grapes-or-try-or-grapes]{\%|try|\%}}, \code{\link[UU:grapes-or-zchar-or-grapes]{\%|zchar|\%}}, \code{\link[UU]{path_strip_shiny}}, \code{\link[UU]{path_strip_to}}, \code{\link[UU]{write_dir_fn}}}
 }}
 

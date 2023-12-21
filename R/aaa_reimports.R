@@ -2,7 +2,7 @@
 #' @name Re-imports
 #' @description Useful functions from other packages
 #' @importFrom rlang `%||%` `%|%`
-#' @importFrom UU `%|0|%` `%|try|%` `%|zchar|%` `%|legit|%` write_dir_fn
+#' @importFrom UU `%|0|%` `%|try|%` `%|zchar|%` `%|legit|%` write_dir_fn path_strip_to path_strip_shiny
 #' @importFrom shiny reactiveValues reactiveValuesToList isolate
 #' @importFrom htmltools tags
 NULL
@@ -36,3 +36,7 @@ shiny::reactiveValuesToList
 shiny::isolate
 #' @export
 htmltools::tags
+#' @export
+UU::path_strip_to
+#' @export
+UU::path_strip_shiny

@@ -149,42 +149,6 @@ warn_id <- function(warn_html, id, ..., ms = 10000) {
   FALSE
 }
 
-#' Strip a file path to everything after resourcepath
-#' @description Useful for linking to internal files, such as with image source attributes `<img src="[path]">`
-#' @param path \code{chr}
-#' @param resourcepath \code{chr} A resource path specified in _app_ui.R_
-#' @param leading_slash \code{lgl} If leading slash should be included `TRUE` or removed `FALSE`.
-#' @return \code{chr} without stripped directories
-#' @export
-#' @family general
-#' @examples
-#' path_strip_to("inst/app/www/img/myimage.svg", "www")
-path_strip_to <- function(path, resourcepath = "www", leading_slash = FALSE) {
-  out <- stringr::str_replace(path, paste0(".*(?=\\",paste0(.Platform$file.sep, resourcepath),")"), "")
-  has_leading_slash <- stringr::str_detect(out, paste0("^\\", .Platform$file.sep))
-  if (!leading_slash && has_leading_slash)
-    out <- stringr::str_sub(out, start = 2)
-  else if (leading_slash && !has_leading_slash)
-    out <- paste0(.Platform$file.sep, out)
-  return(out)
-}
-
-
-#' Strip a file path to everything after resourcepath if shiny is running
-#'
-#' @inherit path_strip_to params return description
-#' @family general
-#' @export
-#' @examples
-#' path_strip_shiny("inst/app/www/img/image.jpg")
-
-path_strip_shiny <- function(path, resourcepath = "www", leading_slash = FALSE) {
-  if (stringr::str_detect(path, resourcepath) && (golem::is_running() || shiny::isRunning()))
-    path_strip_to(path, resourcepath, leading_slash = leading_slash)
-  else
-    path
-
-}
 
 
 shiny.tag_map <- function(x, name = NULL, attribs = NULL, previous) {
