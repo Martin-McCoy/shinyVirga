@@ -6,13 +6,16 @@
 \usage{
 mod_transifex_deps(
   key = Sys.getenv("TRANSIFEX_API_KEY", ""),
-  transifex_options = list(version = "latest", manual_init = TRUE)
+  transifex_options = list(version = "latest", manual_init = TRUE),
+  ...
 )
 }
 \arguments{
 \item{key}{\code{chr} The Transifex API Key associated with the Project > Resource.}
 
 \item{transifex_options}{\code{list} List of options to be passed to the \href{https://help.transifex.com/en/articles/6370718-javascript-api}{liveSettings object}.  The option \code{manual_init} must be \code{TRUE} when including the dependencies anywhere other than in the \code{head} of the application.}
+
+\item{...}{Additional transifex options}
 }
 \value{
 \code{shiny.tag.list} containing a \code{\link[htmltools]{singleton}} with the Transifex live.js and liveSettings options scripts.

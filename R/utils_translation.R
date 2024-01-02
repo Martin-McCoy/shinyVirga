@@ -71,14 +71,16 @@ mod_transifex_select_server <- function(inputId, session = shiny::getDefaultReac
 #'
 #' @param key \code{chr} The Transifex API Key associated with the Project > Resource.
 #' @param transifex_options \code{list} List of options to be passed to the \href{https://help.transifex.com/en/articles/6370718-javascript-api}{liveSettings object}.  The option `manual_init` must be `TRUE` when including the dependencies anywhere other than in the `head` of the application.
+#' @param ... Additional transifex options
 #' @return \code{shiny.tag.list} containing a \code{\link[htmltools]{singleton}} with the Transifex live.js and liveSettings options scripts.
 #' @export
 #'
 
-mod_transifex_deps <- function(key = Sys.getenv("TRANSIFEX_API_KEY", ''), transifex_options = list(version = "latest", manual_init = TRUE)) {
+mod_transifex_deps <- function(key = Sys.getenv("TRANSIFEX_API_KEY", ''), transifex_options = list(version = "latest", manual_init = TRUE), ...) {
   transifex_options <- rlang::list2(
     api_key = key,
-    !!!transifex_options
+    !!!transifex_options,
+    ...
   )
 
   tfex_options <- jsonlite::toJSON(transifex_options, auto_unbox = TRUE) |>
