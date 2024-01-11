@@ -15,7 +15,7 @@ function cardStatusOpen (id, immediate = false) {
   if (immediate) {
     state_open = !state_open;
   }
-  return(state_open)
+  return state_open;
 }
 
 function cardOpen(id, action = 'open') {
