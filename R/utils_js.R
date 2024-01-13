@@ -177,7 +177,9 @@ js_callout <- function(el,
         title = title,
         description = description,
         side = side,
-        align = align
+        align = align,
+        showButtons = showButtons,
+        disableButtons = disableButtons
       ), htmltools::doRenderTags)),
       opts = purrr::compact(
         list(
@@ -192,8 +194,6 @@ js_callout <- function(el,
           disableActiveInteraction = disableActiveInteraction,
           popoverClass = popoverClass,
           popoverOffset = popoverOffset,
-          showButtons = showButtons,
-          disableButtons = disableButtons,
           showProgress = showProgress,
           progressText = progressText,
           nextBtnText = nextBtnText,
