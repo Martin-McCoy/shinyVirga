@@ -1,6 +1,6 @@
 Package: shinyVirga
 Title: A Collection of R shiny utilities by Virga Labs
-Version: 0.38.0
+Version: 0.39.0
 Authors@R: c(
         utils::person(
           "Stephen",

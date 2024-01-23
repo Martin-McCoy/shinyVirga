@@ -82,6 +82,69 @@ simpleCard <- function(...,
   )
 }
 
+#' Set a Shiny input to `TRUE` when an element renders
+#' @seealso [use_shinyVirga()]
+#' @description
+#' **Requires use_shinyVirga**. Adds a script to the tag that will observe when the element becomes visible in the DOM and set a Shiny input value with the id of the element plus `_rendered`. If the id of `x` is `my-button`, the input will be `input$my-button_rendered`.
+#'
+#' @param x \code{shiny.tag} Must have an ID attribute or an ID must be supplied to `id`
+#' @param id \code{chr} ID to appended to the element, must include `ns` if inside a module.
+#'
+#' @return \code{shiny.tag} with script appended.
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' library(shiny)
+#' library(shinyVirga)
+#' ui <- fluidPage(
+#'   use_shinyVirga(),
+#'   rendered_input(
+#'     actionButton("my-button", "My Button")
+#'   )
+#'
+#' )
+#'
+#' server <- function(input, output, session) {
+#'   observeEvent(input$`my-button_rendered`, {
+#'     print("The button rendered")
+#'   })
+#' }
+#'
+#' shinyApp(ui, server)
+#' }
+
+rendered_input <- function(x, id) {
+  .id <- htmltools::tagGetAttribute(x, "id")
+  .id <- if (UU::zchar(.id) && missing(id)) {
+    UU::gbort("x must have an id attribute, or `id` must be provided")
+  } else if (!missing(id)) {
+    x <- htmltools::tagAppendAttributes(x, id = id)
+    id
+  } else {
+    .id
+  }
+
+  tagAppendChildren(
+    x,
+    htmltools::tags$script(
+      UU::glue_js(
+        "
+          $('#*{ .id}*').ready(() => {
+            var to = setTimeout(() => {
+                if (isVisible('#*{ .id}*')) {
+                  Shiny.setInputValue('*{ .id}*' + '_rendered', true, {event: 'priority'})
+                  clearTimeout(to)
+                }
+              }, 250)
+          })
+
+        "
+      )
+    )
+  )
+}
+
 #' @title A default full width row box.
 #' @inheritParams bs4Dash::box
 #' @param box \code{lgl} Whether to box the contents or just put them in row. **Default TRUE**
