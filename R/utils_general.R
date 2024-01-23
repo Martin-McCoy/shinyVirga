@@ -295,7 +295,8 @@ add_module <- function(
     use_ud = TRUE,
     ...
 ) {
-  write_there <- function(...) {
+  file_path <- fs::path(path, name, ext = "R")
+  write_there <- function(..., path = file_path) {
     write(..., file = path, append = TRUE)
   }
   session_arg <- if (use_ud)
