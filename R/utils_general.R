@@ -284,18 +284,21 @@ add_pseudo_module <- function (name,
 
 
 #' Add a module file to the `path` specified
-#' @inherit add_pseudo_module params return
+#' @param m_name \code{chr} The name of file
+#' @param m_ui \code{chr} The name of the module ui function
+#' @param m_server \code{chr} The name of the module server function
 #' @export
 add_module <- function(
     name,
     path = "R",
     export = FALSE,
-    ph_ui = " ",
-    ph_server = " ",
+    m_name = sprintf("mod_%s", name),
+    m_ui = sprintf("mod_%s_ui", name),
+    m_server = sprintf("mod_%s_server", name),
     use_ud = TRUE,
     ...
 ) {
-  file_path <- fs::path(path, name, ext = "R")
+  file_path <- fs::path(path, m_name, ext = "R")
   write_there <- function(..., path = file_path) {
     write(..., file = path, append = TRUE)
   }
@@ -310,7 +313,7 @@ add_module <- function(
   write_there("#' @param id,input,output,session Internal parameters for {shiny}.")
   write_there("#'")
   if (export) {
-    write_there(sprintf("#' @rdname mod_%s", name))
+    write_there(sprintf("#' @rdname %s", m_name))
     write_there("#' @export ")
   } else {
     write_there("#' @noRd ")
@@ -322,25 +325,25 @@ add_module <- function(
   if (use_ud)
     write_there("  ud <- session$userData")
   write_there("  tagList(")
-  write_there(ph_ui)
+  write_there("    ")
   write_there("  )")
   write_there("}")
   write_there("    ")
 
   if (utils::packageVersion("shiny") < "1.5") {
-    write_there(sprintf("#' %s Server Function", name))
+    write_there(sprintf("#' %s Server Function", m_server))
     write_there("#'")
     if (export) {
-      write_there(sprintf("#' @rdname mod_%s", name))
+      write_there(sprintf("#' @rdname %s", m_server))
       write_there("#' @export ")
     } else {
       write_there("#' @noRd ")
     }
-    write_there(sprintf("mod_%s_server <- function(input, output, session){", name))
+    write_there(sprintf("%s <- function(input, output, session){", m_server))
     write_there("  ns <- session$ns")
     if (use_ud)
       write_there("  ud <- session$userData")
-    write_there(ph_server)
+    write_there("  ")
     write_there("}")
     write_there("    ")
 
@@ -353,17 +356,17 @@ add_module <- function(
     write_there(sprintf("#' %s Server Functions", name))
     write_there("#'")
     if (export) {
-      write_there(sprintf("#' @rdname mod_%s", name))
+      write_there(sprintf("#' @rdname ", m_server))
       write_there("#' @export ")
     } else {
       write_there("#' @noRd ")
     }
-    write_there(sprintf("mod_%s_server <- function(id){", name))
+    write_there(sprintf("%s <- function(id){", m_server))
     write_there("  moduleServer( id, function(input, output, session){")
     write_there("    ns <- session$ns")
     if (use_ud)
       write_there("    ud <- session$userData")
-    write_there(ph_server)
+    write_there("    ")
     write_there("  })")
     write_there("}")
     write_there("    ")

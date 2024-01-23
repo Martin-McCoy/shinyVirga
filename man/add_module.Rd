@@ -8,23 +8,19 @@ add_module(
   name,
   path = "R",
   export = FALSE,
-  ph_ui = " ",
-  ph_server = " ",
+  m_name = sprintf("mod_\%s", name),
+  m_ui = sprintf("mod_\%s_ui", name),
+  m_server = sprintf("mod_\%s_server", name),
   use_ud = TRUE,
   ...
 )
 }
 \arguments{
-\item{name}{\code{chr} name of the module}
+\item{m_name}{\code{chr} The name of file}
 
-\item{path}{\code{chr} directory in which to create it}
+\item{m_ui}{\code{chr} The name of the module ui function}
 
-\item{export}{\code{lgl} whether it should be exported in the package}
-
-\item{use_ud}{\code{lgl} Whether to include the \code{session$userData} environment as a shorthand variable \code{ud} in the module for ease of access to a user's session state variables.}
-}
-\value{
-\code{file} The new file opens
+\item{m_server}{\code{chr} The name of the module server function}
 }
 \description{
 Add a module file to the \code{path} specified
