@@ -12,15 +12,24 @@ add_module(
   m_ui = sprintf("mod_\%s_ui", name),
   m_server = sprintf("mod_\%s_server", name),
   use_ud = TRUE,
+  open = TRUE,
   ...
 )
 }
 \arguments{
+\item{name}{\code{chr} name of the module}
+
+\item{path}{\code{chr} directory in which to create it}
+
+\item{export}{\code{lgl} whether it should be exported in the package}
+
 \item{m_name}{\code{chr} The name of file}
 
 \item{m_ui}{\code{chr} The name of the module ui function}
 
 \item{m_server}{\code{chr} The name of the module server function}
+
+\item{use_ud}{\code{lgl} Whether to include the \code{session$userData} environment as a shorthand variable \code{ud} in the module for ease of access to a user's session state variables.}
 }
 \description{
 Add a module file to the \code{path} specified

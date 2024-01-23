@@ -287,6 +287,7 @@ add_pseudo_module <- function (name,
 #' @param m_name \code{chr} The name of file
 #' @param m_ui \code{chr} The name of the module ui function
 #' @param m_server \code{chr} The name of the module server function
+#' @inheritParams add_pseudo_module
 #' @export
 add_module <- function(
     name,
@@ -296,6 +297,7 @@ add_module <- function(
     m_ui = sprintf("mod_%s_ui", name),
     m_server = sprintf("mod_%s_server", name),
     use_ud = TRUE,
+    open = TRUE,
     ...
 ) {
   file_path <- fs::path(path, m_name, ext = "R")
@@ -377,6 +379,8 @@ add_module <- function(
     write_there("## To be copied in the server")
     write_there(sprintf('# mod_%s_server("%s_1")', name, name))
   }
+  if (open)
+    rstudioapi::documentOpen(file_path)
 }
 #' Insert module debugging statements throughout module files.
 #' @param pattern \code{chr} The pattern to search for in files that will be modified.
