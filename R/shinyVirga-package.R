@@ -13,7 +13,7 @@ NULL
 #' @export
 #'
 
-useShinyVirga <- function() {
+use_shinyVirga <- function() {
   shiny::tagList(
     htmltools::htmlDependency(
       name = "shinyVirga-funs",
@@ -21,6 +21,7 @@ useShinyVirga <- function() {
       package = "shinyVirga",
       src = "srcjs",
       script = list(src = "shinyVirga-funs.js")
-    )
+    ),
+    shinyjs::useShinyjs()
   )
 }
