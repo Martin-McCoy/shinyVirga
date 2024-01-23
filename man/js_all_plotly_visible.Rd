@@ -18,5 +18,5 @@ js_all_plotly_visible(id, asis = FALSE, .ns = ns_find())
 \code{none} called for side affects
 }
 \description{
-Requires \code{shinyVirga::useShinyVirga()} in the head of the DOM of the app (typically in ui file).
+Requires \code{shinyVirga::use_shinyVirga()} in the head of the DOM of the app (typically in ui file).
 }

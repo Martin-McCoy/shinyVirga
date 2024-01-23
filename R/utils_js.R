@@ -128,6 +128,8 @@ js_set_attrs <-  function(id,
 #' @param onPrevClick \code{chr} See \code{\href{https://driverjs.com/docs/configuration}{docs}} for details
 #' @param onCloseClick \code{chr} See \code{\href{https://driverjs.com/docs/configuration}{docs}} for details
 #' @inheritParams js_after
+#' @examples
+#'
 #' js_callout('my_id', "Tooltip title", "Tooltip description")
 #' @export
 

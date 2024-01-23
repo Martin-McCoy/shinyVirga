@@ -25,5 +25,5 @@ js_bs4Card_action(id, action = "toggle", asis = FALSE, .ns = ns_find())
 \code{None}
 }
 \description{
-Requires \code{shinyVirga::useShinyVirga()} in the head of the DOM of the app (typically in ui file).
+Requires \code{shinyVirga::use_shinyVirga()} in the head of the DOM of the app (typically in ui file).
 }

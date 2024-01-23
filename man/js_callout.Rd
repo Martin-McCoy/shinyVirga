@@ -107,11 +107,20 @@ js_callout(
 
 \item{onCloseClick}{\code{chr} See \code{\href{https://driverjs.com/docs/configuration}{docs}} for details}
 
+\item{asis}{If \code{TRUE}, use the ID as-is even when inside a module
+(instead of adding the namespace prefix to the ID).}
+
+\item{.ns}{\code{fun} ns function. Typically found automatically.}
+
 \item{closeBtnText}{\code{chr} See \code{\href{https://driverjs.com/docs/configuration}{docs}} for details}
 }
 \description{
 Create a driver.js callout
 Must include \code{shinyVirga::use_driver.js()} & \code{\link[shinyjs]{useShinyJS}} in the head of the page.
+}
+\examples{
+
+js_callout('my_id', "Tooltip title", "Tooltip description")
 }
 \seealso{
 Other JS: 
