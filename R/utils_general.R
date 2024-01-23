@@ -343,6 +343,8 @@ add_module <- function(
     }
     write_there(sprintf("%s <- function(input, output, session){", m_server))
     write_there("  ns <- session$ns")
+    write_there("  input <- session$input")
+    write_there("  output <- session$output")
     if (use_ud)
       write_there("  ud <- session$userData")
     write_there("  ")
@@ -366,6 +368,8 @@ add_module <- function(
     write_there(sprintf("%s <- function(id){", m_server))
     write_there("  moduleServer( id, function(input, output, session){")
     write_there("    ns <- session$ns")
+    write_there("    input <- session$input")
+    write_there("    output <- session$output")
     if (use_ud)
       write_there("    ud <- session$userData")
     write_there("    ")
