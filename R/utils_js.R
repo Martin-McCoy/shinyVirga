@@ -96,8 +96,8 @@ js_set_attrs <-  function(id,
 #' @param el \code{chr} ID or class of element. If a character not prefixed by `.` for a class or `#` for an ID, it will be assumed and ID and `#` will be added.
 #' @param title \code{chr} Title of popover
 #' @param description \code{chr} Description for it
-#' @param side \code{chr}  The position of the popover relative to the target element.
-#' @param align \code{chr} The alignment of the popover relative to the target element.
+#' @param side \code{chr}  The position of the popover relative to the target element. One of "top", "right", "bottom", "left".
+#' @param align \code{chr} The alignment of the popover relative to the target element. One of "start", 'center', "end".
 #' @param animate \code{lgl} Whether to animate the product tour. (default: true)
 #' @param overlayColor \code{chr} Overlay color. (default: black) This is useful when you have a dark background and want to highlight elements with a light background color.
 #' @param smoothScroll \code{lgl}  Whether to smooth scroll to the highlighted element. (default: false)
@@ -128,13 +128,14 @@ js_set_attrs <-  function(id,
 #' @param onPrevClick \code{chr} See \code{\href{https://driverjs.com/docs/configuration}{docs}} for details
 #' @param onCloseClick \code{chr} See \code{\href{https://driverjs.com/docs/configuration}{docs}} for details
 #' @inheritParams js_after
+#' js_callout('my_id', "Tooltip title", "Tooltip description")
 #' @export
 
 js_callout <- function(el,
                        title,
                        description,
-                       side = c("top", "right", "bottom", "left")[3],
-                       align = c("start", 'center', "end")[2],
+                       side = NULL,
+                       align = NULL,
                        animate = TRUE,
                        overlayColor = "black",
                        smoothScroll = FALSE,
@@ -169,19 +170,26 @@ js_callout <- function(el,
     if (!asis)
       el <- .ns(el)
 
-    html <- htmltools::doRenderTags(description)
+
     driver_settings <- list(
-      args = list(
+      highlight = list(
         element = make_id(el),
-        popover = purrr::map(list(
+        popover = purrr::map_at(purrr::compact(list(
         title = title,
         description = description,
         side = side,
         align = align,
         showButtons = showButtons,
-        disableButtons = disableButtons
-      ), htmltools::doRenderTags)),
-      opts = purrr::compact(
+        disableButtons = disableButtons,
+        popoverClass = popoverClass,
+        showProgress = showProgress,
+        progressText = progressText,
+        disableButtons = disableButtons,
+        nextBtnText = nextBtnText,
+        prevBtnText = prevBtnText,
+        doneBtnText = doneBtnText
+      )), \(.x) .x %in% c("title", "description"), htmltools::doRenderTags)),
+      driver = purrr::compact(
         list(
           animate = animate,
           overlayColor = overlayColor,
@@ -196,29 +204,61 @@ js_callout <- function(el,
           popoverOffset = popoverOffset,
           showProgress = showProgress,
           progressText = progressText,
+          showButtons = showButtons,
+          disableButtons = disableButtons,
           nextBtnText = nextBtnText,
           prevBtnText = prevBtnText,
-          doneBtnText = doneBtnText,
-          onPopoverRender = onPopoverRender,
-          onHighlightStarted = onHighlightStarted,
-          onHighlighted = onHighlighted,
-          onDeselected = onDeselected,
-          onDestroyStarted = onDestroyStarted,
-          onDestroyed = onDestroyed,
-          onNextClick = onNextClick,
-          onPrevClick = onPrevClick,
-          onCloseClick = onCloseClick
+          doneBtnText = doneBtnText
         )
       )
+    )
+    driver_callbacks <- list(
+      highlight = list(
+        onPopoverRender = onPopoverRender,
+        onNextClick = onNextClick,
+        onPrevClick = onPrevClick,
+        onCloseClick = onCloseClick
+      ),
+      driver = list(onPopoverRender = onPopoverRender,
+                       onHighlightStarted = onHighlightStarted,
+                       onHighlighted = onHighlighted,
+                       onDeselected = onDeselected,
+                       onDestroyStarted = onDestroyStarted,
+                       onDestroyed = onDestroyed,
+                       onNextClick = onNextClick,
+                       onPrevClick = onPrevClick,
+                       onCloseClick = onCloseClick
+                       )
     ) |>
-      purrr::map(jsonlite::toJSON, pretty = TRUE, auto_unbox = TRUE) |>
+      purrr::map(purrr::compact)
+
+    driver_settings_json <- purrr::map(driver_settings, jsonlite::toJSON, pretty = TRUE, auto_unbox = TRUE) |>
       purrr::map(stringr::str_replace_all, pattern = '"(\\w+)"\\s*:', replacement = '\\1:')
+
+    has_callbacks <- !purrr::map_lgl(driver_callbacks, rlang::is_empty)
+    if (any(has_callbacks)) {
+      nms <- names(driver_settings)
+      # toJSON escapes function calls, JS functions must be inserted asis
+      for (i in which(has_callbacks)) {
+        json <- stringr::str_split(driver_settings_json[[i]], "\\n")[[1]]
+        # The popover settings are double nested in the JSON, so they must be inserted before the two closing brackets
+        idx_insert <- length(json) - ifelse(identical(nms[i], "driver"), 1, 2)
+        # Add comma since were adding arguments to the json
+        json[idx_insert] <- paste0(json[idx_insert], ",")
+        callbacks <- purrr::imap_chr(driver_callbacks[[i]], \(.x, .y) glue::glue("  { .y}: { .x}")) |>
+          glue::glue_collapse(sep = ",\n")
+        json <- append(json, after = idx_insert, callbacks)
+        driver_settings_json[[i]] <- glue::glue_collapse(json, sep = "\n")
+      }
+    }
+
+
 
     to_glue <- c(
       c("(() => {
         const driver = window.driver.js.driver;
-        const newDriver = new driver(*{driver_settings$opts}*);",
-        "newDriver.highlight(*{driver_settings$args}*)
+        const newDriver = new driver(*{driver_settings_json$driver}*);
+        newDriver.highlight(*{driver_settings_json$highlight}*);
         })()")
     )
 

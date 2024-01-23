@@ -9,8 +9,8 @@ js_callout(
   el,
   title,
   description,
-  side = c("top", "right", "bottom", "left")[3],
-  align = c("start", "center", "end")[2],
+  side = NULL,
+  align = NULL,
   animate = TRUE,
   overlayColor = "black",
   smoothScroll = FALSE,
@@ -49,9 +49,9 @@ js_callout(
 
 \item{description}{\code{chr} Description for it}
 
-\item{side}{\code{chr}  The position of the popover relative to the target element.}
+\item{side}{\code{chr}  The position of the popover relative to the target element. One of "top", "right", "bottom", "left".}
 
-\item{align}{\code{chr} The alignment of the popover relative to the target element.}
+\item{align}{\code{chr} The alignment of the popover relative to the target element. One of "start", 'center', "end".}
 
 \item{animate}{\code{lgl} Whether to animate the product tour. (default: true)}
 
@@ -106,11 +106,6 @@ js_callout(
 \item{onPrevClick}{\code{chr} See \code{\href{https://driverjs.com/docs/configuration}{docs}} for details}
 
 \item{onCloseClick}{\code{chr} See \code{\href{https://driverjs.com/docs/configuration}{docs}} for details}
-
-\item{asis}{If \code{TRUE}, use the ID as-is even when inside a module
-(instead of adding the namespace prefix to the ID).}
-
-\item{.ns}{\code{fun} ns function. Typically found automatically.}
 
 \item{closeBtnText}{\code{chr} See \code{\href{https://driverjs.com/docs/configuration}{docs}} for details}
 }
