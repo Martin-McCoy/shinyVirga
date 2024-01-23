@@ -467,7 +467,7 @@ js_mouseover_once <- function(id,
 
 #' Open/Close a bs4Card with ID
 #' @description
-#' Requires `shinyVirga::useShinyVirga()` in the head of the DOM of the app (typically in ui file).
+#' Requires `shinyVirga::use_shinyVirga()` in the head of the DOM of the app (typically in ui file).
 #' @param id \code{chr} ID of the bs4Card
 #' @inheritParams js_set_input_val
 #' @param action \code{chr} One of:
