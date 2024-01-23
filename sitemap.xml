@@ -286,13 +286,13 @@
     <loc>https://martin-mccoy.github.io/shinyVirga/reference/undisplay.html</loc>
   </url>
   <url>
-    <loc>https://martin-mccoy.github.io/shinyVirga/reference/useShinyVirga.html</loc>
-  </url>
-  <url>
     <loc>https://martin-mccoy.github.io/shinyVirga/reference/use_driver.js.html</loc>
   </url>
   <url>
     <loc>https://martin-mccoy.github.io/shinyVirga/reference/use_msg_mod_fun.html</loc>
+  </url>
+  <url>
+    <loc>https://martin-mccoy.github.io/shinyVirga/reference/use_shinyVirga.html</loc>
   </url>
   <url>
     <loc>https://martin-mccoy.github.io/shinyVirga/reference/warn_id.html</loc>

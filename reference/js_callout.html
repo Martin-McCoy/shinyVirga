@@ -52,8 +52,8 @@ Must include <code><a href="use_driver.js.html">shinyVirga::use_driver.js()</a><
 <span>  <span class="va">el</span>,</span>
 <span>  <span class="va">title</span>,</span>
 <span>  <span class="va">description</span>,</span>
-<span>  side <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"top"</span>, <span class="st">"right"</span>, <span class="st">"bottom"</span>, <span class="st">"left"</span><span class="op">)</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span>,</span>
-<span>  align <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"start"</span>, <span class="st">"center"</span>, <span class="st">"end"</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>,</span>
+<span>  side <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  align <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  animate <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  overlayColor <span class="op">=</span> <span class="st">"black"</span>,</span>
 <span>  smoothScroll <span class="op">=</span> <span class="cn">FALSE</span>,</span>
@@ -101,11 +101,11 @@ Must include <code><a href="use_driver.js.html">shinyVirga::use_driver.js()</a><
 
 
 <dt>side</dt>
-<dd><p><code>chr</code>  The position of the popover relative to the target element.</p></dd>
+<dd><p><code>chr</code>  The position of the popover relative to the target element. One of "top", "right", "bottom", "left".</p></dd>
 
 
 <dt>align</dt>
-<dd><p><code>chr</code> The alignment of the popover relative to the target element.</p></dd>
+<dd><p><code>chr</code> The alignment of the popover relative to the target element. One of "start", 'center', "end".</p></dd>
 
 
 <dt>animate</dt>
@@ -242,6 +242,14 @@ Must include <code><a href="use_driver.js.html">shinyVirga::use_driver.js()</a><
 <code><a href="use_driver.js.html">use_driver.js</a>()</code></p></div>
     </div>
 
+    <div class="section level2">
+    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">js_callout</span><span class="op">(</span><span class="st">'my_id'</span>, <span class="st">"Tooltip title"</span>, <span class="st">"Tooltip description"</span><span class="op">)</span></span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Could not find ns function. Using `function(x) x`</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> shinyjs: could not find the Shiny session object. This usually happens when a shinyjs function is called from a context that wasn't set up by a Shiny session.</span>
+</code></pre></div>
+    </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside></div>
 
