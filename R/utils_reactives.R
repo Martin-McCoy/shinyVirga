@@ -33,10 +33,9 @@ rv_index <- function(x, indices, ...) {
 
 rv_modify <- function(x, ...) {
   .dots <- rlang::dots_list(...)
-  nms <- names(.dots)
-  for (i in seq_along(.dots)) {
-    x[[nms[i]]] <- .dots[[i]]
-  }
+  rrapply::rrapply(.dots, f = \(.x, .xname, .xpos, .xparents, .xsiblings, ...) {
+    purrr::pluck(x, !!!.xparents) <- .x
+  })
 }
 
 
@@ -48,7 +47,7 @@ rv_modify <- function(x, ...) {
 #' @family reactives
 
 rv_to_list <- function(x, all.names = FALSE) {
-  if (inherits(x, "ReactiveValues"))
+  if (inherits(x, "reactivevalues"))
     shiny::reactiveValuesToList(x, all.names = all.names)
   else
     x

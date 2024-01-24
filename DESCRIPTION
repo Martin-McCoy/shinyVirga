@@ -33,6 +33,7 @@ Imports:
     purrr,
     remotes (>= 2.4.2),
     rlang,
+    rrapply,
     rstudioapi (>= 0.14),
     sass,
     shiny,
