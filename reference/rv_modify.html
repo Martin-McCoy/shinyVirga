@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">shinyVirga</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.39.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.40.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -42,7 +42,7 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">rv_modify</span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">rv_modify</span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span>, recursive <span class="op">=</span> <span class="cn">FALSE</span>, modify_in_place <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -54,12 +54,22 @@
 <dt>...</dt>
 <dd><p><code>named objects</code> to assign when <code>assign = TRUE</code></p></dd>
 
+
+<dt>recursive</dt>
+<dd><p><code>lgl</code> recursively assigns variables into a nested reactiveValues. If <code>FALSE</code>, the default, values are assigned at the first level of the reactiveValues object.</p></dd>
+
+
+<dt>modify_in_place</dt>
+<dd><p><code>lgl</code> modifies the reactiveValues object in place, making it such that assignment is not necessary. If <code>FALSE</code>, the default, a list copy of the reactiveValues are made and returned. Useful for checking expected output.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     
 
-<p><code>none</code> Modifies in place</p>
+<p><code>none</code> Modifies in place, unless <code>modify_in_place = FALSE</code></p>
+
+
     </div>
 
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
