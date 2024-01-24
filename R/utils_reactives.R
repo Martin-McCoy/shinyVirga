@@ -48,7 +48,7 @@ rv_modify <- function(x, ...) {
 #' @family reactives
 
 rv_to_list <- function(x, all.names = FALSE) {
-  if (!is.null(x))
+  if (inherits(x, "reactiveValues"))
     shiny::reactiveValuesToList(x, all.names = all.names)
   else
     x
