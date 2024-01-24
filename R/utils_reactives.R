@@ -26,16 +26,30 @@ rv_index <- function(x, indices, ...) {
 #'
 #' @inheritParams rv_index
 #' @param ... \code{named objects} to assign when `assign = TRUE`
-#'
-#' @return \code{none} Modifies in place
+#' @param recursive \code{lgl} recursively assigns variables into a nested reactiveValues. If `FALSE`, the default, values are assigned at the first level of the reactiveValues object.
+#' @param modify_in_place \code{lgl} modifies the reactiveValues object in place, making it such that assignment is not necessary. If `FALSE`, the default, a list copy of the reactiveValues are made and returned. Useful for checking expected output.
+#' @return \code{none} Modifies in place, unless `modify_in_place = FALSE`
 #' @export
 #'
 
-rv_modify <- function(x, ...) {
+rv_modify <- function(x, ..., recursive = FALSE, modify_in_place = TRUE) {
   .dots <- rlang::dots_list(...)
-  rrapply::rrapply(.dots, f = \(.x, .xname, .xpos, .xparents, .xsiblings, ...) {
-    purrr::pluck(x, !!!.xparents) <- .x
-  })
+
+  if (!modify_in_place)
+    out <- rv2l(x)
+  else
+    out <- x
+  if (recursive)
+    rrapply::rrapply(.dots, f = \(.x, .xname, .xpos, .xparents, .xsiblings, ...) {
+      purrr::pluck(out, !!!.xparents) <- .x
+    }, classes = "list")
+  else {
+    nms <- names(.dots)
+    for (i in seq_along(nms)) {
+      out[[nms[i]]] <- .dots[[i]]
+    }
+  }
+  return(out)
 }
 
 
