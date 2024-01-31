@@ -99,3 +99,21 @@ mod_transifex_deps <- function(key = Sys.getenv("TRANSIFEX_API_KEY", ''), transi
     )
   )
 }
+
+#' Update the language
+#' @description
+#' Updates the language picker and the Transifex dependencies running in the app.
+#'
+#' @inheritParams mod_transifex_select_server
+#' @param language \code{chr} Language code, usually two letters
+#' @export
+#' @return \code{none}
+
+transifex_update_language <- function(inputId, language, session = shiny::getDefaultReactiveDomain()) {
+  shinyWidgets::updatePickerInput(
+    session,
+    inputId,
+    selected = language
+  )
+  shinyjs::runjs(UU::glue_js("Transifex.live.translateTo('*{language}*');"))
+}
