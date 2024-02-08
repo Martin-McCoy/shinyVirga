@@ -24,44 +24,26 @@ is_shiny.tag <- function(x) {
 #' list_to_li(c("a","b"))
 #'
 #' @importFrom shiny tags tagAppendAttributes tagList
-list_to_li <- function(list, list_type = "ul", class = NULL){
+list_to_li <- function(x, list_type = "ul", class = NULL){
   if (!list_type %in% c("ul", "ol"))
     UU::gbort("{.code list_type} must be one of {.code ul, ol}")
-  nested_is_list <- inherits(list, "list")
-  fn <- if (nested_is_list)
-    list_to_li
-  else
-    tags$li
-  if (is.null(class)){
-    res <- lapply(
-        list,
-        fn
-      )
-  } else {
-    res <- lapply(
-      list,
-      fn
-    )
-    res <- lapply(
-      res,
-      function(x) {
-        tagAppendAttributes(
-          x,
-          class = class
-        )
-      }
-    )
-  }
 
-  if (nested_is_list && !is.null(names(res))) {
-    res <- purrr::imap(res, ~tagList(tags$li(.y), .x))
+  res <- if (!is.null(names(x))) {
+    purrr::imap(x, \(.x, .y) tags$li(.y,": ", .x))
+  } else {
+    lapply(
+      x,
+      tags$li
+    )
   }
 
   if (!is.null(list_type))
-    tagList(tags[[list_type]](res))
+    tagList(tags[[list_type]](res, class  = class))
   else
     tagList(res)
 }
+
+
 #' Turn an R list into corresponding HTML paragraph tags
 #'
 #' @param list an R list
