@@ -13,7 +13,7 @@ is_shiny.tag <- function(x) {
 
 #' Turn an R list into an HTML list
 #'
-#' @param list An R list
+#' @param x An R list
 #' @param class a class for the list
 #' @param list_type \code{chr} The list type, either ol or ul
 #' @return an HTML list

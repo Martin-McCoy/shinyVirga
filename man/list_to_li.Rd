@@ -5,12 +5,12 @@
 \alias{named_to_li}
 \title{Turn an R list into an HTML list}
 \usage{
-list_to_li(list, list_type = "ul", class = NULL)
+list_to_li(x, list_type = "ul", class = NULL)
 
 named_to_li(list, class = NULL, style = NULL)
 }
 \arguments{
-\item{list}{An R list}
+\item{x}{An R list}
 
 \item{list_type}{\code{chr} The list type, either ol or ul}
 
