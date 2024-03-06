@@ -38,3 +38,22 @@ function cardOpen(id, action = 'open') {
              }
 
 }
+/**
+ * @param  {String} str Character to encode
+ * @returns  {String} Encoded string
+ */
+function encode_math(str) {
+  str = str.replace('<', '&lt;');
+  str = str.replace('>', '&gt;');
+  return str;
+}
+
+/**
+ * @param  {String} str Character to decode
+ * @returns  {String} decoded string
+ */
+function decode_math(str) {
+  str = str.replace('&lt;', '<');
+  str = str.replace('&gt;', '>');
+  return str;
+}

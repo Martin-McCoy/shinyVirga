@@ -38,7 +38,7 @@ list_to_li <- function(x, list_type = "ul", class = NULL){
   }
 
   if (!is.null(list_type))
-    tagList(tags[[list_type]](res, class  = class))
+    tagList(tags[[list_type]](res, class = class))
   else
     tagList(res)
 }
