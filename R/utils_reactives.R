@@ -6,7 +6,21 @@ rv <- function(...) {
   shiny::reactiveValues(...)
 }
 
-
+#' Create a \code{\link[shiny]{reactiveVal}} or a `nonreactiveVal` depending on whether shiny is running
+#'
+#' @param val \code{obj} any initial value
+#'
+#' @return \code{reactiveVal/nonreactiveVal}
+#' @export
+#'
+#' @examples
+#' new_rv(0)
+new_rv <- function(val = NULL) {
+  if (shiny::isRunning())
+    reactiveVal(val)
+  else
+    nonreactiveVal(val)
+}
 #' Index into a reactiveValues object and return a list
 #'
 #' @param x \code{reactiveValues}
