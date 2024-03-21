@@ -4,14 +4,12 @@
 \alias{rv_modify}
 \title{Add named objects to a \code{reactiveValues} object}
 \usage{
-rv_modify(x, ..., recursive = FALSE, modify_in_place = TRUE)
+rv_modify(x, ..., modify_in_place = TRUE, e = rlang::caller_env())
 }
 \arguments{
 \item{x}{\code{reactiveValues}}
 
 \item{...}{\code{named objects} to assign when \code{assign = TRUE}}
-
-\item{recursive}{\code{lgl} recursively assigns variables into a nested reactiveValues. If \code{FALSE}, the default, values are assigned at the first level of the reactiveValues object.}
 
 \item{modify_in_place}{\code{lgl} modifies the reactiveValues object in place, making it such that assignment is not necessary. If \code{FALSE}, the default, a list copy of the reactiveValues are made and returned. Useful for checking expected output.}
 }

@@ -40,28 +40,30 @@ rv_index <- function(x, indices, ...) {
 #'
 #' @inheritParams rv_index
 #' @param ... \code{named objects} to assign when `assign = TRUE`
-#' @param recursive \code{lgl} recursively assigns variables into a nested reactiveValues. If `FALSE`, the default, values are assigned at the first level of the reactiveValues object.
 #' @param modify_in_place \code{lgl} modifies the reactiveValues object in place, making it such that assignment is not necessary. If `FALSE`, the default, a list copy of the reactiveValues are made and returned. Useful for checking expected output.
 #' @return \code{none} Modifies in place, unless `modify_in_place = FALSE`
 #' @export
 #'
 
-rv_modify <- function(x, ..., recursive = FALSE, modify_in_place = TRUE) {
-  .dots <- rlang::dots_list(...)
+rv_modify <- function(x, ..., modify_in_place = TRUE, e = rlang::caller_env()) {
 
-  if (!modify_in_place)
-    out <- rv2l(x)
-  else
-    out <- x
-  if (recursive)
-    rrapply::rrapply(.dots, f = \(.x, .xname, .xpos, .xparents, .xsiblings, ...) {
-      purrr::pluck(out, !!!.xparents) <- .x
-    }, classes = "list")
-  else {
-    nms <- names(.dots)
-    for (i in seq_along(nms)) {
-      out[[nms[i]]] <- .dots[[i]]
-    }
+  if (modify_in_place) {
+    out <- rlang::enexpr(x)
+    quos <- rlang::enexprs(...)
+    fn <- rlang::eval_tidy
+  } else {
+    out <- shinyVirga::rv2l(x)
+    quos <- rlang::dots_list(...)
+    ex <- rlang::expr({out[[nms[i]]] <- quos[[i]]})
+    e <- environment()
+    fn <- rlang::eval_bare
+  }
+
+  nms <- names(quos)
+  for (i in seq_along(nms)) {
+    if (modify_in_place)
+      ex <- rlang::expr({(!!out)[[(!!nms[i])]] <- !!quos[[i]]})
+    fn(ex, env = e)
   }
   return(out)
 }
