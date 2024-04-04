@@ -269,6 +269,44 @@ js_callout <- function(el,
 }
 
 
+#' Add a "Toggle" style to an actionButton
+#' @description
+#' Once clicked, the button will appear to be in a "pressed" state until the next click.
+#'
+#' @param btn \code{shiny.tag} The actionButton to style
+#'
+#' @return \code{shiny.tag.list} With the button
+#' @export
+#'
+actionButton_toggle_style <- function(btn) {
+  if (!inherits(btn, "shiny.tag"))
+    UU::gbort("{.code btn} must be an `actionButton`")
+  id <- btn$attribs$id
+
+
+  htmltools::attachDependencies(
+    tagList(
+      btn,
+      htmltools::tags$script(
+        type = 'text/javascript',
+        UU::glue_js(
+          "
+        document.getElementById('*{id}*').addEventListener('click', buttonClose)
+        "
+        )
+      )
+    ),
+    htmltools::htmlDependency(
+      name = "buttonClose",
+      version = packageVersion('shinyVirga'),
+      src = system.file("srcjs", package = "shinyVirga"),
+      script = 'buttonClose.js'
+    )
+  )
+
+
+}
+
 #' Add an animated glow to an element
 #' @family JS
 #' @inheritParams js_after
