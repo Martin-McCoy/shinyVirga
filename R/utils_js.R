@@ -307,6 +307,51 @@ actionButton_toggle_style <- function(btn) {
 
 }
 
+#' Add a "Toggle" style to an actionButton
+#' @description
+#' Call this button on the `inputId` of the action button with a reactive observer
+#'
+#' @inheritParam shiny::actionButton
+#'
+#' @return
+#' @export
+#'
+#' @examples
+#' library(shiny)
+#' devtools::load_all(pkgload::pkg_path())
+#' ui <- fluidPage(
+#'   shinyVirga::use_shinyVirga(),
+#'   shiny::actionButton(
+#'     'modal',
+#'     "Open Modal",
+#'     icon = shiny::icon("redo")
+#'   )
+#' )
+#'
+#'
+#' # Define server logic required to draw a histogram
+#' server <- function(input, output) {
+#'   observeEvent(input$modal,
+#'                {
+#'                  actionButton_close("modal")
+#'                  shiny::showModal(modalDialog(
+#'                    title = "Hi, Modal",
+#'                    footer = actionButton('close_modal',
+#'                                          "Close")
+#'                  ))
+#'                })
+#'   observeEvent(input$close_modal, {
+#'     actionButton_close("modal")
+#'     removeModal()
+#'   })
+#'
+#' }
+#' shinyApp(ui = ui, server = server)
+
+actionButton_toggle <- function(inputId) {
+  shinyjs::runjs(UU::glue_js("buttonClose('*{inputId}*')"))
+}
+
 #' Add an animated glow to an element
 #' @family JS
 #' @inheritParams js_after
