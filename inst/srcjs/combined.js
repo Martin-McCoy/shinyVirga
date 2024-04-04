@@ -1,4 +1,4 @@
-/*! shinyVirga 2024-04-04 18:35:28 */
+/*! shinyVirga 2024-04-04 18:57:10 */
 /**
  * @param  {String} selector
  * @returns  {Logical}
@@ -57,6 +57,27 @@ function decode_math(str) {
   str = str.replace('&lt;', '<');
   str = str.replace('&gt;', '>');
   return str;
+}
+
+/**
+ * Ensure a string is an ID (#id), or remove the hash from and ID string.
+* @param  {String} id An id to check for the hash (#) symbol
+* @param {Boolean} rm_hash whether to remove the hash symbol if it has it
+* @returns  {String} Returns an id String with or without the hash based on the `rm_hash` argument
+* @example
+id_check('blah')
+id_check('#blah', rm_hash = true)
+*/
+function id_check(id, rm_hash = false) {
+  let reg = new RegExp("^#");
+  if (!reg.test(id) && !rm_hash) {
+    id = "#" + id;
+  } else if (rm_hash) {
+    if (reg.test(id)) {
+      id = id.substring(1);
+    }
+  }
+  return id;
 }
 
 /**
