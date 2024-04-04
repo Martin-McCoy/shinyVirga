@@ -271,13 +271,33 @@ js_callout <- function(el,
 
 #' Add a "Toggle" style to an actionButton
 #' @description
-#' Once clicked, the button will appear to be in a "pressed" state until the next click.
-#'
+#' Wrap the actionbuttion in this function and once clicked, the button will appear to be in a "pressed" state until the next click.
+#' Useful for toggling a floating panel which is hidden/shown on button click
 #' @param btn \code{shiny.tag} The actionButton to style
 #'
 #' @return \code{shiny.tag.list} With the button
 #' @export
+#' @examples
+#' library(shiny)
+#' devtools::load_all(pkgload::pkg_path())
+#' ui <- fluidPage(
+#'   shinyVirga::use_shinyVirga(),
+#'   actionButton_toggle_style(
+#'     shiny::actionButton(
+#'       'modal',
+#'       "Open Floating Panel",
+#'       icon = shiny::icon("redo")
+#'     )
+#'   )
+#' )
 #'
+#'
+#' # Define server logic required to draw a histogram
+#' server <- function(input, output) {
+#'
+#' }
+#' shinyApp(ui = ui, server = server)
+
 actionButton_toggle_style <- function(btn) {
   if (!inherits(btn, "shiny.tag"))
     UU::gbort("{.code btn} must be an `actionButton`")
