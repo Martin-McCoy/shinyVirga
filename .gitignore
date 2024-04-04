@@ -29,5 +29,6 @@
 docs
 inst/WORDLIST
 inst/vault
+node_modules/*
 vignettes/*.html
 vignettes/*.pdf
