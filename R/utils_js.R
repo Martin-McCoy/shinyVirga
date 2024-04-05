@@ -299,9 +299,13 @@ js_callout <- function(el,
 #' shinyApp(ui = ui, server = server)
 
 actionButton_toggle_style <- function(btn) {
-  if (!inherits(btn, "shiny.tag"))
+  if (!rlang::inherits_any(btn, c("shiny.tag", "shiny.tag.list")))
     UU::gbort("{.code btn} must be an `actionButton`")
-  id <- btn$attribs$id
+  id <- if (shinyVirga::is_shiny.tag(btn))
+    btn$attribs$id
+  else
+    btn[[1]]$attribs$id
+
 
 
   htmltools::attachDependencies(
@@ -808,11 +812,13 @@ js_click_to_close <- function(x, panel_id) {
   if (missing(x) || missing(panel_id)) {
     UU::gbort("{.code x} must be a {.code shiny.tag} or the from {.code shiny::actionButton} or the {.code inputId} thereof, and the {.code panel_id} must be provided.")
   }
-  id <- if (is_shiny.tag(x))
-    x$attribs$id
-  else {
+  id <- if (is.character(x))
      x
-  }
+  else if (shinyVirga::is_shiny.tag(x))
+    x$attribs$id
+  else
+    x[[1]]$attribs$id
+
   fn_nm <- paste0('close_', nm_to_id(panel_id))
   tagList(
     x,
