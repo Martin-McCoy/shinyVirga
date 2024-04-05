@@ -35,6 +35,11 @@ module.exports = function(grunt) {
           src: 'inst/srcjs/combined.js',
           dest: 'inst/srcjs/<%= pkg.name %>.min.js'
         }
+      },
+      clean: {
+        combine: {
+          src: ["inst/srcjs/combined.js"]
+        }
       }
     });
   
@@ -48,8 +53,11 @@ module.exports = function(grunt) {
     // npm install grunt-contrib-uglify --save-dev
     // Load the plugin that provides the "uglify" task.
     grunt.loadNpmTasks('grunt-contrib-uglify');
+    // npm install grunt-contrib-clean --save-dev
+    // Load the plugin that provides cleaning.
+    grunt.loadNpmTasks('grunt-contrib-clean');
   
     // Default task(s).
-    grunt.registerTask('default', ['concat','uglify']);
+    grunt.registerTask('default', ['concat','uglify', 'clean']);
   
   };
