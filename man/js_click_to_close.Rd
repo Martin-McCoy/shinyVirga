@@ -2,31 +2,18 @@
 % Please edit documentation in R/utils_js.R
 \name{js_click_to_close}
 \alias{js_click_to_close}
-\title{Title}
+\title{Add functionality that closes a floating panel when clicking outside of the panel.}
 \usage{
-js_click_to_close(
-  id,
-  panel_id,
-  asis = FALSE,
-  asis_panel = FALSE,
-  .ns = ns_find()
-)
+js_click_to_close(x, panel_id)
 }
 \arguments{
-\item{id}{\code{(chr)} Automatically namespaced with \code{ns} if inside a module}
+\item{x}{\code{shiny.tag/chr} of actionButton to click to close the panel or the \code{inputId} thereof.}
 
-\item{panel_id}{ID of the panel to close/open when clicking outside. \code{asis} applies to this argument as well}
-
-\item{asis}{If \code{TRUE}, use the ID as-is even when inside a module
-(instead of adding the namespace prefix to the ID).}
-
-\item{asis_panel}{If the panel_id should be left asis \code{TRUE} or namespaced \code{FALSE}}
-
-\item{.ns}{\code{fun} ns function. Typically found automatically.}
+\item{panel_id}{\code{chr} ID of the panel to close/open when clicking outside}
 }
 \value{
 \code{shiny.tag} with script that adds event listener
 }
 \description{
-Title
+Add functionality that closes a floating panel when clicking outside of the panel.
 }
