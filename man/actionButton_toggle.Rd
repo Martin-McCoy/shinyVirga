@@ -6,6 +6,12 @@
 \usage{
 actionButton_toggle(inputId)
 }
+\arguments{
+\item{inputId}{The \code{input} slot that will be used to access the value.}
+}
+\value{
+\code{null} Runs JS
+}
 \description{
 Call this button on the \code{inputId} of the action button with a reactive observer
 }

@@ -331,9 +331,9 @@ actionButton_toggle_style <- function(btn) {
 #' @description
 #' Call this button on the `inputId` of the action button with a reactive observer
 #'
-#' @inheritParam shiny::actionButton
+#' @inheritParams shiny::actionButton
 #'
-#' @return
+#' @return \code{null} Runs JS
 #' @export
 #'
 #' @examples
