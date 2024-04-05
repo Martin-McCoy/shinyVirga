@@ -3,7 +3,8 @@
  * @returns  {Logical}
  */
 function isVisible(selector) {
-    return $(selector).is(":visible");
+  var el = typeof selector == "string" ? el = $(selector) : selector
+    return el.is(":visible");
 }
 function cardToggleSelector (id) {
   return `#${id} > .card-header > .card-tools > .btn-tool`;
