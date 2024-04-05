@@ -797,29 +797,40 @@ js_accordion_close <- function(id,
   )
 }
 
-#' Title
+#' Add functionality that closes a floating panel when clicking outside of the panel.
 #'
-#' @inheritParams js_picker_enable
-#' @param panel_id ID of the panel to close/open when clicking outside. `asis` applies to this argument as well
-#' @param asis_panel If the panel_id should be left asis `TRUE` or namespaced `FALSE`
+#' @param x \code{shiny.tag/chr} of actionButton to click to close the panel or the `inputId` thereof.
+#' @param panel_id \code{chr} ID of the panel to close/open when clicking outside
 #' @return \code{shiny.tag} with script that adds event listener
 #' @export
 #'
-js_click_to_close <- function(id,
-                              panel_id,
-                              asis = FALSE,
-                              asis_panel = FALSE,
-                              .ns = ns_find()) {
-
-  if (!asis) {
-    id <- .ns(id)
+js_click_to_close <- function(x, panel_id) {
+  if (missing(x) || missing(panel_id)) {
+    UU::gbort("{.code x} must be a {.code shiny.tag} or the from {.code shiny::actionButton} or the {.code inputId} thereof, and the {.code panel_id} must be provided.")
   }
-  if (!asis_panel)
-    panel_id <- .ns(panel_id)
-  tags$script(
-    type = "text/javascript",
-    UU::glue_js(system.file(package = "shinyVirga", "js/js_click_to_close.js"))
+  id <- if (is_shiny.tag(x))
+    x$attribs$id
+  else {
+     x
+  }
+  fn_nm <- paste0('close_', nm_to_id(panel_id))
+  tagList(
+    x,
+    htmltools::tags$script(
+      type = "text/javascript",
+      UU::glue_js(
+        "
+        function *{fn_nm}*(event) {
+          let el = $('#*{panel_id}*');
+          if (isVisible(el) && !el[0].contains(event.target)) $('#*{id}*').click();
+        }
+        document.addEventListener('click', *{fn_nm}*);
+      "
+      )
+    )
   )
+
+
 }
 #' Force the browser to download JSON, useful for saved session recovery
 #' @description
