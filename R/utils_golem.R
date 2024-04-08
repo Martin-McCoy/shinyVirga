@@ -2,12 +2,28 @@
 #' Is object a shiny \link[shiny]{tag} or \link[shiny]{tagList}
 #'
 #' @param x \code{object}
+#' @param explicit \code{lgl} whether to check if the tag is explicitly a shiny.tag (and not a tag.list)
 #' @family golem
 #' @family general
 #' @return \code{(logical)}
+#' @seealso [is_shiny.tag.list()]
 #' @export
-is_shiny.tag <- function(x) {
-  inherits(x, c("shiny.tag", "shiny.tag.list"))
+is_shiny.tag <- function(x, explicit = FALSE) {
+  inherits(x, c("shiny.tag", if (!explicit) "shiny.tag.list"))
+}
+
+#' Is object a shiny \link[shiny]{tagList}
+#'
+#' @param x \code{object}
+#'
+#' @return \code{lgl} as to whether it's a `shiny.tag.list`
+#' @export
+#'
+#' @examples
+#' is_shiny.tag.list(htmltools::tags$p())
+#' is_shiny.tag.list(tagList(shiny::actionButton('a', 'a'), htmltools::tags$p()))
+is_shiny.tag.list <- function(x) {
+  inherits(x, c("shiny.tag.list"))
 }
 
 
