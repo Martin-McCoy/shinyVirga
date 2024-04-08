@@ -301,7 +301,7 @@ js_callout <- function(el,
 actionButton_toggle_style <- function(btn) {
   if (!rlang::inherits_any(btn, c("shiny.tag", "shiny.tag.list")))
     UU::gbort("{.code btn} must be an `actionButton`")
-  id <- if (shinyVirga::is_shiny.tag(btn))
+  id <- if (shinyVirga::is_shiny.tag(btn, explicit = TRUE))
     btn$attribs$id
   else
     btn[[1]]$attribs$id
@@ -814,7 +814,7 @@ js_click_to_close <- function(x, panel_id) {
   }
   id <- if (is.character(x))
      x
-  else if (shinyVirga::is_shiny.tag(x))
+  else if (shinyVirga::is_shiny.tag(x, explicit = TRUE))
     x$attribs$id
   else
     x[[1]]$attribs$id
