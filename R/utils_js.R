@@ -826,11 +826,14 @@ js_click_to_close <- function(x, panel_id) {
       type = "text/javascript",
       UU::glue_js(
         "
-        function *{fn_nm}*(event) {
-          let el = $('#*{panel_id}*');
-          if (isVisible(el) && !el[0].contains(event.target)) $('#*{id}*').click();
-        }
-        document.addEventListener('click', *{fn_nm}*);
+        window.*{fn_nm}* = (event) => {
+          let el = {
+            panel: $('#*{panel_id}*'),
+            button: $('#*{id}*')
+          };
+          if (isVisible(el.panel[0]) && !el.panel[0].contains(event.target) && !el.button[0].contains(event.target)) $('#*{id}*').click();
+        };
+        window.addEventListener('click', window.*{fn_nm}*);
       "
       )
     )
