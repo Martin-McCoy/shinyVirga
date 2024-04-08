@@ -4,7 +4,7 @@
 * @param {String} selector The selector for the element to close/open
 * @param {String} [icon_class="fa fa-rectangle-xmark"] The icon when button is in the open state (so the action should be close)
 */
-function buttonClose(selector, icon_class = "fa fa-rectangle-xmark") {
+function buttonClose(selector, icon_class = "fa fa-rectangle-xmark", debug = document.debug_mode) {
     if (typeof selector === 'object') {
       var event = selector;
       selector = selector.currentTarget.id;
@@ -24,6 +24,7 @@ function buttonClose(selector, icon_class = "fa fa-rectangle-xmark") {
       </style>`).insertAfter(selector);
     }
 
+    if (debug) debugger;
     
     if (globalThis[[sel_chr]] === undefined) {
       globalThis[[sel_chr]] = sel_html;
