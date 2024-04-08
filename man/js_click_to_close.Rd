@@ -4,12 +4,14 @@
 \alias{js_click_to_close}
 \title{Add functionality that closes a floating panel when clicking outside of the panel.}
 \usage{
-js_click_to_close(x, panel_id)
+js_click_to_close(x, panel_id, debugger = FALSE)
 }
 \arguments{
 \item{x}{\code{shiny.tag/chr} of actionButton to click to close the panel or the \code{inputId} thereof.}
 
-\item{panel_id}{\code{chr} ID of the panel to close/open when clicking outside}
+\item{panel_id}{\code{chr} ID of the panel to close/open when clicking outside. Can be followed by a subsequent selector such as \code{ID > .class} as \verb{#} is prefixed internally}
+
+\item{debugger}{description}
 }
 \value{
 \code{shiny.tag} with script that adds event listener

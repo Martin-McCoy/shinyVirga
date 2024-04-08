@@ -804,7 +804,8 @@ js_accordion_close <- function(id,
 #' Add functionality that closes a floating panel when clicking outside of the panel.
 #'
 #' @param x \code{shiny.tag/chr} of actionButton to click to close the panel or the `inputId` thereof.
-#' @param panel_id \code{chr} ID of the panel to close/open when clicking outside
+#' @param panel_id \code{chr} ID of the panel to close/open when clicking outside. Can be followed by a subsequent selector such as `ID > .class` as `#` is prefixed internally
+#' @param debugger description
 #' @return \code{shiny.tag} with script that adds event listener
 #' @export
 #'
