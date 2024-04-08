@@ -808,11 +808,12 @@ js_accordion_close <- function(id,
 #' @return \code{shiny.tag} with script that adds event listener
 #' @export
 #'
-js_click_to_close <- function(x, panel_id) {
+js_click_to_close <- function(x, panel_id, debugger = FALSE) {
   if (missing(x) || missing(panel_id)) {
     UU::gbort("{.code x} must be a {.code shiny.tag} or the from {.code shiny::actionButton} or the {.code inputId} thereof, and the {.code panel_id} must be provided.")
   }
-  id <- if (is.character(x))
+  id_provided <- is.character(x)
+  id <- if (id_provided)
      x
   else if (shinyVirga::is_shiny.tag(x, explicit = TRUE))
     x$attribs$id
@@ -821,25 +822,25 @@ js_click_to_close <- function(x, panel_id) {
 
   fn_nm <- paste0('close_', nm_to_id(panel_id))
   tagList(
-    x,
+    if (!id_provided) x,
     htmltools::tags$script(
       type = "text/javascript",
       UU::glue_js(
         "
-        window.*{fn_nm}* = (event) => {
+        document.*{fn_nm}* = (event) => {
+        *{if (debugger) 'debugger' else ''}*
           let el = {
             panel: $('#*{panel_id}*'),
             button: $('#*{id}*')
           };
-          if (isVisible(el.panel[0]) && !el.panel[0].contains(event.target) && !el.button[0].contains(event.target)) $('#*{id}*').click();
+        let t = isVisible(event.target) ? event.target : document.elementFromPoint(event.x, event.y)
+          if (isVisible(el.panel[0]) && !el.panel[0].contains(t) && !el.button[0].contains(t)) $('#*{id}*').click();
         };
-        window.addEventListener('click', window.*{fn_nm}*);
+        document.addEventListener('click', document.*{fn_nm}*);
       "
       )
     )
   )
-
-
 }
 #' Force the browser to download JSON, useful for saved session recovery
 #' @description
