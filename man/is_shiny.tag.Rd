@@ -4,10 +4,12 @@
 \alias{is_shiny.tag}
 \title{Is object a shiny \link[shiny]{tag} or \link[shiny]{tagList}}
 \usage{
-is_shiny.tag(x)
+is_shiny.tag(x, explicit = FALSE)
 }
 \arguments{
 \item{x}{\code{object}}
+
+\item{explicit}{\code{lgl} whether to check if the tag is explicitly a shiny.tag (and not a tag.list)}
 }
 \value{
 \code{(logical)}
@@ -16,6 +18,8 @@ is_shiny.tag(x)
 Is object a shiny \link[shiny]{tag} or \link[shiny]{tagList}
 }
 \seealso{
+\code{\link[=is_shiny.tag.list]{is_shiny.tag.list()}}
+
 Other golem: 
 \code{\link{enurl}()},
 \code{\link{jq_hide}()},
