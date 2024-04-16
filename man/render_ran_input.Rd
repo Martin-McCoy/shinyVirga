@@ -26,7 +26,7 @@ render_ran_input(
 Runs code via shinyjs unless an htmlwidget is provided, in which case it modifies the htmlwidget with \link[htmlwidgets]{onRender} and returns it.
 }
 \description{
-Requires \code{\link[shinyjs]{runjs}} if not using \code{htmlwidget}. Useful for firing an observer after a render function completes to update the page number for page number retention.
+Requires \code{\link[shinyjs]{runjs}} if not using \code{htmlwidget}. Useful for firing an observer after a render function completes to update the page number for page number retention. \strong{Warning}: using the \code{htmlwidget} does not necessarily increment the input each time the R \code{render} statement runs since \code{htmlwidgets} has it's own internal heuristics for when to refresh an rendered UI element.
 }
 \examples{
 \dontrun{

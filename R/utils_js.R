@@ -903,7 +903,7 @@ js_force_download_json <- function(x, is_file = FALSE, filename = "recovery-save
 
 #' Create an incrementing shiny input each time a render function runs
 #' @description
-#' Requires \code{\link[shinyjs]{runjs}} if not using `htmlwidget`. Useful for firing an observer after a render function completes to update the page number for page number retention.
+#' Requires \code{\link[shinyjs]{runjs}} if not using `htmlwidget`. Useful for firing an observer after a render function completes to update the page number for page number retention. **Warning**: using the `htmlwidget` does not necessarily increment the input each time the R `render` statement runs since `htmlwidgets` has it's own internal heuristics for when to refresh an rendered UI element.
 #'
 #' @param id \code{chr} the id of the output for which a new input with the name `[id]_ran` (without brackets) will be incremented each time it renders.
 #' @inheritParams js_picker_enable
