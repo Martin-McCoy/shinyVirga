@@ -4,10 +4,18 @@
 \alias{sidebar_toggle}
 \title{Disable/enable the bs4dash sidebar}
 \usage{
-sidebar_toggle(sidebar_id = "sidebar", disable = TRUE)
+sidebar_toggle(
+  disable = TRUE,
+  sidebar_id = "sidebar",
+  item_selector = ".nav-link"
+)
 }
 \arguments{
 \item{disable}{\code{lgl} Whether to disable the sidebar, FALSE to reenable}
+
+\item{sidebar_id}{\code{chr} The ID of the sidebar. If bs4Dash, the default \code{sidebar} can be used.}
+
+\item{item_selector}{\code{chr} The CSS selector for the sidebar clickable items}
 }
 \value{
 \code{None}

@@ -804,11 +804,13 @@ js_accordion_close <- function(id,
 #' Disable/enable the bs4dash sidebar
 #'
 #' @param disable \code{lgl} Whether to disable the sidebar, FALSE to reenable
+#' @param sidebar_id \code{chr} The ID of the sidebar. If bs4Dash, the default `sidebar` can be used.
+#' @param item_selector \code{chr} The CSS selector for the sidebar clickable items
 #'
 #' @return \code{None}
 #' @export
 
-sidebar_toggle <- function(sidebar_id = "sidebar", disable = TRUE) {
+sidebar_toggle <- function(disable = TRUE, sidebar_id = "sidebar", item_selector = ".nav-link") {
   if (disable) {
     js_fun <- "addClass"
     opacity <- 0.80
@@ -816,7 +818,7 @@ sidebar_toggle <- function(sidebar_id = "sidebar", disable = TRUE) {
     js_fun <- "removeClass"
     opacity <- 1
   }
-  shinyjs::runjs(UU::glue_js("$('#*{sidebar_id}* .nav-link').*{js_fun}*('disabled');
+  shinyjs::runjs(UU::glue_js("$('#*{sidebar_id}* *{item_selector}*').*{js_fun}*('disabled');
                       $('#*{sidebar_id}*').css('opacity', *{opacity}*);"))
 }
 
