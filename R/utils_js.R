@@ -801,6 +801,26 @@ js_accordion_close <- function(id,
   )
 }
 
+#' Disable/enable the bs4dash sidebar
+#'
+#' @param disable \code{lgl} Whether to disable the sidebar, FALSE to reenable
+#'
+#' @return \code{None}
+#' @export
+
+sidebar_toggle <- function(sidebar_id = "sidebar", disable = TRUE) {
+  if (disable) {
+    js_fun <- "addClass"
+    opacity <- 0.80
+  } else {
+    js_fun <- "removeClass"
+    opacity <- 1
+  }
+  shinyjs::runjs(UU::glue_js("$('#*{sidebar_id}* .nav-link').*{js_fun}*('disabled');
+                      $('#*{sidebar_id}*').css('opacity', *{opacity}*);"))
+}
+
+
 #' Add functionality that closes a floating panel when clicking outside of the panel.
 #'
 #' @param x \code{shiny.tag/chr} of actionButton to click to close the panel or the `inputId` thereof.
